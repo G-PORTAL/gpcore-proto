@@ -1,0 +1,29 @@
+---
+
+# See https://gitlab.com/gitlab-examples/ssh-private-key/-/blob/master/.gitlab-ci.yml
+
+stages:
+  - build
+
+build:protobuf:
+  stage: build
+  image: harbor.g-portal.se/alpine/pipeline:latest
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - eval $(ssh-agent -s)
+    - mkdir -p /root/.ssh/
+    - echo "$SSH_PRIVATE_KEY" > /root/.ssh/id_rsa
+    - ssh-keyscan $CI_SERVER_HOST >> /root/.ssh/known_hosts
+    - chmod 400 /root/.ssh/id_rsa
+    - chmod 644 /root/.ssh/known_hosts
+  script:
+    - git clone git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git --branch main protobuf/
+    - cd protobuf/
+    - rm -rfv google/ gpcloud/
+    - buf export buf.build/gportal/gportal-cloud --output ./
+    - git config --global user.email "ci@g-portal.cloud"
+    - git config --global user.name "Gitlab CI"
+    - git add .
+    - git commit -m "$(date -R) Update protobuf files"
+    - git push -o ci.skip
