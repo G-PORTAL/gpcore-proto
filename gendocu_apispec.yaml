@@ -1,0 +1,28 @@
+spectype: gendocu
+servers:
+  - selector: "*"
+    envs:
+      - name: "gpcloud"
+        urls:
+          - grpcwebs://api.g-portal.cloud
+          - grpcs://grpc.g-portal.cloud:443
+          - rests://api.g-portal.cloud/rest
+
+securitySchemes:
+  - name: public
+    title: Public API
+    description:
+      text: The default authentication method - does not require any authentication.
+  - name: token-private
+    title: Keycloak Token Auth
+    description:
+      text: The standard token authentication. This authentication method is only for demo purposes - the backend ignores the token in the current implementation.
+    callAuthentication:
+      token:
+        exampleValue: "aaa.bbbbbbb.ccc"
+        grpc:
+          meta: "Authorization"
+          valuePrefix: "Bearer "
+        grpcweb:
+          header: "Authorization"
+          valuePrefix: "Bearer "
