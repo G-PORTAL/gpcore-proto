@@ -25,5 +25,5 @@ build:protobuf:
     - git config --global user.email "ci@g-portal.cloud"
     - git config --global user.name "Gitlab CI"
     - git add .
-    - git commit -m "$(date -R) Update protobuf files"
+    - git commit -m "$(date -R) Update protobuf files" || true
     - git push -o ci.skip
