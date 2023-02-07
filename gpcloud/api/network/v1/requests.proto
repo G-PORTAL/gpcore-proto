@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package gpcloud.api.network.v1;
+
+import "gpcloud/api/cloud/v1/switch.proto";
+import "gpcloud/api/cloud/v1/monitoring.proto";
+
+message ConfigureSwitchPortRequest {
+  gpcloud.api.cloud.v1.Switch switch = 1;
+
+  string switch_port = 2;
+
+  string comment = 3;
+
+  int32 untagged_vlan_id = 4;
+
+  repeated int32 tagged_vlan_ids = 5;
+}
+
+message GetDHCPInformationRequest {
+  string mac_address = 1;
+}
+
+message ListMonitoringTargetsRequest {
+}
+
+message UpdateMonitoringStatusRequest {
+  repeated gpcloud.api.cloud.v1.MonitoringStatus status = 1;
+}
+
+message ListVncEndpointsRequest {}
