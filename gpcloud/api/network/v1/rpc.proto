@@ -7,11 +7,6 @@ import "gpcloud/api/network/v1/requests.proto";
 import "gpcloud/api/network/v1/responses.proto";
 
 service NetworkService {
-  rpc ConfigureSwitchPort (gpcloud.api.network.v1.ConfigureSwitchPortRequest) returns (gpcloud.api.network.v1.ConfigureSwitchPortResponse) {
-    option (gpcloud.v1.api) = {
-      authorization_type: AUTHORIZATION_TYPE_CLIENT;
-    };
-  }
   rpc GetDHCPInformation (gpcloud.api.network.v1.GetDHCPInformationRequest) returns (gpcloud.api.network.v1.GetDHCPInformationResponse) {
     option (gpcloud.v1.api) = {
       authorization_type: AUTHORIZATION_TYPE_CLIENT;
