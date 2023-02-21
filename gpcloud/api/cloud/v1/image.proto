@@ -81,7 +81,7 @@ message Image {
   string name = 3;
 
   // Default username for login
-  string username = 4;
+  optional string username = 4;
 
   bool public = 5;
 
@@ -95,7 +95,7 @@ message Image {
 
   api.cloud.v1.ImageUpload image_upload = 10;
 
-  string vendor_data = 11;
+  optional string vendor_data = 11;
 
   google.protobuf.Timestamp created_at = 1000;
   google.protobuf.Timestamp updated_at = 1001;
@@ -104,6 +104,7 @@ message Image {
 message ProvisioningImage {
   oneof image {
     string id = 1;
+    // TODO: Alias not used?
     string alias = 2;
   }
 }

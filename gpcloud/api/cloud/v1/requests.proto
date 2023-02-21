@@ -268,15 +268,19 @@ message ChangeNodeRescueModeRequest {
 }
 
 message ListProjectImagesRequest {
+  // Project uuid
   string id = 1;
 }
 
 message CreateProjectImageRequest {
+  // Project uuid
   string id = 1;
-
+  // Name of the image
   string name = 2;
-
+  // List of supported authentication types
   repeated gpcloud.api.cloud.v1.AuthenticationType authentication_types = 3;
+  // If the image can be used for new nodes
+  bool available = 4;
 }
 
 message GetProjectImageRequest {
