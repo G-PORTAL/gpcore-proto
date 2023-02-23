@@ -150,17 +150,29 @@ message ListUserBillsResponse {
  repeated gpcloud.api.cloud.v1.Bill bills = 1;
 }
 
+// ListProjectsResponse return a list of projects.
 message ListProjectsResponse {
+  // List of projects
   repeated gpcloud.api.cloud.v1.Project projects = 1;
+  // Total pages if there are an offset (page) given in the request
   int32 pages_total = 2;
 }
 
+// GetProjectResponse hold the requested project, the associated nodes for that
+// project and all compute discounts.
 message GetProjectResponse {
+  // Project
   gpcloud.api.cloud.v1.Project project = 1;
-
+  // All associated nodes for that project
   repeated gpcloud.api.cloud.v1.Node nodes = 2;
-
+  // Compute discounts for that project which can be applied
   repeated gpcloud.api.cloud.v1.ProjectComputeDiscount compute_discounts = 3;
+}
+
+// UpdateProjectResponse return the updated project with their new fields.
+message UpdateProjectResponse {
+  // Updated project
+  gpcloud.api.cloud.v1.Project project = 1;
 }
 
 message ListProjectNetworksResponse {
@@ -169,10 +181,6 @@ message ListProjectNetworksResponse {
 
 message CreateProjectNetworkResponse {
   repeated gpcloud.api.cloud.v1.Network networks = 1;
-}
-
-message UpdateProjectResponse {
-  gpcloud.api.cloud.v1.Project project = 1;
 }
 
 message ListAdminLogsResponse {

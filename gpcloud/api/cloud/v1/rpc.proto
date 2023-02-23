@@ -30,54 +30,178 @@ service CloudService {
   // and the datacenter. Not all flavours are available on all datacenters.
   rpc ListProjectFlavours (gpcloud.api.cloud.v1.ListProjectFlavoursRequest) returns (gpcloud.api.cloud.v1.ListProjectFlavoursResponse) {}
 
-  rpc ListProjects (gpcloud.api.cloud.v1.ListProjectsRequest) returns (gpcloud.api.cloud.v1.ListProjectsResponse) {}
+  // CreateProject creates a new project. This will create a new "container" for
+  // nodes, associated to an environment, billing address and payment method. After
+  // creating a project, you can further specify additional fields be using the
+  // UpdateProject call.
   rpc CreateProject (gpcloud.api.cloud.v1.CreateProjectRequest) returns (gpcloud.api.cloud.v1.CreateProjectResponse) {}
+  // ListProjects list all available projects. A project is a container for nodes,
+  // associated with a billing address and other settings specific for that
+  // project. To filter the result, you can provide a user_id to only get
+  // projects which the user with the user_id is part of that project (member of
+  // the project). You can further reduce the project list by providing a search
+  // term. Spaces in search are allowed to search for multiple terms (AND not OR).
+  // Use the page field in the request to set an offset. This is useful for
+  // pagination.
+  rpc ListProjects (gpcloud.api.cloud.v1.ListProjectsRequest) returns (gpcloud.api.cloud.v1.ListProjectsResponse) {}
+  // GetProject return a project by its uuid.
   rpc GetProject (gpcloud.api.cloud.v1.GetProjectRequest) returns (gpcloud.api.cloud.v1.GetProjectResponse) {}
+  // UpdateProject updates an existing project. In contrast to CreatProject you can
+  // specify more fields to change like a payment method, credit card or a billing
+  // address. The returned response will contain the changed project.
   rpc UpdateProject (gpcloud.api.cloud.v1.UpdateProjectRequest) returns (gpcloud.api.cloud.v1.UpdateProjectResponse) {}
+  // DeleteProject deletes a project, given by its uuid. Make sure you have the owner
+  // role and are member of that project. A project marked as default project can not
+  // be deleted. Also projects which have nodes, bills which are not payed yet or an
+  // outstanding balance can not be deleted.
   rpc DeleteProject (gpcloud.api.cloud.v1.DeleteProjectRequest) returns (gpcloud.api.cloud.v1.DeleteProjectResponse) {}
 
-  rpc SubscribeNotifications (gpcloud.api.cloud.v1.SubscribeNotificationsRequest) returns (stream gpcloud.api.cloud.v1.SubscribeNotificationsResponse) {}
-
-  rpc ChangeDefaultProject (gpcloud.api.cloud.v1.ChangeDefaultProjectRequest) returns (gpcloud.api.cloud.v1.ChangeDefaultProjectResponse) {}
-  rpc ListProjectLogs (gpcloud.api.cloud.v1.ListProjectLogsRequest) returns (gpcloud.api.cloud.v1.ListProjectLogsResponse) {}
-
-  rpc JoinProject (gpcloud.api.cloud.v1.JoinProjectRequest) returns (gpcloud.api.cloud.v1.JoinProjectResponse) {}
-  rpc LeaveProject (gpcloud.api.cloud.v1.LeaveProjectRequest) returns (gpcloud.api.cloud.v1.LeaveProjectResponse) {}
+  // InviteMemberToProject invites a new user to a project. The calling user (the one
+  // who call that endpoint) need to have the "owner" role of the given project. Further,
+  // the given email address need to belong to one of the users already registered
+  // on gpcloud. After calling that endpoint, the user is already added to the project,
+  // but need to be confirmed by the invited user. To confirm a user, use the JoinProject
+  // endpoint. The "member" role is added to the new user automatically.
   rpc InviteMemberToProject (gpcloud.api.cloud.v1.InviteMemberToProjectRequest) returns (gpcloud.api.cloud.v1.InviteMemberToProjectResponse) {}
+  // JoinProject accept or reject an project invite. As a prerequisite for that, the user
+  // need to be invited first with the InviteMemberToProject endpoint. If the
+  // project invite is rejected, the invite will be deleted. If the invite is
+  // accepted, the user will join the project.
+  rpc JoinProject (gpcloud.api.cloud.v1.JoinProjectRequest) returns (gpcloud.api.cloud.v1.JoinProjectResponse) {}
+  // LeaveProject leaves a project (the current logged in user). The project
+  // need to exit, the user need to be an active member of that project and
+  // the project itself can not be the default project. For the last condition,
+  // you can set another project to the default project to leave this project.
+  rpc LeaveProject (gpcloud.api.cloud.v1.LeaveProjectRequest) returns (gpcloud.api.cloud.v1.LeaveProjectResponse) {}
+  // RemoveMemberFromProject removes a user from a project. The executive user
+  // need to be part of that project and hold the owner role for that action.
+  // You can not remove yourself or the owner (mostly the same user) from the
+  // project. The removed user is no longer part of that project and need to
+  // be invited again.
   rpc RemoveMemberFromProject (gpcloud.api.cloud.v1.RemoveMemberFromProjectRequest) returns (gpcloud.api.cloud.v1.RemoveMemberFromProjectResponse) {}
 
-  rpc GetProjectCurrentBillingPreviewPdf (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewPdfRequest) returns (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewPdfResponse) {}
+  // ChangeDefaultProject set a project as the new default project. The first
+  // project created is automatically the default project. Only one project can
+  // be the default project. Changing it will remove the default project flag
+  // from all other projects available. The so chosen default project will be
+  // loaded when the panel will be loaded. Use this to specify the project you
+  // are currently working on the most to your default project.
+  rpc ChangeDefaultProject (gpcloud.api.cloud.v1.ChangeDefaultProjectRequest) returns (gpcloud.api.cloud.v1.ChangeDefaultProjectResponse) {}
+
+  // ListProjectLogs list the audit log entries for a given project. This log
+  // contain events happen on that project like membership changes, changes on
+  // settings or nodes. The executing user and the time is logged to all
+  // entries, so it can be used as an audit log. To narrow down the results,
+  // you can specify a user uuid to only show log entries for a given user. An
+  // optional search term can filter the result. If the result set is too large,
+  // only a portion will be returned. The pages_total field will indicated this.
+  rpc ListProjectLogs (gpcloud.api.cloud.v1.ListProjectLogsRequest) returns (gpcloud.api.cloud.v1.ListProjectLogsResponse) {}
+
+  // SubscribeNotifications subscribe to new notifications and return a STREAM
+  // of notification responses. A notification contain either a user, a project
+  // or a node and will be send to all subscribers, if there are changes on
+  // one of that objects. In other words, when you subscribe to notifications,
+  // you get notified (with the changed object) when something changed on the
+  // server side on users, projects and nodes you are associated with. This can
+  // be used to trigger actions, update UI elements or revisit the changes.
+  rpc SubscribeNotifications (gpcloud.api.cloud.v1.SubscribeNotificationsRequest) returns (stream gpcloud.api.cloud.v1.SubscribeNotificationsResponse) {}
+
+  // TODO: Billing needs rework
+
+  // GetProjectBillPdf get a download URL to a bill in PDF format for a given
+  // project uuid and bill uuid. Only the owner of the project can request and
+  // access that URL.
   rpc GetProjectBillPdf (gpcloud.api.cloud.v1.GetProjectBillPdfRequest) returns (gpcloud.api.cloud.v1.GetProjectBillPdfResponse) {}
   rpc PayProjectNow (gpcloud.api.cloud.v1.PayProjectNowRequest) returns (gpcloud.api.cloud.v1.PayProjectNowResponse) {}
   rpc ListProjectBills (gpcloud.api.cloud.v1.ListProjectBillsRequest) returns (gpcloud.api.cloud.v1.ListProjectBillsResponse) {}
   rpc GetProjectCurrentBillingPreview (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewRequest) returns (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewResponse) {}
   rpc GetProjectsOutstandingBalance (gpcloud.api.cloud.v1.GetProjectsOutstandingBalanceRequest) returns (gpcloud.api.cloud.v1.GetProjectsOutstandingBalanceResponse) {}
   rpc GetProjectSplaPrice (gpcloud.api.cloud.v1.GetProjectSplaPriceRequest) returns (gpcloud.api.cloud.v1.GetProjectSplaPriceResponse) {}
-
-  rpc ListNodes (gpcloud.api.cloud.v1.ListNodesRequest) returns (gpcloud.api.cloud.v1.ListNodesResponse) {}
-  rpc CreateNode (gpcloud.api.cloud.v1.CreateNodeRequest) returns (gpcloud.api.cloud.v1.CreateNodeResponse) {}
-  rpc GetNode (gpcloud.api.cloud.v1.GetNodeRequest) returns (gpcloud.api.cloud.v1.GetNodeResponse) {}
-  rpc UpdateNode (gpcloud.api.cloud.v1.UpdateNodeRequest) returns (gpcloud.api.cloud.v1.UpdateNodeResponse) {}
-  rpc DestroyNode (gpcloud.api.cloud.v1.DestroyNodeRequest) returns (gpcloud.api.cloud.v1.DestroyNodeResponse) {}
-
-  rpc GetUserNodeLimit (gpcloud.api.cloud.v1.GetUserNodeLimitRequest) returns (gpcloud.api.cloud.v1.GetUserNodeLimitResponse) {}
-  rpc GetNodeConsole (gpcloud.api.cloud.v1.GetNodeConsoleRequest) returns (gpcloud.api.cloud.v1.GetNodeConsoleResponse) {}
-  rpc ChangeNodeRescueMode (gpcloud.api.cloud.v1.ChangeNodeRescueModeRequest) returns (gpcloud.api.cloud.v1.ChangeNodeRescueModeResponse) {}
-  rpc PowerActionNode (gpcloud.api.cloud.v1.PowerActionNodeRequest) returns (gpcloud.api.cloud.v1.PowerActionNodeResponse) {}
-  rpc ReinstallNode (gpcloud.api.cloud.v1.ReinstallNodeRequest) returns (gpcloud.api.cloud.v1.ReinstallNodeResponse) {}
+  rpc GetProjectCurrentBillingPreviewPdf (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewPdfRequest) returns (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewPdfResponse) {}
   rpc ChangeNodeRenewState (gpcloud.api.cloud.v1.ChangeNodeRenewStateRequest) returns (gpcloud.api.cloud.v1.ChangeNodeRenewStateResponse) {}
   rpc GetNodePricing (gpcloud.api.cloud.v1.GetNodePricingRequest) returns (gpcloud.api.cloud.v1.GetNodePricingResponse) {}
   rpc ChangeNodeBillingPeriod (gpcloud.api.cloud.v1.ChangeNodeBillingPeriodRequest) returns (gpcloud.api.cloud.v1.ChangeNodeBillingPeriodResponse) {}
 
+  // ListNodes list all available nodes for a given project. If the list is too
+  // long, only a portion of the result will be returned. The pages_total field
+  // will give an indication what portion is left from the result. Use the page
+  // field to specify an offset. Use the search field to filter the results.
+  rpc ListNodes (gpcloud.api.cloud.v1.ListNodesRequest) returns (gpcloud.api.cloud.v1.ListNodesResponse) {}
+  // GetNode return a single node object. The returned node object contain
+  // everything to work with that node.
+  rpc GetNode (gpcloud.api.cloud.v1.GetNodeRequest) returns (gpcloud.api.cloud.v1.GetNodeResponse) {}
+  // CreateNode creates a new node. Before that, various precondition checks will
+  // be performed. If one single check fails, the complete creation process is
+  // canceled. This has no side effects. After all checks are successful, the
+  // collected data will be added to the database and a ServerInstallJob is
+  // scheduled. This has indeed side effects, but is not part of that call
+  // anymore. So keep in mind that this function can be successful, but the node
+  // creation may still can fail for some scenarios.
+  rpc CreateNode (gpcloud.api.cloud.v1.CreateNodeRequest) returns (gpcloud.api.cloud.v1.CreateNodeResponse) {}
+  // UpdateNode set a new FQDN and add more key/value tags to a previously
+  // created node.
+  rpc UpdateNode (gpcloud.api.cloud.v1.UpdateNodeRequest) returns (gpcloud.api.cloud.v1.UpdateNodeResponse) {}
+  // DestroyNode deletes a node. This process includes bringing the node back to
+  // factory settings, delete all data, disconnect it from the project and release
+  // it back to the public pool of available nodes. When deleting a node, a final
+  // bill for that node will be calculated with the end date set to the time the
+  // node is deleted.
+  rpc DestroyNode (gpcloud.api.cloud.v1.DestroyNodeRequest) returns (gpcloud.api.cloud.v1.DestroyNodeResponse) {}
+  // ReinstallNode reinstall a given node with a given image and optional
+  // credentials. This is non-blocking call, so the new installation is triggered
+  // but may not be finished on return of that call. To check the installation
+  // state, you can use the GetNode call and examine the status field
+  // (ServerProvisioningState). To see what happen during the reinstall, you can
+  // watch the project logs with the ListProjectLogs call or use the GetNodeConsole
+  // call to watch the installation over VNC.
+  rpc ReinstallNode (gpcloud.api.cloud.v1.ReinstallNodeRequest) returns (gpcloud.api.cloud.v1.ReinstallNodeResponse) {}
+  // GetNodeConsole return the VNC password and a JWT token to access the remote
+  // console. This only works if the node has a Platform Management interface
+  // (iLO, IPMI). Use the VNC credentials to connect to the PM and interact with
+  // the node with a virtual screen and keyboard.
+  rpc GetNodeConsole (gpcloud.api.cloud.v1.GetNodeConsoleRequest) returns (gpcloud.api.cloud.v1.GetNodeConsoleResponse) {}
+  // PowerActionNode performs various power actions on a node. A power action is
+  // an action which normally can only be done on-site like pressing a button on
+  // the machine. If the node has a Platform Management interface, these actions
+  // can be called remotely. These actions include changing the power state (on/off)
+  // or reset the node. When the power action is triggered, it could take some time
+  // until the action is performed and completed. This depends on the type of hardware
+  // and the action.
+  rpc PowerActionNode (gpcloud.api.cloud.v1.PowerActionNodeRequest) returns (gpcloud.api.cloud.v1.PowerActionNodeResponse) {}
+
+  // ChangeNodeRescueMode enable or disable the rescue mode boot for a given node.
+  // This is used in emergency situations where the node can not be accessed any
+  // more (ssh server not started on boot), the installation is broken (kernel panic),
+  // or the node is otherwise unable to boot (disk full, ...). A prepared rescue
+  // image will be booted on that node with a randomly generated ssh root password,
+  // which will be part of the response of that call. In that rescue mode, you can
+  // mount your disk, fix the problem and change the rescue mode back to normal mode.
+  rpc ChangeNodeRescueMode (gpcloud.api.cloud.v1.ChangeNodeRescueModeRequest) returns (gpcloud.api.cloud.v1.ChangeNodeRescueModeResponse) {}
+  // GetUserNodeLimit return the node limit for a user. The user can not exceed
+  // the node limit. The response contains the upper limit and the number of
+  // nodes currently in use.
+  rpc GetUserNodeLimit (gpcloud.api.cloud.v1.GetUserNodeLimitRequest) returns (gpcloud.api.cloud.v1.GetUserNodeLimitResponse) {}
+
+  // ListProjectImages list all available images for that project.
   rpc ListProjectImages (gpcloud.api.cloud.v1.ListProjectImagesRequest) returns (gpcloud.api.cloud.v1.ListProjectImagesResponse) {}
-  rpc CreateProjectImage (gpcloud.api.cloud.v1.CreateProjectImageRequest) returns (gpcloud.api.cloud.v1.CreateProjectImageResponse) {}
+  // GetProjectImage return the metadata for a specific image, associated to the
+  // project.
   rpc GetProjectImage (gpcloud.api.cloud.v1.GetProjectImageRequest) returns (gpcloud.api.cloud.v1.GetProjectImageResponse) {}
+  // CreateProjectImage create a new image associated to the given project.
+  rpc CreateProjectImage (gpcloud.api.cloud.v1.CreateProjectImageRequest) returns (gpcloud.api.cloud.v1.CreateProjectImageResponse) {}
+  // DeleteProjectImage deletes a project image.
   rpc DeleteProjectImage (gpcloud.api.cloud.v1.DeleteProjectImageRequest) returns (gpcloud.api.cloud.v1.DeleteProjectImageResponse) {}
+  // DeleteProjectImageVersion deletes a specific version of a project image.
   rpc DeleteProjectImageVersion (gpcloud.api.cloud.v1.DeleteProjectImageVersionRequest) returns (gpcloud.api.cloud.v1.DeleteProjectImageVersionResponse) {}
 
+  // ListProjectSSHKeys list all available SSH keys for a project.
   rpc ListProjectSSHKeys (gpcloud.api.cloud.v1.ListProjectSSHKeysRequest) returns (gpcloud.api.cloud.v1.ListProjectSSHKeysResponse) {}
 
+  // ListUserSHSKeys list all available SSH keys for a user.
   rpc ListUserSSHKeys (gpcloud.api.cloud.v1.ListUserSSHKeysRequest) returns (gpcloud.api.cloud.v1.ListUserSSHKeysResponse) {}
+  // CreateUserSSHKey adds a new SSH key to the user.
   rpc CreateUserSSHKey (gpcloud.api.cloud.v1.CreateUserSSHKeyRequest) returns (gpcloud.api.cloud.v1.CreateUserSSHKeyResponse) {}
+  // DeleteUserSSHKey removes a SSH key from the user.
   rpc DeleteUserSSHKey (gpcloud.api.cloud.v1.DeleteUserSSHKeyRequest) returns (gpcloud.api.cloud.v1.DeleteUserSSHKeyResponse) {}
+
 }

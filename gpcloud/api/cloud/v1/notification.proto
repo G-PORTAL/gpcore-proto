@@ -6,6 +6,8 @@ import "gpcloud/api/cloud/v1/node.proto";
 import "gpcloud/api/cloud/v1/user.proto";
 import "gpcloud/api/cloud/v1/project.proto";
 
+// Notification holds a notification message, which can be a user, a project or
+// a node.
 message Notification {
   oneof message {
     gpcloud.api.cloud.v1.User user = 1;

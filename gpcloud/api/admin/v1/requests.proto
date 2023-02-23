@@ -213,14 +213,57 @@ message ListUserBillsRequest {
   optional string user_id = 2;
 }
 
+// ListProjectsRequest list projects. Provide a user_id to filter the results
+// to only show projects which the user is a member of. Use the optional search
+// field to further reduce the resulting project list. The page field can be
+// used to implement pagination.
 message ListProjectsRequest {
+  // Page offset, defaults to 1. Useful for pagination.
   int32 page = 1;
+  // Optional search term, use space for fuzzy search.
   optional string search = 2;
+  // Optional user id to filter results which are the given user is part of.
   optional string user_id = 3;
 }
 
+// GetProjectRequest get a specific project by it's uuid. If the uuid does not
+// match a project, an error is raised instead.
 message GetProjectRequest {
+  // Project uuid
   string id = 1;
+}
+
+// UpdateProjectRequest
+message UpdateProjectRequest {
+  // Project uuid
+  string id = 1;
+  // Project name, will be shown as the title in the UI
+  string name = 2;
+  // Text, describing the project. Will be shown as a subtitle in the UI.
+  string description = 3;
+  // An optional URL to an image which is then uses as a small avatar picture
+  // near the project name. You can use an Image type, but nor vector images.
+  // Make sure it is not too big and is quadratic to avoid stretching the
+  // image.
+  string avatar_url = 4;
+
+  // Currency used for that project
+  gpcloud.api.cloud.v1.Currency currency = 5;
+
+  // Project environment
+  gpcloud.api.cloud.v1.ProjectEnvironment environment = 6;
+
+  // Linked Credit card
+  gpcloud.api.cloud.v1.CreditCard credit_card = 7;
+
+  // Linked billing address
+  gpcloud.api.cloud.v1.BillingAddress billing_address = 8;
+
+  // Linked payment method
+  gpcloud.api.cloud.v1.PaymentMethod payment_method = 9;
+
+  // If the project is billable
+  bool use_payment = 10;
 }
 
 message ListProjectNetworksRequest {
@@ -239,32 +282,6 @@ message CreateProjectNetworkRequest {
   optional int32 vlan_id = 6;
 
   gpcloud.api.cloud.v1.Datacenter datacenter = 7;
-}
-
-message UpdateProjectRequest {
-  string id = 1;
-
-  string name = 2;
-  string description = 3;
-  string avatar_url = 4;
-
-  // Currency used for that project
-  gpcloud.api.cloud.v1.Currency currency = 5;
-
-  // Project environment
-  gpcloud.api.cloud.v1.ProjectEnvironment environment = 6;
-
-  // Linked Credit card
-  gpcloud.api.cloud.v1.CreditCard credit_card = 7;
-
-  // Linked billing address
-  gpcloud.api.cloud.v1.BillingAddress billing_address = 8;
-
-  // Payment method
-  gpcloud.api.cloud.v1.PaymentMethod payment_method = 9;
-
-  // If user needs payment
-  bool use_payment = 10;
 }
 
 message ListAdminLogsRequest {

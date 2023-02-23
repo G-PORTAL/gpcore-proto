@@ -37,37 +37,44 @@ message RescueMode {
   string password = 2;
 }
 
+// Node represents a "server" unit
 message Node {
+  // Node uuid
   string id = 1;
+  // Project uuid
   string project_id = 2;
-
+  // FQDN
   string fqdn = 3;
-
+  // Provisioning state
   gpcloud.api.cloud.v1.ServerProvisioningState status = 4;
-
+  // List of network interface associated with the node
   repeated gpcloud.api.cloud.v1.NodeNetworkInterface network_interfaces = 5;
-
+  // List of key/value tags
   map<string, string> tags = 7;
-
+  // Datacenter in which the node is located
   gpcloud.api.cloud.v1.Datacenter datacenter = 8;
-
+  // The flavour used on the node
   gpcloud.api.cloud.v1.Flavour flavour = 9;
-
+  // The image used on the node
   gpcloud.api.cloud.v1.Image image = 10;
-
+  // True if the server has console access
   bool has_console_access = 11;
-
+  // Billing period
   gpcloud.api.cloud.v1.BillingPeriod billing_period = 12;
+  // Calculated price
   gpcloud.type.v1.Price price = 13;
-
+  // State of the node when it will renewed
   gpcloud.api.cloud.v1.NodeRenewState renew_state = 14;
-
+  // In what power state the server is currently
   gpcloud.api.cloud.v1.ServerPowerState power_state = 15;
-
+  // True if the node has a SPLA license
   bool has_spla_license = 16;
 
+  // Timestamp to which the node is paid
   google.protobuf.Timestamp paid_until_at = 999;
+  // Timestamp when the node is created
   google.protobuf.Timestamp created_at = 1000;
+  // Timestamp when the node is updates the last rime
   google.protobuf.Timestamp updated_at = 1001;
 }
 

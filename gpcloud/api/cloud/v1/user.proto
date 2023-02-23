@@ -14,7 +14,7 @@ message BasicUser {
 }
 
 message User {
-  // UUID of user
+  // User uuid
   string id = 1;
 
   // Username (not unique!)

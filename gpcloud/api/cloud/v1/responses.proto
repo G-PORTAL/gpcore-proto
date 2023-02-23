@@ -26,35 +26,48 @@ message ListProjectFlavoursResponse {
 message GetProjectSplaPriceResponse {
   gpcloud.api.cloud.v1.SplaPrice price = 1;
 }
+
+// CreateProjectResponse
 message CreateProjectResponse {
   Project project = 1;
 }
 
-message ChangeDefaultProjectResponse {
+// ListProjectsResponse
+message ListProjectsResponse {
+  // List of projects
+  repeated Project projects = 1;
+  // Number of invites left
+  repeated gpcloud.api.cloud.v1.ProjectInvite invites = 2;
 }
 
+// GetProjectResponse
 message GetProjectResponse {
+  // Project
   Project project = 1;
 }
 
+// UpdateProjectResponse contain the updated project
+message UpdateProjectResponse {
+  // Project
+  Project project = 1;
+}
+
+// DeleteProjectResponse
+message DeleteProjectResponse {}
+
+message ChangeDefaultProjectResponse {}
+
+message JoinProjectResponse {}
+
+message LeaveProjectResponse {}
+
+// ListProjectLogsResponse
 message ListProjectLogsResponse {
   // All log items for page
   repeated gpcloud.api.cloud.v1.ProjectLog logs = 1;
 
   // Number of pages available
   int32 pages_total = 2;
-}
-
-message UpdateProjectResponse {
-  Project project = 1;
-}
-
-
-message JoinProjectResponse {
-
-}
-
-message LeaveProjectResponse {
 }
 
 message InviteMemberToProjectResponse {
@@ -64,14 +77,6 @@ message InviteMemberToProjectResponse {
 message RemoveMemberFromProjectResponse {
 
 }
-
-message ListProjectsResponse {
-  repeated Project projects = 1;
-
-  repeated gpcloud.api.cloud.v1.ProjectInvite invites = 2;
-}
-
-message DeleteProjectResponse {}
 
 message GetProjectCurrentBillingPreviewPdfResponse {
   string download_url = 1;
@@ -115,15 +120,21 @@ message ListProjectSSHKeysResponse {
   repeated ProjectSSHKey keys = 1;
 }
 
+// ListNodesResponse
 message ListNodesResponse {
+  // Node list
   repeated gpcloud.api.cloud.v1.Node nodes = 1;
+  // Number of pages available
+  int32 pages_total = 2;
 }
 
 message CreateNodeResponse {
   repeated gpcloud.api.cloud.v1.Node nodes = 1;
 }
 
+// GetNodeResponse get a single node
 message GetNodeResponse {
+  // Node object
   gpcloud.api.cloud.v1.Node node = 1;
 }
 
@@ -151,7 +162,10 @@ message GetNodePricingResponse {
   gpcloud.type.v1.Price new_hourly_pricing = 4;
 }
 
+// SubscribeNotificationsResponse is a stream of notifications. One single
+// response contain one notification.
 message SubscribeNotificationsResponse {
+  // Notification
   gpcloud.api.cloud.v1.Notification notification = 1;
 }
 

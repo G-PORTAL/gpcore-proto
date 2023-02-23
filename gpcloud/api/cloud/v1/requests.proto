@@ -15,6 +15,7 @@ message GetSplaPriceRequest {
   string id = 1;
 }
 
+// SubscribeNotificationsRequest subscribe to notifications
 message SubscribeNotificationsRequest {}
 
 // Ticket Board
@@ -26,86 +27,109 @@ message ListProjectSupportPackagesRequest {
   string id = 1;
 }
 
+// ChangeDefaultProjectRequest changes the default project.
+message ChangeDefaultProjectRequest {
+  // Project uuid
+  string id = 1;
+}
 
+// CreateProjectRequest create a new project. After creating a new project, you
+// can specify additional settings for a project like
 message CreateProjectRequest {
+  // Project name, will be shown as the title in the UI
   string name = 1;
-
+  // Text, describing the project. Will be shown as a subtitle in the UI.
   string description = 2;
-
+  // Project environment
   gpcloud.api.cloud.v1.ProjectEnvironment environment = 3;
 }
 
-message ChangeDefaultProjectRequest {
-  string id = 1;
-}
+// ListProjectsRequest list the users projects.
+message ListProjectsRequest {}
 
+// GetProjectRequest return the project associated with the given uuid.
 message GetProjectRequest {
+  // Project uuid
   string id = 1;
 }
 
-message ListProjectLogsRequest {
-  string id = 1;
-
-  int32 page = 2;
-
-  // optional
-  string search = 3;
-
-  // optional
-  string user_id = 4;
-}
-
+// UpdateProjectRequest updates a project by their given fields.
 message UpdateProjectRequest {
+  // Project uuid
   string id = 1;
-
   // Name
   string name = 2;
-
   // Description
   string description = 3;
-
   // Environment
   gpcloud.api.cloud.v1.ProjectEnvironment environment = 4;
-
   // Credit Card ID
   string credit_card_id = 5;
-
   // Billing Address ID
   string billing_address_id = 6;
-
   // Payment method
   gpcloud.api.cloud.v1.PaymentMethod payment_method = 7;
+
+  // If you wonder why there is no avatar_url here. This is because changing the
+  // avatar will be handled by the gateway over the /avatar/upload/:id endpoint.
+  // This endpoint is a little bit more sophisticated than the admin
+  // equivalent (the avatar_url is just an URL string), it will handle uploading
+  // the image to s3. This endpoint is used for all kinds of "avatar" like images
+  // (project images, user images, ...).
+
+  // TODO: unify credit_card and billing_address just like the payment_method
 }
 
-message JoinProjectRequest {
-  // Project ID to join
+// DeleteProjectRequest delete the project associated with the given uuid.
+message DeleteProjectRequest {
+  // Project uuid
   string id = 1;
-
-  // Accept invite or reject
-  bool accept = 2;
 }
 
-message LeaveProjectRequest {
-  string id = 1;
-}
-
-
+// InviteMemberToProjectRequest invite new member to a project.
 message InviteMemberToProjectRequest {
+  // Project uuid
   string id = 1;
-
+  // Email address from the user to invite. The email address need to be associated
+  // to one of the users previously registered.
   string email = 2;
 }
 
-message RemoveMemberFromProjectRequest {
+// JoinProjectRequest join or reject a project invite.
+message JoinProjectRequest {
+  // Project uuid to join
   string id = 1;
+  // Accept (true) or reject (false) invite
+  bool accept = 2;
+}
 
+// LeaveProjectRequest leave a project membership.
+message LeaveProjectRequest {
+  // Project uuid
+  string id = 1;
+}
+
+// RemoveMemberFromProjectRequest removes the user from the porject.
+message RemoveMemberFromProjectRequest {
+  // Project uuid
+  string id = 1;
+  // User uuid
   string user_id = 2;
 }
 
-message ListProjectsRequest {}
-
-message DeleteProjectRequest {
+// ListProjectLogsRequest requests an audit log for a given project.
+message ListProjectLogsRequest {
+  // Project uuid
   string id = 1;
+
+  // Optional page number (pagination)
+  int32 page = 2;
+
+  // Optional search term
+  string search = 3;
+
+  // Optional user uuid filter
+  string user_id = 4;
 }
 
 message GetProjectCurrentBillingPreviewPdfRequest {
@@ -113,9 +137,11 @@ message GetProjectCurrentBillingPreviewPdfRequest {
 }
 
 
+// GetProjectBillPdfRequest
 message GetProjectBillPdfRequest {
+  // Project uuid
   string id = 1;
-
+  // Bill uuid
   string bill_id = 2;
 }
 
@@ -145,7 +171,9 @@ message ListPublicImagesRequest {
   string flavour_id = 1;
 }
 
+// PayProjectNowRequest pays a project
 message PayProjectNowRequest {
+  // Project uuid
   string id = 1;
 }
 
@@ -161,65 +189,91 @@ message ListProjectSSHKeysRequest {
   string id = 1;
 }
 
+// ListNodesRequest
 message ListNodesRequest {
+  // Project uuid
   string id = 1;
+
+  // Page number (for pagination)
+  int32 page = 2;
+
+  // Optional search term
+  optional string search = 3;
 }
 
+// GetNodeRequest requests a single node
+message GetNodeRequest {
+  // Node uuid
+  string id = 1;
+  // Project uuid
+  string project_id = 2;
+}
+
+// CreateNodeRequest creates a new node
 message CreateNodeRequest {
+  // Project uuid
   string project_id = 1;
-
+  // Flavour uuid
   string flavour_id = 2;
-
+  // Datacenter uuid
   string datacenter_id = 3;
 
+  // Optional password
   optional string password = 4;
-
+  // List of ssh public keys uuid. If empty, a password need to be set. If the
+  // password is also empty, a random password will be generated.
   repeated string ssh_key_ids = 5;
 
+  // Image uuid
   string image_id = 6;
 
+  // Custom user data
   optional string user_data = 8;
-
+  // List of FQDNs used
   repeated string fqdns = 9;
 
+  // Billing period used for that node
   gpcloud.api.cloud.v1.BillingPeriod billing_period = 20;
 }
 
-
+// ReinstallNodeRequest reinstall a previously created node.
 message ReinstallNodeRequest {
+  // Node uuid
   string id = 1;
-
+  // Project uuid
   string project_id = 2;
-
+  // Optional new FQDN of the hostname. Old FQDN will be used if empty.
   string fqdn = 3;
-
+  // Optional root password which will set after provisioning. This is
+  // just a backup solution if no ssh keys are given. If no password is
+  // given, a random password is generated.
   optional string password = 4;
-
+  // List of ssh public keys uuids used to log in to ssh. All keys need
+  // to belong to members of the project.
   repeated string ssh_key_ids = 5;
-
+  // Image uuid
   string image_id = 6;
-
+  // Custom user data
   string user_data = 7;
 }
 
-message GetNodeRequest {
-  string id = 1;
-
-  string project_id = 2;
-}
-
+// UpdateNodeRequest updates a nodes FQDN and tags.
 message UpdateNodeRequest {
+  // Node uuid
   string id = 1;
+  // Project uuid
   string project_id = 2;
-
+  // Optional new FQDN
   optional string fqdn = 3;
-
+  // New key/value tags to set
   map<string, string> tags = 4;
 }
 
+// DestroyNodeRequest deletes a node
 message DestroyNodeRequest {
+  // Node uuid
   string id = 1;
-
+  // Project uuid
   string project_id = 2;
 }
 

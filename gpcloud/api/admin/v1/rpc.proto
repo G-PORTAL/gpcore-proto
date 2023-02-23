@@ -252,17 +252,24 @@ service AdminService {
     };
   }
 
-  // Get project by ID
+  // ListProjects list all available projects.
+  rpc ListProjects (gpcloud.api.admin.v1.ListProjectsRequest) returns (gpcloud.api.admin.v1.ListProjectsResponse) {
+    option (gpcloud.v1.api) = {
+      required_roles: ["view-project"]
+    };
+  }
+
+  // GetProject get a single project for a given project id.
   rpc GetProject (gpcloud.api.admin.v1.GetProjectRequest) returns (gpcloud.api.admin.v1.GetProjectResponse) {
     option (gpcloud.v1.api) = {
       required_roles: ["view-project"]
     };
   }
 
-  // List all projects
-  rpc ListProjects (gpcloud.api.admin.v1.ListProjectsRequest) returns (gpcloud.api.admin.v1.ListProjectsResponse) {
+  // UpdateProject updates a project by its given fields.
+  rpc UpdateProject (gpcloud.api.admin.v1.UpdateProjectRequest) returns (gpcloud.api.admin.v1.UpdateProjectResponse) {
     option (gpcloud.v1.api) = {
-      required_roles: ["view-project"]
+      required_roles: ["manage-project"]
     };
   }
 
@@ -275,13 +282,6 @@ service AdminService {
 
   // Create a new project network
   rpc CreateProjectNetwork (gpcloud.api.admin.v1.CreateProjectNetworkRequest) returns (gpcloud.api.admin.v1.CreateProjectNetworkResponse) {
-    option (gpcloud.v1.api) = {
-      required_roles: ["manage-project"]
-    };
-  }
-
-  // Admin update project
-  rpc UpdateProject (gpcloud.api.admin.v1.UpdateProjectRequest) returns (gpcloud.api.admin.v1.UpdateProjectResponse) {
     option (gpcloud.v1.api) = {
       required_roles: ["manage-project"]
     };
