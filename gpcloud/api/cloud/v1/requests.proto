@@ -90,9 +90,11 @@ message DeleteProjectRequest {
 message InviteMemberToProjectRequest {
   // Project uuid
   string id = 1;
-  // Email address from the user to invite. The email address need to be associated
-  // to one of the users previously registered.
-  string email = 2;
+
+  // Email address or User ID which you want to invite. This could be
+  // also a Service Account User ID. If adding Service Account, the client
+  // will be directly added to the project.
+  string identifier = 2;
 }
 
 // JoinProjectRequest join or reject a project invite.

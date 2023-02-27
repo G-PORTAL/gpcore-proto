@@ -5,12 +5,19 @@ package gpcloud.api.cloud.v1;
 import "google/protobuf/timestamp.proto";
 import "gpcloud/api/cloud/v1/payment.proto";
 
+enum UserType {
+  USER_TYPE_UNSPECIFIED = 0;
+  USER_TYPE_USER = 1;
+  USER_TYPE_SERVICE_ACCOUNT = 2;
+}
+
 message BasicUser {
     string id = 1;
     string username = 2;
-    string full_name = 3;
-    string email = 4;
+    optional string full_name = 3;
+    optional string email = 4;
     string avatar_url = 5;
+    UserType type = 6;
 }
 
 message User {
@@ -24,10 +31,10 @@ message User {
   string number = 3;
 
   // Full name for user
-  string full_name = 4;
+  optional string full_name = 4;
 
   // User e-mail address
-  string email = 5;
+  optional string email = 5;
 
   // Returns true if user email is confirmed
   bool confirmed = 6;
@@ -45,6 +52,8 @@ message User {
   repeated gpcloud.api.cloud.v1.PaymentMethod payment_methods = 10;
 
   string keycloak_id = 11;
+
+  UserType type = 12;
 
   google.protobuf.Timestamp last_login_at = 999;
   google.protobuf.Timestamp created_at = 1000;

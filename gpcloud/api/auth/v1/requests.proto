@@ -13,3 +13,32 @@ message RegisterRequest {
 message GetUserRequest {}
 
 message ResendConfirmEMailRequest {}
+
+message ListClientsRequest {}
+
+message CreateClientRequest {
+  string name = 1;
+
+  string description = 2;
+}
+
+message GetClientRequest {
+  string id = 1;
+}
+
+message UpdateClientRequest {
+  string id = 1;
+
+  string name = 2;
+
+  string description = 3;
+}
+
+message DeleteClientRequest {
+  string id = 1;
+}
+
+message ResetClientSecretRequest {
+  string id = 1;
+}
+

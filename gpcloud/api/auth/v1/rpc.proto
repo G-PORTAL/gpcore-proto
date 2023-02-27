@@ -6,6 +6,7 @@ import "gpcloud/v1/options.proto";
 import "gpcloud/api/auth/v1/requests.proto";
 import "gpcloud/api/auth/v1/responses.proto";
 
+// AuthService provides authentication and authorization services.
 service AuthService {
   rpc Register (gpcloud.api.auth.v1.RegisterRequest) returns (gpcloud.api.auth.v1.RegisterResponse) {
     option (gpcloud.v1.api) = {
@@ -16,4 +17,24 @@ service AuthService {
   rpc GetUser (gpcloud.api.auth.v1.GetUserRequest) returns (gpcloud.api.auth.v1.GetUserResponse) {}
 
   rpc ResendConfirmEMail (gpcloud.api.auth.v1.ResendConfirmEMailRequest) returns (gpcloud.api.auth.v1.ResendConfirmEMailResponse) {}
+
+  // ListClients returns a list of your OAuth 2 / OpenID Connect clients.
+  rpc ListClients (gpcloud.api.auth.v1.ListClientsRequest) returns (gpcloud.api.auth.v1.ListClientsResponse) {}
+
+  // CreateClient creates a new OAuth 2 / OpenID Connect client inclusive a service account.
+  // The client secret is returned in the response as well, please store it securely.
+  rpc CreateClient (gpcloud.api.auth.v1.CreateClientRequest) returns (gpcloud.api.auth.v1.CreateClientResponse) {}
+
+  // GetClient returns the details of an OAuth 2 / OpenID Connect client by its ID.
+  rpc GetClient (gpcloud.api.auth.v1.GetClientRequest) returns (gpcloud.api.auth.v1.GetClientResponse) {}
+
+  // UpdateClient updates an OAuth 2 / OpenID Connect client by its ID.
+  rpc UpdateClient (gpcloud.api.auth.v1.UpdateClientRequest) returns (gpcloud.api.auth.v1.UpdateClientResponse) {}
+
+  // DeleteClient deletes an OAuth 2 / OpenID Connect client by its ID.
+  rpc DeleteClient (gpcloud.api.auth.v1.DeleteClientRequest) returns (gpcloud.api.auth.v1.DeleteClientResponse) {}
+
+  // ResetClientSecret resets the client secret of an OAuth 2 / OpenID Connect client by its ID.
+  // Please store the new client secret securely.
+  rpc ResetClientSecret (gpcloud.api.auth.v1.ResetClientSecretRequest) returns (gpcloud.api.auth.v1.ResetClientSecretResponse) {}
 }

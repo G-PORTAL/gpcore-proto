@@ -55,13 +55,10 @@ service CloudService {
   // be deleted. Also projects which have nodes, bills which are not payed yet or an
   // outstanding balance can not be deleted.
   rpc DeleteProject (gpcloud.api.cloud.v1.DeleteProjectRequest) returns (gpcloud.api.cloud.v1.DeleteProjectResponse) {}
-
-  // InviteMemberToProject invites a new user to a project. The calling user (the one
-  // who call that endpoint) need to have the "owner" role of the given project. Further,
-  // the given email address need to belong to one of the users already registered
-  // on gpcloud. After calling that endpoint, the user is already added to the project,
-  // but need to be confirmed by the invited user. To confirm a user, use the JoinProject
-  // endpoint. The "member" role is added to the new user automatically.
+  // InviteMemberToProject invites a new user or service account to a project.
+  // The calling user (the one who call that endpoint) need to have the "OWNER" role of the given project
+  // Further the given identifier needs to belong to a already registered user or service account.
+  // The target user needs to confirm his project invitation, service accounts are automatically added.
   rpc InviteMemberToProject (gpcloud.api.cloud.v1.InviteMemberToProjectRequest) returns (gpcloud.api.cloud.v1.InviteMemberToProjectResponse) {}
   // JoinProject accept or reject an project invite. As a prerequisite for that, the user
   // need to be invited first with the InviteMemberToProject endpoint. If the
