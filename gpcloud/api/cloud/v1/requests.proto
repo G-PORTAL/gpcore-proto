@@ -8,6 +8,7 @@ import "gpcloud/api/cloud/v1/node.proto";
 import "gpcloud/api/cloud/v1/server.proto";
 import "gpcloud/api/cloud/v1/billing.proto";
 import "gpcloud/api/cloud/v1/payment.proto";
+import "gpcloud/type/v1/pagination.proto";
 
 message GetUserNodeLimitRequest {}
 
@@ -111,7 +112,7 @@ message LeaveProjectRequest {
   string id = 1;
 }
 
-// RemoveMemberFromProjectRequest removes the user from the porject.
+// RemoveMemberFromProjectRequest removes the user from the project.
 message RemoveMemberFromProjectRequest {
   // Project uuid
   string id = 1;
@@ -123,13 +124,10 @@ message RemoveMemberFromProjectRequest {
 message ListProjectLogsRequest {
   // Project uuid
   string id = 1;
-
-  // Optional page number (pagination)
-  int32 page = 2;
-
+  // Pagination
+  gpcloud.type.v1.PaginationRequest pagination = 2;
   // Optional search term
   string search = 3;
-
   // Optional user uuid filter
   string user_id = 4;
 }
@@ -191,14 +189,12 @@ message ListProjectSSHKeysRequest {
   string id = 1;
 }
 
-// ListNodesRequest
+// ListNodesRequest requests the list of all available images.
 message ListNodesRequest {
   // Project uuid
   string id = 1;
-
-  // Page number (for pagination)
-  int32 page = 2;
-
+  // Pagination
+  gpcloud.type.v1.PaginationRequest pagination = 2;
   // Optional search term
   optional string search = 3;
 }

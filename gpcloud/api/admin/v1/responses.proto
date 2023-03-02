@@ -15,11 +15,17 @@ import "gpcloud/api/cloud/v1/network.proto";
 import "gpcloud/api/cloud/v1/user.proto";
 import "gpcloud/api/cloud/v1/bill.proto";
 import "gpcloud/type/v1/price.proto";
+import "gpcloud/type/v1/pagination.proto";
 
+// ListServersResponse
 message ListServersResponse {
+  // List of servers
   repeated gpcloud.api.cloud.v1.Server servers = 1;
-
-  int32 pages_total = 2;
+  // Pagination
+  gpcloud.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message GetServerResponse {
@@ -27,9 +33,15 @@ message GetServerResponse {
   optional gpcloud.api.cloud.v1.Project project = 2;
 }
 
+// ListServerLogsResponse
 message ListServerLogsResponse {
+  // List of logs
   repeated gpcloud.api.cloud.v1.ServerLog logs = 1;
-  int32 pages_total = 2;
+  // Pagination
+  gpcloud.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message UpdateServerResponse {
@@ -121,18 +133,30 @@ message UpdateFlavourResponse {
   gpcloud.api.admin.v1.AdminFlavour flavour = 1;
 }
 
+// ListSwitchesResponse
 message ListSwitchesResponse {
+  // List of switches
   repeated gpcloud.api.cloud.v1.Switch switches = 1;
-  int32 pages_total = 2;
+  // Pagination
+  gpcloud.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message GetSwitchResponse {
   gpcloud.api.cloud.v1.Switch switch = 1;
 }
 
+// ListUsersResponse
 message ListUsersResponse {
+  // List of users
   repeated gpcloud.api.cloud.v1.User users = 1;
-  int32 pages_total = 2;
+  // Pagination
+  gpcloud.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message GetUserResponse {
@@ -154,8 +178,11 @@ message ListUserBillsResponse {
 message ListProjectsResponse {
   // List of projects
   repeated gpcloud.api.cloud.v1.Project projects = 1;
-  // Total pages if there are an offset (page) given in the request
-  int32 pages_total = 2;
+  // Pagination
+  gpcloud.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 // GetProjectResponse hold the requested project, the associated nodes for that
@@ -183,22 +210,37 @@ message CreateProjectNetworkResponse {
   repeated gpcloud.api.cloud.v1.Network networks = 1;
 }
 
+// ListAdminLogsResponse
 message ListAdminLogsResponse {
+  // List of admin logs
   repeated gpcloud.api.admin.v1.AdminLog logs = 1;
-
-  int32 pages_total = 2;
+  // Pagination
+  gpcloud.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
-message GetIPHistoryResponse {
+// ListIPHistoriesResponse
+message ListIPHistoriesResponse {
+  // List of IP histories
   repeated gpcloud.api.cloud.v1.IPHistory ip_histories = 1;
-
-  int32 pages_total = 2;
+  // Pagination
+  gpcloud.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
+// ListBillsResponse
 message ListBillsResponse {
+  // List of bills
   repeated gpcloud.api.cloud.v1.Bill bills = 1;
-
-  int32 pages_total = 2;
+  // Pagination
+  gpcloud.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message GetBillResponse {

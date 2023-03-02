@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package gpcloud.type.v1;
+
+// Abstract pagination messages, used to enrich list style endpoints with a
+// pagination filter. If the result set is too big (too many items), then only
+// a portion of the list will be returned. This portion starts at position
+// "page" * "limit" and ends at ("page" * "limit") + "limit". So a "page" is
+// "limit" long (or less, if the last "page" is less than the limit. All list
+// RPC calls should include the pagination.
+
+// PaginationRequest specifies the page (the subset of the complete result set)
+// we want to receive and an optional limit.
+message PaginationRequest {
+  // The current portion of the result set we are interested in. A page is the
+  // position in the result set multiplied by the limit. Its the analogy to a
+  // page in a book. A page can contain "limit" amount of items.
+  int32 page = 1;
+  // Specify the number of items to get as a result set. The limit is also used
+  // to calculate the starting offset. If the limit is not set, a reasonable
+  // default value is set for the specific RPC call. CPU intense calls like
+  // the ListNodes call have a lower default limit than a low profile call like
+  // ListServerLogs. If you specify the limit, you need to set it to a lower
+  // value than the default limit. If your specified limit is higher than the
+  // default limit for that call, it will be reduced to the default limit. The
+  // response contains the changed limit as as separate field.
+  optional int32 limit = 2;
+}
+
+// PaginationResponse specifies the metadata for the current subset of the
+// result set. This helps to set the result set in relation of the complete
+// list of available results. This includes the selected page, the (maybe
+// changed) limit and the total number of pages available.
+message PaginationResponse {
+  // The current portion of the result set. A page is the position in the result
+  // set multiplied by the limit. Its the analogy to a page in a book. A page
+  // can contain "limit" amount of items. Remember that the last page may
+  // contain less than "limit" items.
+  int32 page = 1;
+  // Total number of PAGES available in the complete result set. Useful to build
+  // the pagination UI or for iterating over the pages.
+  int32 total = 2;
+  // The number of items in the result set. This may be differ from the limit
+  // specify in the request. If the limit is not set at all in the request, it
+  // will be set to the default value for that specific RPC call. If the limit
+  // in the request is higher than the default value, it will be set back to the
+  // default value to not stress the backend too much.
+  int32 limit = 3;
+}

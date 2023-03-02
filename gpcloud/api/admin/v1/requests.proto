@@ -10,10 +10,13 @@ import "gpcloud/api/cloud/v1/region.proto";
 import "gpcloud/api/cloud/v1/project.proto";
 import "gpcloud/api/cloud/v1/bill.proto";
 import "gpcloud/api/admin/v1/agent.proto";
+import "gpcloud/type/v1/pagination.proto";
 
-
+// ListServersRequest
 message ListServersRequest {
-  int32 page = 1;
+  // Pagination
+  gpcloud.type.v1.PaginationRequest pagination = 1;
+  // Optional search term
   optional string search = 2;
 }
 
@@ -28,8 +31,8 @@ message GetServerRequest {
 message ListServerLogsRequest {
   // Server UUID
   string id = 1;
-  // Which page from the result are needed. Useful for pagination
-  int32 page = 2;
+  // Pagination
+  gpcloud.type.v1.PaginationRequest pagination = 2;
   // An optional search term, can be contain spaces for fuzzy search
   optional string search = 3;
 }
@@ -155,8 +158,11 @@ message DeleteFlavourRequest {
   string id = 1;
 }
 
+// ListSwitchesRequest
 message ListSwitchesRequest {
-  int32 page = 1;
+  // Pagination
+  gpcloud.type.v1.PaginationRequest pagination = 1;
+  // Optional search term
   optional string search = 2;
 }
 
@@ -164,8 +170,11 @@ message GetSwitchRequest {
   string id = 1;
 }
 
+// ListUsersRequest
 message ListUsersRequest {
-  int32 page = 1;
+  // Pagination
+  gpcloud.type.v1.PaginationRequest pagination = 1;
+  // Optional search term
   optional string search = 2;
 }
 
@@ -208,8 +217,11 @@ message UnlockUserRequest {
   string reason = 2;
 }
 
+// ListUserBillsRequest
 message ListUserBillsRequest {
-  int32 page = 1;
+  // Pagination
+  gpcloud.type.v1.PaginationRequest pagination = 1;
+  // Optional user uuid for which we want bills
   optional string user_id = 2;
 }
 
@@ -218,8 +230,8 @@ message ListUserBillsRequest {
 // field to further reduce the resulting project list. The page field can be
 // used to implement pagination.
 message ListProjectsRequest {
-  // Page offset, defaults to 1. Useful for pagination.
-  int32 page = 1;
+  // Pagination
+  gpcloud.type.v1.PaginationRequest pagination = 1;
   // Optional search term, use space for fuzzy search.
   optional string search = 2;
   // Optional user id to filter results which are the given user is part of.
@@ -284,25 +296,33 @@ message CreateProjectNetworkRequest {
   gpcloud.api.cloud.v1.Datacenter datacenter = 7;
 }
 
+// ListAdminLogsRequest
 message ListAdminLogsRequest {
-  int32 page = 1;
-
+  // Pagination
+  gpcloud.type.v1.PaginationRequest pagination = 1;
+  // Optional search term
   optional string search = 2;
+  // Optional admin user uuid
   optional string admin_user_id = 3;
+  // Optional user uuid
   optional string user_id = 4;
 }
 
-message GetIPHistoryRequest {
-  int32 page = 1;
-
+// ListIPHistoriesRequest
+message ListIPHistoriesRequest {
+  // Pagination
+  gpcloud.type.v1.PaginationRequest pagination = 1;
+  // Optional search term
   optional string search = 2;
 }
 
+// ListBillsRequest
 message ListBillsRequest {
-  int32 page = 1;
-
+  // Pagination
+  gpcloud.type.v1.PaginationRequest pagination = 1;
+  // Filter for bill status
   gpcloud.api.cloud.v1.BillStatus filter = 2;
-
+  // Only show final bills
   bool final_only = 3;
 }
 

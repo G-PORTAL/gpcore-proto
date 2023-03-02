@@ -14,6 +14,7 @@ import "gpcloud/api/cloud/v1/billing.proto";
 import "gpcloud/type/v1/country.proto";
 import "gpcloud/type/v1/ssh_key.proto";
 import "gpcloud/type/v1/price.proto";
+import "gpcloud/type/v1/pagination.proto";
 
 message GetUserNodeLimitResponse {
   gpcloud.api.cloud.v1.UserNodeLimit user_limit = 1;
@@ -65,9 +66,11 @@ message LeaveProjectResponse {}
 message ListProjectLogsResponse {
   // All log items for page
   repeated gpcloud.api.cloud.v1.ProjectLog logs = 1;
-
-  // Number of pages available
-  int32 pages_total = 2;
+  // Pagination
+  gpcloud.type.v1.PaginationResponse pagination = 2;
+  // Total number of project logs available. May be differ from the number of
+  // results, from this response because of the pagination.
+  int64 total = 3;
 }
 
 message InviteMemberToProjectResponse {
@@ -75,7 +78,6 @@ message InviteMemberToProjectResponse {
 }
 
 message RemoveMemberFromProjectResponse {
-
 }
 
 message GetProjectCurrentBillingPreviewPdfResponse {
@@ -124,8 +126,11 @@ message ListProjectSSHKeysResponse {
 message ListNodesResponse {
   // Node list
   repeated gpcloud.api.cloud.v1.Node nodes = 1;
-  // Number of pages available
-  int32 pages_total = 2;
+  // Pagination
+  gpcloud.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message CreateNodeResponse {

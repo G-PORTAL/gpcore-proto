@@ -301,14 +301,14 @@ service AdminService {
     };
   }
 
-  // Get IP history
-  rpc GetIPHistory (gpcloud.api.admin.v1.GetIPHistoryRequest) returns (gpcloud.api.admin.v1.GetIPHistoryResponse) {
+  // List IP histories
+  rpc ListIPHistories (gpcloud.api.admin.v1.ListIPHistoriesRequest) returns (gpcloud.api.admin.v1.ListIPHistoriesResponse) {
     option (gpcloud.v1.api) = {
       required_roles: ["view-ip-history"]
     };
   }
 
-  // Get bills
+  // List bills
   rpc ListBills (gpcloud.api.admin.v1.ListBillsRequest) returns (gpcloud.api.admin.v1.ListBillsResponse) {
     option (gpcloud.v1.api) = {
       required_roles: ["view-bill"]
