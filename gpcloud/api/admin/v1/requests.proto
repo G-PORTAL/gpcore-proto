@@ -11,6 +11,7 @@ import "gpcloud/api/cloud/v1/project.proto";
 import "gpcloud/api/cloud/v1/bill.proto";
 import "gpcloud/api/admin/v1/agent.proto";
 import "gpcloud/type/v1/pagination.proto";
+import "gpcloud/type/v1/file.proto";
 
 // ListServersRequest
 message ListServersRequest {
@@ -70,6 +71,8 @@ message CreateImageRequest {
   bool available = 4;
   repeated api.cloud.v1.AuthenticationType authentication_types = 5;
   optional string vendor_data = 6;
+  optional string alias = 7;
+  api.cloud.v1.ImageRelease release = 8;
 }
 
 message ListImagesRequest {}
@@ -85,6 +88,8 @@ message UpdateImageRequest {
   bool available = 4;
   repeated api.cloud.v1.AuthenticationType authentication_types = 5;
   optional string vendor_data = 6;
+  optional string alias = 7;
+  api.cloud.v1.ImageRelease release = 8;
 }
 
 message DeleteImageRequest {
@@ -114,6 +119,8 @@ message UpdateOperatingSystemRequest {
   string id = 1;
   string name = 2;
   gpcloud.api.cloud.v1.OperatingSystemFamily family = 3;
+  optional gpcloud.type.v1.File icon = 4;
+  optional string default_image_id = 5;
 }
 
 // Request to list all available flavours.
@@ -192,17 +199,14 @@ message UpdateUserRequest {
   // If the user can use the platform
   optional bool confirmed = 5;
 
-  // If the user is an admin
-  optional bool admin = 6;
-
   // How many node the user can create
-  optional int32 node_limit = 7;
+  optional int32 node_limit = 6;
 
   // A list of allowed payment methods
-  repeated gpcloud.api.cloud.v1.PaymentMethod allowed_payment_methods = 8;
+  repeated gpcloud.api.cloud.v1.PaymentMethod payment_methods = 7;
 
   // Avatar URL
-  optional string avatar_url = 9;
+  optional string avatar_url = 8;
 }
 
 // XXX: Reintroduce in frontend

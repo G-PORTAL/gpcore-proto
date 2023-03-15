@@ -103,7 +103,7 @@ message ListDatacentersResponse {
 }
 
 message ListPublicImagesResponse {
-  repeated gpcloud.api.cloud.v1.Image images = 1;
+  repeated gpcloud.api.cloud.v1.OperatingSystem operating_systems = 1;
 }
 
 message ListProjectBillsResponse {
@@ -185,7 +185,7 @@ message GetNodeConsoleResponse {
 message ChangeNodeRescueModeResponse {}
 
 message ListProjectImagesResponse {
-  repeated gpcloud.api.cloud.v1.Image images = 1;
+  repeated gpcloud.api.cloud.v1.BasicImage images = 1;
 }
 
 message CreateProjectImageResponse {

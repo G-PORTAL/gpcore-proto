@@ -3,7 +3,9 @@ syntax = "proto3";
 package gpcloud.type.v1;
 
 message File {
+  // File content in bytes.
   bytes bytes = 1;
 
+  // File mime type.
   string mime_type = 2;
 }
