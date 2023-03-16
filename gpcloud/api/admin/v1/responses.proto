@@ -11,6 +11,7 @@ import "gpcloud/api/cloud/v1/region.proto";
 import "gpcloud/api/cloud/v1/project.proto";
 import "gpcloud/api/admin/v1/admin_log.proto";
 import "gpcloud/api/admin/v1/spla_reporting.proto";
+import "gpcloud/api/admin/v1/dashboard.proto";
 import "gpcloud/api/cloud/v1/network.proto";
 import "gpcloud/api/cloud/v1/user.proto";
 import "gpcloud/api/cloud/v1/bill.proto";
@@ -322,3 +323,7 @@ message CreateAgentResponse {
 }
 
 message DeleteAgentResponse {}
+
+message GetDashboardResponse {
+  gpcloud.api.admin.v1.Dashboard dashboard = 1;
+}

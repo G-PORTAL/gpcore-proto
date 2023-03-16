@@ -443,3 +443,5 @@ message CreateAgentRequest {
 message DeleteAgentRequest {
   string id = 1;
 }
+
+message GetDashboardRequest {}

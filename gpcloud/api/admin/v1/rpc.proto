@@ -427,4 +427,11 @@ service AdminService {
       required_roles: ["manage-network"]
     };
   }
+
+  // Get Dashboard information
+  rpc GetDashboard (gpcloud.api.admin.v1.GetDashboardRequest) returns (gpcloud.api.admin.v1.GetDashboardResponse) {
+    option (gpcloud.v1.api) = {
+      required_roles: ["view-dashboard"]
+    };
+  }
 }

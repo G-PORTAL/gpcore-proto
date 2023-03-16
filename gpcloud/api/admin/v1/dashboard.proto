@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package gpcloud.api.admin.v1;
+
+import "gpcloud/api/cloud/v1/flavour.proto";
+import "gpcloud/api/cloud/v1/server.proto";
+import "gpcloud/api/cloud/v1/region.proto";
+
+message DashboardServerStatus {
+  gpcloud.api.cloud.v1.ServerProvisioningState status = 1;
+  int32 count = 2;
+}
+
+message DashboardIPStats {
+  int32 total = 1;
+  int32 available = 2;
+}
+
+message DashboardFlavourStatus {
+  gpcloud.api.cloud.v1.Flavour flavour = 1;
+
+  int32 total = 2;
+
+  int32 available = 3;
+}
+
+message DashboardLocation {
+  gpcloud.api.cloud.v1.Datacenter datacenter = 1;
+
+  repeated gpcloud.api.admin.v1.DashboardServerStatus server_status = 2;
+
+  repeated gpcloud.api.admin.v1.DashboardFlavourStatus flavour_status = 3;
+
+  gpcloud.api.admin.v1.DashboardIPStats ip_stats = 4;
+}
+
+message Dashboard {
+  repeated gpcloud.api.admin.v1.DashboardLocation locations = 1;
+}
+
