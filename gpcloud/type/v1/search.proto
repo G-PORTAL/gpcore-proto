@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package gpcloud.type.v1;
+
+enum SearchOptionType {
+  SEARCH_OPTION_TYPE_UNSPECIFIED = 0;
+  SEARCH_OPTION_TYPE_STRING = 1;
+  SEARCH_OPTION_TYPE_INTEGER = 2;
+  SEARCH_OPTION_TYPE_DROPDOWN = 3;
+  SEARCH_OPTION_TYPE_BOOLEAN = 4;
+}
+
+message SearchOption {
+  string name = 1;
+
+  // Optional label to display for the search option
+  // if not set, name is being used.
+  optional string label = 2;
+
+  // Optional description to display for the search option
+  optional string description = 3;
+
+  // Type of the search option
+  gpcloud.type.v1.SearchOptionType type = 4;
+
+  optional string validation_regex = 5;
+
+  // Possible dropdown values when type is SEARCH_OPTION_TYPE_DROPDOWN
+  map<string, string> dropdown_values = 6;
+}
+
+message SearchOptions {
+  repeated gpcloud.type.v1.SearchOption options = 1;
+}
+
+message Filter {
+  string name = 1;
+
+  oneof value {
+    string string_value = 2;
+    int64 integer_value = 3;
+    bool boolean_value = 4;
+  }
+}
+
+message SearchRequest {
+  repeated gpcloud.type.v1.Filter filters = 1;
+}

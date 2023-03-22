@@ -15,6 +15,7 @@ import "gpcloud/type/v1/country.proto";
 import "gpcloud/type/v1/ssh_key.proto";
 import "gpcloud/type/v1/price.proto";
 import "gpcloud/type/v1/pagination.proto";
+import "gpcloud/type/v1/search.proto";
 
 message GetUserNodeLimitResponse {
   gpcloud.api.cloud.v1.UserNodeLimit user_limit = 1;
@@ -131,6 +132,10 @@ message ListNodesResponse {
   // Total number of nodes available. May be differ from the number of results,
   // from this response because of the pagination.
   int64 total = 3;
+}
+
+message GetNodeSearchOptionsResponse {
+  gpcloud.type.v1.SearchOptions options = 1;
 }
 
 message CreateNodeResponse {

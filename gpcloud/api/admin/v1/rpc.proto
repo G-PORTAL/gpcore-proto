@@ -45,6 +45,13 @@ service AdminService {
       required_roles: ["view-server"]
     };
   }
+
+  rpc GetServerSearchOptions(gpcloud.api.admin.v1.GetServerSearchOptionsRequest) returns (gpcloud.api.admin.v1.GetServerSearchOptionsResponse) {
+    option (gpcloud.v1.api) = {
+      required_roles: ["view-server"]
+    };
+  }
+
   rpc ImportServer (gpcloud.api.admin.v1.ImportServerRequest) returns (gpcloud.api.admin.v1.ImportServerResponse) {
     option (gpcloud.v1.api) = {
       required_roles: ["import-server"]

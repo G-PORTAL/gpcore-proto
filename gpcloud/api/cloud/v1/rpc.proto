@@ -124,6 +124,8 @@ service CloudService {
   // will give an indication what portion is left from the result. Use the page
   // field to specify an offset. Use the search field to filter the results.
   rpc ListNodes (gpcloud.api.cloud.v1.ListNodesRequest) returns (gpcloud.api.cloud.v1.ListNodesResponse) {}
+  // GetNodeSearchOptions returns a list with all available search fields.
+  rpc GetNodeSearchOptions(gpcloud.api.cloud.v1.GetNodeSearchOptionsRequest) returns (gpcloud.api.cloud.v1.GetNodeSearchOptionsResponse) {}
   // GetNode return a single node object. The returned node object contain
   // everything to work with that node.
   rpc GetNode (gpcloud.api.cloud.v1.GetNodeRequest) returns (gpcloud.api.cloud.v1.GetNodeResponse) {}

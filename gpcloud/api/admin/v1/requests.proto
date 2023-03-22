@@ -12,6 +12,7 @@ import "gpcloud/api/cloud/v1/bill.proto";
 import "gpcloud/api/admin/v1/agent.proto";
 import "gpcloud/type/v1/pagination.proto";
 import "gpcloud/type/v1/file.proto";
+import "gpcloud/type/v1/search.proto";
 
 // ListServersRequest
 message ListServersRequest {
@@ -19,7 +20,12 @@ message ListServersRequest {
   gpcloud.type.v1.PaginationRequest pagination = 1;
   // Optional search term
   optional string search = 2;
+
+  // Optional extended search
+  optional gpcloud.type.v1.SearchRequest extended_search = 3;
 }
+
+message GetServerSearchOptionsRequest {}
 
 message GetServerRequest {
   string id = 1;
@@ -445,3 +451,4 @@ message DeleteAgentRequest {
 }
 
 message GetDashboardRequest {}
+

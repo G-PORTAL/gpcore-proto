@@ -9,6 +9,7 @@ import "gpcloud/api/cloud/v1/server.proto";
 import "gpcloud/api/cloud/v1/billing.proto";
 import "gpcloud/api/cloud/v1/payment.proto";
 import "gpcloud/type/v1/pagination.proto";
+import "gpcloud/type/v1/search.proto";
 
 message GetUserNodeLimitRequest {}
 
@@ -197,6 +198,13 @@ message ListNodesRequest {
   gpcloud.type.v1.PaginationRequest pagination = 2;
   // Optional search term
   optional string search = 3;
+  // Optional extended search
+  optional gpcloud.type.v1.SearchRequest extended_search = 4;
+}
+
+message GetNodeSearchOptionsRequest {
+  // Project uuid
+  string id = 1;
 }
 
 // GetNodeRequest requests a single node
