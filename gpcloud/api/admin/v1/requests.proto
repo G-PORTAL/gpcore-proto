@@ -198,12 +198,12 @@ message GetUserRequest {
 // XXX: Reintroduce in frontend
 message UpdateUserRequest {
   string id = 1;
-  optional string number = 2;
-  optional string full_name = 3;
-  optional string email = 4;
 
-  // If the user can use the platform
-  optional bool confirmed = 5;
+  /* field 2 removed - optional string number = 2; */
+  /* field 3 removed - optional string full_name = 3; */
+  /* field 4 removed - optional string email = 4; */
+  /* field 5 removed - optional bool confirmed = 5; */
+  reserved 2 to 5;
 
   // How many node the user can create
   optional int32 node_limit = 6;
