@@ -14,7 +14,6 @@ import "gpcloud/api/admin/v1/spla_reporting.proto";
 import "gpcloud/api/admin/v1/dashboard.proto";
 import "gpcloud/api/cloud/v1/network.proto";
 import "gpcloud/api/cloud/v1/user.proto";
-import "gpcloud/api/cloud/v1/bill.proto";
 import "gpcloud/type/v1/price.proto";
 import "gpcloud/type/v1/pagination.proto";
 import "gpcloud/type/v1/search.proto";
@@ -172,10 +171,6 @@ message UpdateUserResponse {
 message LockUserResponse {}
 message UnlockUserResponse {}
 
-message ListUserBillsResponse {
- repeated gpcloud.api.cloud.v1.Bill bills = 1;
-}
-
 // ListProjectsResponse return a list of projects.
 message ListProjectsResponse {
   // List of projects
@@ -194,8 +189,6 @@ message GetProjectResponse {
   gpcloud.api.cloud.v1.Project project = 1;
   // All associated nodes for that project
   repeated gpcloud.api.cloud.v1.Node nodes = 2;
-  // Compute discounts for that project which can be applied
-  repeated gpcloud.api.cloud.v1.ProjectComputeDiscount compute_discounts = 3;
 }
 
 // UpdateProjectResponse return the updated project with their new fields.
@@ -233,39 +226,6 @@ message ListIPHistoriesResponse {
   // from this response because of the pagination.
   int64 total = 3;
 }
-
-// ListBillsResponse
-message ListBillsResponse {
-  // List of bills
-  repeated gpcloud.api.cloud.v1.Bill bills = 1;
-  // Pagination
-  gpcloud.type.v1.PaginationResponse pagination = 2;
-  // Total number of nodes available. May be differ from the number of results,
-  // from this response because of the pagination.
-  int64 total = 3;
-}
-
-message GetBillResponse {
-  gpcloud.api.cloud.v1.Bill bill = 1;
-}
-
-message ResendBillResponse {}
-
-message CancelBillResponse {}
-
-message ExportBillCSVResponse {
-  string csv = 1;
-}
-
-message GetBillPdfResponse {
-  string download_url = 1;
-}
-
-message AddBillPaymentResponse {}
-
-message RefundBillPaymentResponse {}
-
-message ApplyCreditToProjectResponse {}
 
 message ListRegionsResponse {
   repeated gpcloud.api.cloud.v1.Region regions = 1;

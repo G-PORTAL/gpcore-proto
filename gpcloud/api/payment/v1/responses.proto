@@ -2,29 +2,55 @@ syntax = "proto3";
 
 package gpcloud.api.payment.v1;
 
-import "gpcloud/api/cloud/v1/payment.proto";
+import "gpcloud/type/v1/credit_card.proto";
 import "gpcloud/api/cloud/v1/billing.proto";
 
 message ListCreditCardsResponse {
-  repeated gpcloud.api.cloud.v1.CreditCard credit_cards = 1;
+  repeated gpcloud.type.v1.CreditCard credit_cards = 1;
 }
 
 message AddCreditCardResponse {
-  gpcloud.api.cloud.v1.CreditCard credit_card = 1;
+  string stripe_setup_ident = 1;
 }
 
-message DeleteCreditCardResponse {}
+message RemoveCreditCardResponse {}
 
-message CreateBillingAddressResponse {
-  gpcloud.api.cloud.v1.BillingAddress billing_address = 1;
+message CreateBillingProfileResponse {
+  gpcloud.api.cloud.v1.BillingProfile billing_profile = 1;
 }
 
-message UpdateBillingAddressResponse {
-  gpcloud.api.cloud.v1.BillingAddress billing_address = 1;
+message ChangeDefaultCreditCardResponse {
+  gpcloud.type.v1.CreditCard credit_card = 1;
 }
 
-message ListBillingAddressesResponse {
-  repeated gpcloud.api.cloud.v1.BillingAddress billing_addresses = 1;
+message UpdateBillingProfileResponse {
+  gpcloud.api.cloud.v1.BillingProfile billing_profile = 1;
 }
 
-message DeleteBillingAddressResponse {}
+message ListBillingProfilesResponse {
+  repeated gpcloud.api.cloud.v1.BillingProfile billing_profiles = 1;
+}
+
+message DeleteBillingProfileResponse {}
+
+// ListPlanCodesResponse contains the list of plans available in lago. The plans
+// are "plan codes" in lago terms and represented as string. The list includes
+// the default plans "free" and "gpcloud".
+message ListPlanCodesResponse {
+  // List of plan codes available in lago
+  repeated string plan_codes = 1;
+}
+
+// GetDefaultPlanCodeResponse contains the default plan, set for a payment
+// profile. This identifier is used for newly created projects ad the plan code.
+message GetDefaultPlanCodeResponse {
+  // Current default plan code (lago identifier)
+  string plan_code = 1;
+}
+
+// ChangeDefaultPlanCodesResponse contains the new plan code set on a payment
+// profile.
+message ChangeDefaultPlanCodeResponse {
+  // New default plan code (lago identifier)
+  string plan_code = 1;
+}

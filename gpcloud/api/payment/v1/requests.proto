@@ -2,26 +2,27 @@ syntax = "proto3";
 
 package gpcloud.api.payment.v1;
 
-import "gpcloud/api/cloud/v1/payment.proto";
-
-message ListCreditCardsRequest {}
+message ListCreditCardsRequest {
+  string billing_profile_id = 1;
+}
 
 message AddCreditCardRequest {
-  string holder = 1;
-
-  string number = 2;
-  string expiry_month = 3;
-  string expiry_year = 4;
-  string cvc = 5;
-
-  gpcloud.api.cloud.v1.CreditCardType type = 6;
+  string billing_profile_id = 1;
 }
 
-message DeleteCreditCardRequest {
-  string id = 1;
+message RemoveCreditCardRequest {
+  string billing_profile_id = 1;
+
+  string id = 2;
 }
 
-message CreateBillingAddressRequest {
+message ChangeDefaultCreditCardRequest {
+  string billing_profile_id = 1;
+
+  string id = 2;
+}
+
+message CreateBillingProfileRequest {
   string name = 1;
   optional string company = 2;
   optional string vat_id = 3;
@@ -35,7 +36,7 @@ message CreateBillingAddressRequest {
   string billing_email = 9;
 }
 
-message UpdateBillingAddressRequest {
+message UpdateBillingProfileRequest {
   string id = 1;
   string name = 2;
   optional string company = 3;
@@ -51,8 +52,30 @@ message UpdateBillingAddressRequest {
   string billing_email = 10;
 }
 
-message ListBillingAddressesRequest {}
+message ListBillingProfilesRequest {}
 
-message DeleteBillingAddressRequest {
+message DeleteBillingProfileRequest {
   string id = 1;
+}
+
+// ListPlanCodesRequest requests a list of all plan codes available in Lago,
+// including the default plan codes "free" and "gpcloud".
+message ListPlanCodesRequest {
+}
+
+// GetDefaultPlanCodeRequest requests the default plan code for a given billing
+// profile.
+message GetDefaultPlanCodeRequest {
+  // Billing Profile UUID
+  string billing_profile_id = 1;
+}
+
+// ChangeDefaultPlanCodeRequest requests to change the default plan code for
+// a given billing address.
+message ChangeDefaultPlanCodeRequest {
+  // Billing Profile UUID
+  string billing_profile_id = 1;
+
+  // New lago plan code
+  string plan_code = 2;
 }

@@ -252,13 +252,6 @@ service AdminService {
     };
   }
 
-  // List user bills
-  rpc ListUserBills (gpcloud.api.admin.v1.ListUserBillsRequest) returns (gpcloud.api.admin.v1.ListUserBillsResponse) {
-    option (gpcloud.v1.api) = {
-      required_roles: ["view-bill"]
-    };
-  }
-
   // ListProjects list all available projects.
   rpc ListProjects (gpcloud.api.admin.v1.ListProjectsRequest) returns (gpcloud.api.admin.v1.ListProjectsResponse) {
     option (gpcloud.v1.api) = {
@@ -314,70 +307,6 @@ service AdminService {
       required_roles: ["view-ip-history"]
     };
   }
-
-  // List bills
-  rpc ListBills (gpcloud.api.admin.v1.ListBillsRequest) returns (gpcloud.api.admin.v1.ListBillsResponse) {
-    option (gpcloud.v1.api) = {
-      required_roles: ["view-bill"]
-    };
-  }
-
-  // Sent the bill to the customer again
-  rpc ResendBill (gpcloud.api.admin.v1.ResendBillRequest) returns (gpcloud.api.admin.v1.ResendBillResponse) {
-    option (gpcloud.v1.api) = {
-      required_roles: ["manage-bill"]
-    };
-  }
-
-  // Cancels the bill for the customer
-  rpc CancelBill (gpcloud.api.admin.v1.CancelBillRequest) returns (gpcloud.api.admin.v1.CancelBillResponse) {
-    option (gpcloud.v1.api) = {
-      required_roles: ["manage-bill"]
-    };
-  }
-
-  // Exports the Bill as CSV
-  rpc ExportBillCSV (gpcloud.api.admin.v1.ExportBillCSVRequest) returns (gpcloud.api.admin.v1.ExportBillCSVResponse) {
-    option (gpcloud.v1.api) = {
-      required_roles: ["view-bill"]
-    };
-  }
-
-  // Get bill details
-  rpc GetBill (gpcloud.api.admin.v1.GetBillRequest) returns (gpcloud.api.admin.v1.GetBillResponse) {
-    option (gpcloud.v1.api) = {
-      required_roles: ["view-bill"]
-    };
-  }
-
-  // Download bill as pdf
-  rpc GetBillPdf (gpcloud.api.admin.v1.GetBillPdfRequest) returns (gpcloud.api.admin.v1.GetBillPdfResponse) {
-    option (gpcloud.v1.api) = {
-      required_roles: ["view-bill"]
-    };
-  }
-
-  // Add payment to bill request
-  rpc AddBillPayment (gpcloud.api.admin.v1.AddBillPaymentRequest) returns (gpcloud.api.admin.v1.AddBillPaymentResponse) {
-    option (gpcloud.v1.api) = {
-      required_roles: ["manage-bill"]
-    };
-  }
-
-  // Refund a specific bill payment
-  rpc RefundBillPayment (gpcloud.api.admin.v1.RefundBillPaymentRequest) returns (gpcloud.api.admin.v1.RefundBillPaymentResponse) {
-    option (gpcloud.v1.api) = {
-      required_roles: ["manage-bill"]
-    };
-  }
-
-  // Apply credit to a specific project
-  rpc ApplyCreditToProject (gpcloud.api.admin.v1.ApplyCreditToProjectRequest) returns (gpcloud.api.admin.v1.ApplyCreditToProjectResponse) {
-    option (gpcloud.v1.api) = {
-      required_roles: ["manage-project"]
-    };
-  }
-
 
   // Lists all networks
   rpc ListNetworks (gpcloud.api.admin.v1.ListNetworksRequest) returns (gpcloud.api.admin.v1.ListNetworksResponse) {

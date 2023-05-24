@@ -7,7 +7,6 @@ import "gpcloud/api/cloud/v1/image.proto";
 import "gpcloud/api/cloud/v1/node.proto";
 import "gpcloud/api/cloud/v1/server.proto";
 import "gpcloud/api/cloud/v1/billing.proto";
-import "gpcloud/api/cloud/v1/payment.proto";
 import "gpcloud/type/v1/pagination.proto";
 import "gpcloud/type/v1/search.proto";
 
@@ -44,6 +43,9 @@ message CreateProjectRequest {
   string description = 2;
   // Project environment
   gpcloud.api.cloud.v1.ProjectEnvironment environment = 3;
+  // Billing profile id
+  // TODO: Rename to billing_profile_id
+  string billing_address_id = 4;
 }
 
 // ListProjectsRequest list the users projects.
@@ -68,9 +70,8 @@ message UpdateProjectRequest {
   // Credit Card ID
   string credit_card_id = 5;
   // Billing Address ID
+  // TODO: Rename to billing_profile_id
   string billing_address_id = 6;
-  // Payment method
-  gpcloud.api.cloud.v1.PaymentMethod payment_method = 7;
 
   // If you wonder why there is no avatar_url here. This is because changing the
   // avatar will be handled by the gateway over the /avatar/upload/:id endpoint.
@@ -121,6 +122,53 @@ message RemoveMemberFromProjectRequest {
   string user_id = 2;
 }
 
+message GetProjectUsageRequest {
+  // Project uuid
+  string id = 1;
+
+  // When detailed is false only the total amount will be returned.
+  bool detailed = 2;
+}
+
+// GetProjectLocksRequest requests a list of locks based on the given project.
+message GetProjectLocksRequest {
+  // Project uuid
+  string id = 1;
+}
+
+// ListProjectBillsRequest requests a list of bills
+message ListBillingProfileBillsRequest {
+  // Billing Profile uuid
+  string id = 1;
+  // Pagination
+  gpcloud.type.v1.PaginationRequest pagination = 2;
+  // Optional only for the given year
+  optional int32 year = 3;
+}
+
+message GetBillingProfileBillDetailsRequest {
+  // Billing Profile uuid
+  string id = 1;
+  // Bill uuid
+  string bill_id = 2;
+}
+
+message GetBillingProfileBillPdfRequest {
+  // Billing Profile uuid
+  string id = 1;
+  // Bill uuid
+  string bill_id = 2;
+}
+
+// ListBillingProfileProjectsRequest requests a list of projects associated
+// to a given billing profile.
+message ListBillingProfileProjectsRequest {
+  // Billing Profile uuid
+  string id = 1;
+  // Pagination
+  gpcloud.type.v1.PaginationRequest pagination = 2;
+}
+
 // ListProjectLogsRequest requests an audit log for a given project.
 message ListProjectLogsRequest {
   // Project uuid
@@ -133,29 +181,16 @@ message ListProjectLogsRequest {
   string user_id = 4;
 }
 
-message GetProjectCurrentBillingPreviewPdfRequest {
-  string id = 1;
-}
-
-
-// GetProjectBillPdfRequest
-message GetProjectBillPdfRequest {
-  // Project uuid
-  string id = 1;
-  // Bill uuid
-  string bill_id = 2;
-}
-
-message GetProjectSplaPriceRequest {
-  string id = 1;
-}
-
-message GetProjectCurrentBillingPreviewRequest {
-  string id = 1;
-}
-
 // Request to get all countries.
 message ListCountriesRequest {}
+
+// Request to get all timezones.
+message ListTimezonesRequest {}
+
+// Request to get all timezones.
+message UpdateTimezoneRequest {
+  string timezone = 1;
+}
 
 // Request to get all datacenters.
 message ListDatacentersRequest {}
@@ -171,20 +206,6 @@ message ListProjectFlavoursRequest {
 message ListPublicImagesRequest {
   string flavour_id = 1;
 }
-
-// PayProjectNowRequest pays a project
-message PayProjectNowRequest {
-  // Project uuid
-  string id = 1;
-}
-
-message ListProjectBillsRequest {
-  string id = 1;
-
-  int32 year = 2;
-}
-
-message GetProjectsOutstandingBalanceRequest {}
 
 message ListProjectSSHKeysRequest {
   string id = 1;
@@ -283,34 +304,12 @@ message DestroyNodeRequest {
   string project_id = 2;
 }
 
-message ChangeNodeRenewStateRequest {
-  string id = 1;
-
-  string project_id = 2;
-
-  gpcloud.api.cloud.v1.NodeRenewState renew_state = 3;
-}
-
 message PowerActionNodeRequest {
   string id = 1;
 
   string project_id = 2;
 
   gpcloud.api.cloud.v1.ServerPowerState power_state = 3;
-}
-
-message GetNodePricingRequest {
-  string id = 1;
-
-  string project_id = 2;
-}
-
-message ChangeNodeBillingPeriodRequest {
-  string id = 1;
-
-  string project_id = 2;
-
-  gpcloud.api.cloud.v1.BillingPeriod billing_period = 3;
 }
 
 message GetNodeConsoleRequest {
@@ -372,5 +371,13 @@ message CreateUserSSHKeyRequest {
 
 message DeleteUserSSHKeyRequest {
   string id = 1;
+}
+
+message ChangeNodeBillingPeriodRequest {
+  string id = 1;
+
+  string project_id = 2;
+
+  gpcloud.api.cloud.v1.BillingPeriod billing_period = 3;
 }
 

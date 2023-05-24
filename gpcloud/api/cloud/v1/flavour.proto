@@ -47,4 +47,7 @@ message Flavour {
     gpcloud.type.v1.Price price_per_month = 13;
 }
 
-
+message BasicFlavour {
+    string id = 1;
+    string name = 2;
+}

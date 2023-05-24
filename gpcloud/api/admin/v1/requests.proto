@@ -8,7 +8,6 @@ import "gpcloud/api/cloud/v1/payment.proto";
 import "gpcloud/api/cloud/v1/billing.proto";
 import "gpcloud/api/cloud/v1/region.proto";
 import "gpcloud/api/cloud/v1/project.proto";
-import "gpcloud/api/cloud/v1/bill.proto";
 import "gpcloud/api/admin/v1/agent.proto";
 import "gpcloud/type/v1/pagination.proto";
 import "gpcloud/type/v1/file.proto";
@@ -208,11 +207,8 @@ message UpdateUserRequest {
   // How many node the user can create
   optional int32 node_limit = 6;
 
-  // A list of allowed payment methods
-  repeated gpcloud.api.cloud.v1.PaymentMethod payment_methods = 7;
-
   // Avatar URL
-  optional string avatar_url = 8;
+  optional string avatar_url = 7;
 }
 
 // XXX: Reintroduce in frontend
@@ -275,17 +271,8 @@ message UpdateProjectRequest {
   // Project environment
   gpcloud.api.cloud.v1.ProjectEnvironment environment = 6;
 
-  // Linked Credit card
-  gpcloud.api.cloud.v1.CreditCard credit_card = 7;
-
   // Linked billing address
-  gpcloud.api.cloud.v1.BillingAddress billing_address = 8;
-
-  // Linked payment method
-  gpcloud.api.cloud.v1.PaymentMethod payment_method = 9;
-
-  // If the project is billable
-  bool use_payment = 10;
+  gpcloud.api.cloud.v1.BillingProfile billing_profile = 7;
 }
 
 message ListProjectNetworksRequest {
@@ -324,51 +311,6 @@ message ListIPHistoriesRequest {
   gpcloud.type.v1.PaginationRequest pagination = 1;
   // Optional search term
   optional string search = 2;
-}
-
-// ListBillsRequest
-message ListBillsRequest {
-  // Pagination
-  gpcloud.type.v1.PaginationRequest pagination = 1;
-  // Filter for bill status
-  gpcloud.api.cloud.v1.BillStatus filter = 2;
-  // Only show final bills
-  bool final_only = 3;
-}
-
-message ResendBillRequest {
-  string id = 1;
-}
-
-message GetBillRequest {
-  string id = 1;
-}
-
-message CancelBillRequest {
-  string id = 1;
-}
-
-message ExportBillCSVRequest {
-  string id = 1;
-}
-
-message GetBillPdfRequest {
-  string id = 1;
-}
-
-message AddBillPaymentRequest {
-  string id = 1;
-  int64 amount = 2;
-}
-
-message RefundBillPaymentRequest {
-  string id = 1;
-}
-
-message ApplyCreditToProjectRequest {
-  string id = 1;
-  int64 amount = 2;
-  string reason = 3;
 }
 
 message GetRegionRequest {

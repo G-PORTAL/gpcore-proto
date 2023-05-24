@@ -24,4 +24,10 @@ service GatewayService {
       authorization_type: AUTHORIZATION_TYPE_CLIENT;
     };
   }
+
+  rpc LagoWebhook (gpcloud.api.gateway.v1.LagoWebhookRequest) returns (gpcloud.api.gateway.v1.LagoWebhookResponse) {
+    option (gpcloud.v1.api) = {
+      authorization_type: AUTHORIZATION_TYPE_CLIENT;
+    };
+  }
 }

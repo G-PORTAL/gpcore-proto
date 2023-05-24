@@ -3,7 +3,6 @@ syntax = "proto3";
 package gpcloud.api.cloud.v1;
 
 import "google/protobuf/timestamp.proto";
-import "gpcloud/api/cloud/v1/payment.proto";
 
 enum UserType {
   USER_TYPE_UNSPECIFIED = 0;
@@ -18,6 +17,7 @@ message BasicUser {
     optional string email = 4;
     string avatar_url = 5;
     UserType type = 6;
+    string timezone = 7;
 }
 
 message User {
@@ -48,12 +48,14 @@ message User {
   // Compute limit
   int32 node_limit = 9;
 
-  // User allowed payment methods
-  repeated gpcloud.api.cloud.v1.PaymentMethod payment_methods = 10;
+  /* field 10 removed - repeated gpcloud.api.cloud.v1.PaymentMethod payment_methods = 10; */
+  reserved 10;
 
   string keycloak_id = 11;
 
   UserType type = 12;
+
+  string timezone = 13;
 
   google.protobuf.Timestamp last_login_at = 999;
   google.protobuf.Timestamp created_at = 1000;

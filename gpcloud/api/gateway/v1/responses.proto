@@ -12,5 +12,6 @@ message ImageUploadValidateResponse {
   gpcloud.api.cloud.v1.ImageVersion image_version = 1;
 }
 
-message ImageUploadConfirmResponse {
-}
+message ImageUploadConfirmResponse {}
+
+message LagoWebhookResponse {}

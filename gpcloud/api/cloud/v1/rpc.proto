@@ -14,6 +14,11 @@ service CloudService {
   // You can use this to check the tax rate and if we provide network support for
   // what country. If your country is not in that list, you can not use the service.
   rpc ListCountries (gpcloud.api.cloud.v1.ListCountriesRequest) returns (gpcloud.api.cloud.v1.ListCountriesResponse) {}
+  // ListTimezones lists all available timezones which can be configured as user timezone.
+  rpc ListTimezones (gpcloud.api.cloud.v1.ListTimezonesRequest) returns (gpcloud.api.cloud.v1.ListTimezonesResponse) {}
+  // UpdateTimezone Updates your user timezone. Changing the timezone affects your
+  // billing periods an future bills.
+  rpc UpdateTimezone(gpcloud.api.cloud.v1.UpdateTimezoneRequest) returns (gpcloud.api.cloud.v1.UpdateTimezoneResponse) {}
   // ListDatacenters lists all the available datacenters you can order new nodes.
   // This list will grow over time when more datacenters are added, but it can
   // sometimes shrink for some time if there are no hardware available in this
@@ -76,7 +81,22 @@ service CloudService {
   // project. The removed user is no longer part of that project and need to
   // be invited again.
   rpc RemoveMemberFromProject (gpcloud.api.cloud.v1.RemoveMemberFromProjectRequest) returns (gpcloud.api.cloud.v1.RemoveMemberFromProjectResponse) {}
+  // GetProjectUsage returns the current usage of a project. This includes the
+  // current billing period total amount and the information how much of the
+  rpc GetProjectUsage (gpcloud.api.cloud.v1.GetProjectUsageRequest) returns (gpcloud.api.cloud.v1.GetProjectUsageResponse) {}
+  // ListBillingProfileBills returns a list of bills associated to a given
+  // billing profile.
+  rpc ListBillingProfileBills(gpcloud.api.cloud.v1.ListBillingProfileBillsRequest) returns (gpcloud.api.cloud.v1.ListBillingProfileBillsResponse) {}
+  // GetProjectLocks return a list of locks, which are currently applied to the
+  // given project. If the list is empty, no locks are applied at this point.
+  rpc GetProjectLocks(gpcloud.api.cloud.v1.GetProjectLocksRequest) returns (gpcloud.api.cloud.v1.GetProjectLocksResponse) {}
+  // ListBillingProfileProjects returns a list of projects associated to a
+  // given billing profile.
+  rpc ListBillingProfileProjects(gpcloud.api.cloud.v1.ListBillingProfileProjectsRequest) returns (gpcloud.api.cloud.v1.ListBillingProfileProjectsResponse) {}
+  // GetBillingProfileBillDetails returns the details of a given bill.
+  rpc GetBillingProfileBillDetails(gpcloud.api.cloud.v1.GetBillingProfileBillDetailsRequest) returns (gpcloud.api.cloud.v1.GetBillingProfileBillDetailsResponse) {}
 
+  rpc GetBillingProfileBillPdf(gpcloud.api.cloud.v1.GetBillingProfileBillPdfRequest) returns (gpcloud.api.cloud.v1.GetBillingProfileBillPdfResponse) {}
   // ChangeDefaultProject set a project as the new default project. The first
   // project created is automatically the default project. Only one project can
   // be the default project. Changing it will remove the default project flag
@@ -102,22 +122,9 @@ service CloudService {
   // server side on users, projects and nodes you are associated with. This can
   // be used to trigger actions, update UI elements or revisit the changes.
   rpc SubscribeNotifications (gpcloud.api.cloud.v1.SubscribeNotificationsRequest) returns (stream gpcloud.api.cloud.v1.SubscribeNotificationsResponse) {}
-
-  // TODO: Billing needs rework
-
-  // GetProjectBillPdf get a download URL to a bill in PDF format for a given
-  // project uuid and bill uuid. Only the owner of the project can request and
-  // access that URL.
-  rpc GetProjectBillPdf (gpcloud.api.cloud.v1.GetProjectBillPdfRequest) returns (gpcloud.api.cloud.v1.GetProjectBillPdfResponse) {}
-  rpc PayProjectNow (gpcloud.api.cloud.v1.PayProjectNowRequest) returns (gpcloud.api.cloud.v1.PayProjectNowResponse) {}
-  rpc ListProjectBills (gpcloud.api.cloud.v1.ListProjectBillsRequest) returns (gpcloud.api.cloud.v1.ListProjectBillsResponse) {}
-  rpc GetProjectCurrentBillingPreview (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewRequest) returns (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewResponse) {}
-  rpc GetProjectsOutstandingBalance (gpcloud.api.cloud.v1.GetProjectsOutstandingBalanceRequest) returns (gpcloud.api.cloud.v1.GetProjectsOutstandingBalanceResponse) {}
-  rpc GetProjectSplaPrice (gpcloud.api.cloud.v1.GetProjectSplaPriceRequest) returns (gpcloud.api.cloud.v1.GetProjectSplaPriceResponse) {}
-  rpc GetProjectCurrentBillingPreviewPdf (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewPdfRequest) returns (gpcloud.api.cloud.v1.GetProjectCurrentBillingPreviewPdfResponse) {}
-  rpc ChangeNodeRenewState (gpcloud.api.cloud.v1.ChangeNodeRenewStateRequest) returns (gpcloud.api.cloud.v1.ChangeNodeRenewStateResponse) {}
-  rpc GetNodePricing (gpcloud.api.cloud.v1.GetNodePricingRequest) returns (gpcloud.api.cloud.v1.GetNodePricingResponse) {}
   rpc ChangeNodeBillingPeriod (gpcloud.api.cloud.v1.ChangeNodeBillingPeriodRequest) returns (gpcloud.api.cloud.v1.ChangeNodeBillingPeriodResponse) {}
+
+
 
   // ListNodes list all available nodes for a given project. If the list is too
   // long, only a portion of the result will be returned. The pages_total field

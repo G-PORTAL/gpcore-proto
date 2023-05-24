@@ -32,3 +32,9 @@ message ImageUploadConfirmRequest {
 
   gpcloud.api.cloud.v1.ImageFormatType type = 6;
 }
+
+message LagoWebhookRequest {
+  bytes body = 1;
+
+  string signature = 2;
+}

@@ -5,11 +5,18 @@ package gpcloud.api.cloud.v1;
 import "google/protobuf/timestamp.proto";
 import "gpcloud/api/cloud/v1/user.proto";
 import "gpcloud/api/cloud/v1/payment.proto";
-import "gpcloud/api/cloud/v1/region.proto";
 import "gpcloud/api/cloud/v1/flavour.proto";
 import "gpcloud/api/cloud/v1/billing.proto";
 import "gpcloud/type/v1/price.proto";
 import "gpcloud/type/v1/ssh_key.proto";
+
+enum ProjectLockReason {
+  PROJECT_LOCK_REASON_UNSPECIFIED = 0;
+  PROJECT_LOCK_REASON_MISSING_BILLING_PROFILE = 1;
+  PROJECT_LOCK_REASON_MISSING_PAYMENT_PROFILE = 2;
+  PROJECT_LOCK_REASON_MISSING_SUBSCRIPTION = 3;
+  PROJECT_LOCK_REASON_SUBSCRIPTION_NOT_ACTIVE = 4;
+}
 
 enum ProjectEnvironment {
   PROJECT_ENVIRONMENT_UNSPECIFIED = 0;
@@ -64,20 +71,16 @@ message Project {
   // Members
   repeated gpcloud.api.cloud.v1.ProjectMember members = 7;
 
-  // Linked credit card
-  gpcloud.api.cloud.v1.CreditCard credit_card = 8;
+  /* field 8 removed - gpcloud.api.cloud.v1.CreditCard credit_card = 8; */
+  reserved 8;
 
   // Linked billing address
-  gpcloud.api.cloud.v1.BillingAddress billing_address = 9;
+  gpcloud.api.cloud.v1.BillingProfile billing_profile = 9;
 
-  // Payment method
-  gpcloud.api.cloud.v1.PaymentMethod payment_method = 10;
-
-  // Allowed payment methods
-  repeated gpcloud.api.cloud.v1.PaymentMethod allowed_payment_methods = 11;
-
-  // If the project is billable
-  bool payment = 12;
+  /* field 10 removed - gpcloud.api.cloud.v1.PaymentMethod payment_method = 10; */
+  /* field 11 removed - repeated gpcloud.api.cloud.v1.PaymentMethod allowed_payment_methods = 11; */
+  /* field 12 removed - repeated gpcloud.api.cloud.v1.ProjectLockReason lock_reasons = 12; */
+  reserved 10 to 12;
 
   // Project timestamps
   google.protobuf.Timestamp created_at = 1000;
@@ -109,30 +112,39 @@ message ProjectSSHKey {
   gpcloud.api.cloud.v1.BasicUser user = 2;
 }
 
-message OutstandingBalance {
-  gpcloud.type.v1.Price amount = 1;
-
-  gpcloud.api.cloud.v1.BasicProject project = 2;
+enum UsageUnitType {
+  USAGE_UNIT_TYPE_UNSPECIFIED = 0;
+  USAGE_UNIT_TYPE_HOURS = 1;
+  USAGE_UNIT_TYPE_MONTHS = 2;
+  USAGE_UNIT_TYPE_CORES = 3;
 }
 
-message ProjectComputeDiscount {
+message ProjectNodeUsage {
   string id = 1;
 
-  // Optional limit for flavours
-  gpcloud.api.cloud.v1.Flavour flavour = 2;
+  string name = 2;
 
-  // Optional limit for datacenter
-  gpcloud.api.cloud.v1.Datacenter datacenter = 3;
-
-  oneof discount {
-    int32 percent = 4;
-    gpcloud.type.v1.Price monthly_price = 5;
-  }
-  // When true, we do not charge for any SPLA license
-  bool inclusive_spla = 6;
-
-  // When true, we do not charge for any traffic
-  bool inclusive_traffic = 7;
+  google.protobuf.Timestamp started_at = 998;
+  google.protobuf.Timestamp ended_at = 999;
 }
 
+message ProjectFlavourUsage {
+  gpcloud.api.cloud.v1.BasicFlavour flavour = 1;
+
+  gpcloud.api.cloud.v1.BillingPeriod period = 2;
+
+  gpcloud.type.v1.Price total = 3;
+
+  double units = 4;
+
+  gpcloud.api.cloud.v1.UsageUnitType unit_type = 5;
+
+  repeated gpcloud.api.cloud.v1.ProjectNodeUsage node_usages = 6;
+}
+
+message ProjectUsage {
+  gpcloud.type.v1.Price total = 1;
+
+  repeated gpcloud.api.cloud.v1.ProjectFlavourUsage flavour_usages = 2;
+}
 
