@@ -68,8 +68,9 @@ message PlatformManagement {
   string username = 3;
   string password = 4;
 
-  string vnc_password = 5;
-  int32 vnc_port = 6;
+  /* field 5 removed - string vnc_password = 5; */
+  /* field 6 removed - int32 vnc_port = 6; */
+  reserved 5 to 6;
 
   bool online = 7;
 
@@ -119,7 +120,9 @@ message Server {
   gpcloud.api.cloud.v1.PlatformManagementType platform_management_type = 9;
 
   bool in_pool = 10;
-  bool has_vnc_console = 11;
+
+  /* field 11 removed - bool has_vnc_console = 11; */
+  reserved 11;
 
   gpcloud.api.cloud.v1.ServerPowerState power_state = 12;
   gpcloud.api.cloud.v1.ServerProvisioningState provision_state = 13;

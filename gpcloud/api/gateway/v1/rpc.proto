@@ -7,12 +7,6 @@ import "gpcloud/api/gateway/v1/requests.proto";
 import "gpcloud/api/gateway/v1/responses.proto";
 
 service GatewayService {
-  rpc GetVnc (gpcloud.api.gateway.v1.GetVncRequest) returns (gpcloud.api.gateway.v1.GetVncResponse) {
-    option (gpcloud.v1.api) = {
-      authorization_type: AUTHORIZATION_TYPE_CLIENT;
-    };
-  };
-
   rpc ImageUploadValidate (gpcloud.api.gateway.v1.ImageUploadValidateRequest) returns (gpcloud.api.gateway.v1.ImageUploadValidateResponse) {
     option (gpcloud.v1.api) = {
       authorization_type: AUTHORIZATION_TYPE_CLIENT;

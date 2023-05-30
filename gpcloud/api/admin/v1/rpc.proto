@@ -106,12 +106,6 @@ service AdminService {
     };
   }
 
-  rpc GetServerConsole (gpcloud.api.admin.v1.GetServerConsoleRequest) returns (gpcloud.api.admin.v1.GetServerConsoleResponse) {
-    option (gpcloud.v1.api) = {
-      required_roles: ["manage-server"]
-    };
-  }
-
   // GetServerPlatformManagement Returns Platform Management data for server
   rpc GetServerPlatformManagement (gpcloud.api.admin.v1.GetServerPlatformManagementRequest) returns (gpcloud.api.admin.v1.GetServerPlatformManagementResponse) {
     option (gpcloud.v1.api) = {
@@ -368,6 +362,13 @@ service AdminService {
   rpc GetDashboard (gpcloud.api.admin.v1.GetDashboardRequest) returns (gpcloud.api.admin.v1.GetDashboardResponse) {
     option (gpcloud.v1.api) = {
       required_roles: ["view-dashboard"]
+    };
+  }
+
+  // (Re)-Creates the customers platform management user
+  rpc UpdatePlatformManagementAccess (gpcloud.api.admin.v1.UpdatePlatformManagementAccessRequest) returns (gpcloud.api.admin.v1.UpdatePlatformManagementAccessResponse) {
+    option (gpcloud.v1.api) = {
+      required_roles: ["manage-server"]
     };
   }
 }

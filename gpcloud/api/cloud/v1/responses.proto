@@ -183,9 +183,6 @@ message SubscribeNotificationsResponse {
   gpcloud.api.cloud.v1.Notification notification = 1;
 }
 
-message GetNodeConsoleResponse {
-  string password = 1;
-}
 
 message ChangeNodeRescueModeResponse {}
 
@@ -215,4 +212,11 @@ message DeleteUserSSHKeyResponse {}
 
 message ChangeNodeBillingPeriodResponse {
   gpcloud.api.cloud.v1.Node node = 1;
+}
+
+message GetRemoteConsoleAccessResponse {
+  string token = 1;
+  string hostname = 2;
+  string username = 3;
+  string password = 4;
 }

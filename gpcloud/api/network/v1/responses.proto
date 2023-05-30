@@ -3,7 +3,6 @@ syntax = "proto3";
 package gpcloud.api.network.v1;
 
 import "gpcloud/api/cloud/v1/monitoring.proto";
-import "gpcloud/api/cloud/v1/vnc.proto";
 
 message GetDHCPInformationResponse {
   string ip_address = 1;
@@ -22,7 +21,3 @@ message ListMonitoringTargetsResponse {
 }
 
 message UpdateMonitoringStatusResponse {}
-
-message ListVncEndpointsResponse {
-  repeated gpcloud.api.cloud.v1.VncEndpoint endpoints = 1;
-}

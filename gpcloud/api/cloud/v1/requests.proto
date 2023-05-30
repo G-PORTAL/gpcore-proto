@@ -312,12 +312,6 @@ message PowerActionNodeRequest {
   gpcloud.api.cloud.v1.ServerPowerState power_state = 3;
 }
 
-message GetNodeConsoleRequest {
-  string id = 1;
-
-  string project_id = 2;
-}
-
 message ChangeNodeRescueModeRequest {
   string id = 1;
 
@@ -381,3 +375,6 @@ message ChangeNodeBillingPeriodRequest {
   gpcloud.api.cloud.v1.BillingPeriod billing_period = 3;
 }
 
+message GetRemoteConsoleAccessRequest {
+  string id = 2;
+}

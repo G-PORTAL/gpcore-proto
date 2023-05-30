@@ -4,15 +4,6 @@ package gpcloud.api.gateway.v1;
 
 import "gpcloud/api/cloud/v1/image.proto";
 
-message GetVncRequest {
-  string token = 1;
-
-  oneof id {
-    string server_id = 2;
-    string node_id = 3;
-  }
-}
-
 message ImageUploadValidateRequest {
   string id = 1;
 

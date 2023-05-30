@@ -15,4 +15,3 @@ message UpdateMonitoringStatusRequest {
   repeated gpcloud.api.cloud.v1.MonitoringStatus status = 1;
 }
 
-message ListVncEndpointsRequest {}

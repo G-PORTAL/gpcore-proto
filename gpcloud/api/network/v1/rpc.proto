@@ -25,9 +25,4 @@ service NetworkService {
     };
   }
 
-  rpc ListVncEndpoints (gpcloud.api.network.v1.ListVncEndpointsRequest) returns (gpcloud.api.network.v1.ListVncEndpointsResponse){
-    option (gpcloud.v1.api) = {
-      authorization_type: AUTHORIZATION_TYPE_CLIENT;
-    };
-  }
 }

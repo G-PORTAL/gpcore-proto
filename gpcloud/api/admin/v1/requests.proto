@@ -55,10 +55,6 @@ message DeleteServerRequest {
   string id = 1;
 }
 
-message GetServerConsoleRequest {
-  string id = 1;
-}
-
 message GetServerPlatformManagementRequest {
   string id = 1;
 }
@@ -394,3 +390,6 @@ message DeleteAgentRequest {
 
 message GetDashboardRequest {}
 
+message UpdatePlatformManagementAccessRequest {
+  string server_id = 1;
+}

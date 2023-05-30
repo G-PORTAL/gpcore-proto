@@ -165,15 +165,8 @@ service CloudService {
   // console. This only works if the node has a Platform Management interface
   // (iLO, IPMI). Use the VNC credentials to connect to the PM and interact with
   // the node with a virtual screen and keyboard.
-  rpc GetNodeConsole (gpcloud.api.cloud.v1.GetNodeConsoleRequest) returns (gpcloud.api.cloud.v1.GetNodeConsoleResponse) {}
-  // PowerActionNode performs various power actions on a node. A power action is
-  // an action which normally can only be done on-site like pressing a button on
-  // the machine. If the node has a Platform Management interface, these actions
-  // can be called remotely. These actions include changing the power state (on/off)
-  // or reset the node. When the power action is triggered, it could take some time
-  // until the action is performed and completed. This depends on the type of hardware
-  // and the action.
   rpc PowerActionNode (gpcloud.api.cloud.v1.PowerActionNodeRequest) returns (gpcloud.api.cloud.v1.PowerActionNodeResponse) {}
+  rpc GetRemoteConsoleAccess (gpcloud.api.cloud.v1.GetRemoteConsoleAccessRequest) returns (gpcloud.api.cloud.v1.GetRemoteConsoleAccessResponse) {}
 
   // ChangeNodeRescueMode enable or disable the rescue mode boot for a given node.
   // This is used in emergency situations where the node can not be accessed any

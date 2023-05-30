@@ -51,10 +51,6 @@ message UpdateServerResponse {
 
 message DeleteServerResponse{}
 
-message GetServerConsoleResponse {
-  string password = 1;
-}
-
 message GetServerPlatformManagementResponse {
   gpcloud.api.cloud.v1.PlatformManagement platform_management = 1;
 }
@@ -291,4 +287,8 @@ message GetDashboardResponse {
 
 message GetServerSearchOptionsResponse {
   gpcloud.type.v1.SearchOptions options = 1;
+}
+
+message UpdatePlatformManagementAccessResponse {
+    string workflow_id = 1;
 }
