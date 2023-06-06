@@ -46,6 +46,7 @@ enum ImageFormatType {
   IMAGE_FORMAT_TYPE_UNSPECIFIED = 0;
   IMAGE_FORMAT_TYPE_RAW = 1;
   IMAGE_FORMAT_TYPE_QCOW2 = 2;
+  IMAGE_FORMAT_TYPE_RAW_GZIP = 3;
 }
 
 message ImageChecksum {
@@ -61,6 +62,8 @@ message ImageVersion {
   bool available = 3;
 
   api.cloud.v1.ImageChecksum checksum = 4;
+
+  api.cloud.v1.ImageFormatType format = 5;
 
   google.protobuf.Timestamp created_at = 1000;
   google.protobuf.Timestamp updated_at = 1001;
