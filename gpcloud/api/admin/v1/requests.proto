@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package gpcloud.api.admin.v1;
+import "gpcloud/api/cloud/v1/user.proto";
 import "gpcloud/api/cloud/v1/flavour.proto";
 import "gpcloud/api/cloud/v1/image.proto";
 import "gpcloud/api/cloud/v1/network.proto";
@@ -205,6 +206,9 @@ message UpdateUserRequest {
 
   // Avatar URL
   optional string avatar_url = 7;
+
+  // Tags
+  repeated gpcloud.api.cloud.v1.UserTag tags = 8;
 }
 
 // XXX: Reintroduce in frontend

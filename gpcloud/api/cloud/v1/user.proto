@@ -10,6 +10,16 @@ enum UserType {
   USER_TYPE_SERVICE_ACCOUNT = 2;
 }
 
+enum UserTag {
+  USER_TAG_UNSPECIFIED = 0;
+
+  // User does not required to have a valid company and VAT number
+  USER_TAG_NO_COMPANY = 1;
+
+  // User does not required to have a valid credit card
+  USER_TAG_NO_CREDIT_CARD = 2;
+}
+
 message BasicUser {
     string id = 1;
     string username = 2;
@@ -18,6 +28,7 @@ message BasicUser {
     string avatar_url = 5;
     UserType type = 6;
     string timezone = 7;
+    repeated UserTag tags = 8;
 }
 
 message User {
@@ -56,6 +67,8 @@ message User {
   UserType type = 12;
 
   string timezone = 13;
+
+  repeated UserTag tags = 14;
 
   google.protobuf.Timestamp last_login_at = 999;
   google.protobuf.Timestamp created_at = 1000;
