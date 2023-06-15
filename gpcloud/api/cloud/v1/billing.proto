@@ -38,7 +38,7 @@ message BillingProfile {
   string name = 3;
 
   string country_code = 4;
-  string state = 5;
+  optional string state = 5;
   string street = 6;
   string city = 7;
   string postcode = 8;

@@ -28,7 +28,7 @@ message CreateBillingProfileRequest {
   optional string vat_id = 3;
 
   string country_code = 4;
-  string state = 5;
+  optional string state = 5;
   string street = 6;
   string city = 7;
   string postcode = 8;
@@ -43,7 +43,7 @@ message UpdateBillingProfileRequest {
   optional string vat_id = 4;
 
   string country_code = 5;
-  string state = 6;
+  optional string  state = 6;
 
   string street = 7;
   string city = 8;
