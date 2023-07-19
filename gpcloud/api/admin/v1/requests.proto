@@ -397,3 +397,7 @@ message GetDashboardRequest {}
 message UpdatePlatformManagementAccessRequest {
   string server_id = 1;
 }
+
+message LookupARPRequest {
+  string mac_address = 1;
+}

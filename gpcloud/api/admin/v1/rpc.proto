@@ -371,4 +371,11 @@ service AdminService {
       required_roles: ["manage-server"]
     };
   }
+
+  // Lookup ARP history for a given mac address
+  rpc LookupARP (gpcloud.api.admin.v1.LookupARPRequest) returns (gpcloud.api.admin.v1.LookupARPResponse) {
+    option (gpcloud.v1.api) = {
+      required_roles: ["view-arp"]
+    };
+  }
 }

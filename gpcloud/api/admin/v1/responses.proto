@@ -12,6 +12,7 @@ import "gpcloud/api/cloud/v1/project.proto";
 import "gpcloud/api/admin/v1/admin_log.proto";
 import "gpcloud/api/admin/v1/spla_reporting.proto";
 import "gpcloud/api/admin/v1/dashboard.proto";
+import "gpcloud/api/admin/v1/arp.proto";
 import "gpcloud/api/cloud/v1/network.proto";
 import "gpcloud/api/cloud/v1/user.proto";
 import "gpcloud/type/v1/price.proto";
@@ -291,4 +292,8 @@ message GetServerSearchOptionsResponse {
 
 message UpdatePlatformManagementAccessResponse {
     string workflow_id = 1;
+}
+
+message LookupARPResponse {
+  repeated gpcloud.api.admin.v1.ARPEntry arp_entries = 1;
 }
