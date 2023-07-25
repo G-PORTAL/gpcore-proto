@@ -6,6 +6,7 @@ enum SwitchType {
   SWITCH_TYPE_UNSPECIFIED = 0;
   SWITCH_TYPE_JUNIPER = 1;
   SWITCH_TYPE_JUNIPER_LEGACY = 2;
+  SWITCH_TYPE_FS = 3;
 }
 
 // Switch represents a network switch of various types
