@@ -17,14 +17,13 @@ message Switch {
   gpcloud.api.cloud.v1.SwitchType type = 2;
   // IP Address for the uplink port
   string ip_address = 3;
-  // Username to access the switch
-  string username = 4;
-  // Password to access the switch
-  string password = 5;
+  /* field 4 removed - string username = 4; */
+  /* field 5 removed - string password = 5; */
+  reserved 4 to 5;
   // Switch name
   string name = 6;
-  // List of uplink ports
-  repeated string uplink_ports = 7;
+  /* field 7 removed - repeated string uplink_ports = 7; */
+  reserved 7;
   // Netbox ID
   optional int64 netbox_id = 8;
 }
