@@ -9,6 +9,7 @@ import "gpcloud/api/cloud/v1/region.proto";
 import "gpcloud/api/cloud/v1/billing.proto";
 import "gpcloud/api/cloud/v1/node.proto";
 import "gpcloud/api/cloud/v1/image.proto";
+import "gpcloud/api/cloud/v1/user.proto";
 import "gpcloud/type/v1/timezone.proto";
 import "gpcloud/type/v1/country.proto";
 import "gpcloud/type/v1/ssh_key.proto";
@@ -67,6 +68,8 @@ message ListProjectLogsResponse {
   // Total number of project logs available. May be differ from the number of
   // results, from this response because of the pagination.
   int64 total = 3;
+  // A list with all users
+  repeated gpcloud.api.cloud.v1.BasicUser users = 4;
 }
 
 message InviteMemberToProjectResponse {

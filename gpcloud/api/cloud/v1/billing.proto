@@ -74,7 +74,5 @@ message Bill {
   gpcloud.type.v1.Price credit_price = 8;
   gpcloud.type.v1.Price total_price = 9;
 
-  double tax_rate = 10;
-
   google.protobuf.Timestamp issued_at = 999;
 }

@@ -9,6 +9,7 @@ import "gpcloud/api/cloud/v1/region.proto";
 enum NetworkType {
   NETWORK_TYPE_UNSPECIFIED = 0;
   NETWORK_TYPE_PUBLIC = 1;
+  NETWORK_TYPE_MANAGEMENT = 2;
 }
 
 enum IPVersion {
