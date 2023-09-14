@@ -115,12 +115,16 @@ service CloudService {
   rpc ListProjectLogs (gpcloud.api.cloud.v1.ListProjectLogsRequest) returns (gpcloud.api.cloud.v1.ListProjectLogsResponse) {}
 
   // SubscribeNotifications subscribe to new notifications and return a STREAM
-  // of notification responses. A notification contain either a user, a project
+  // of notification responses. A notification contain types like a user, a project
   // or a node and will be send to all subscribers, if there are changes on
   // one of that objects. In other words, when you subscribe to notifications,
   // you get notified (with the changed object) when something changed on the
   // server side on users, projects and nodes you are associated with. This can
   // be used to trigger actions, update UI elements or revisit the changes.
+  //
+  // The stream also provides heartbeats in a interval of 5 seconds. If you
+  // don't receive any notification for more then 5 seconds, the connection
+  // should be reopened.
   rpc SubscribeNotifications (gpcloud.api.cloud.v1.SubscribeNotificationsRequest) returns (stream gpcloud.api.cloud.v1.SubscribeNotificationsResponse) {}
   rpc ChangeNodeBillingPeriod (gpcloud.api.cloud.v1.ChangeNodeBillingPeriodRequest) returns (gpcloud.api.cloud.v1.ChangeNodeBillingPeriodResponse) {}
 

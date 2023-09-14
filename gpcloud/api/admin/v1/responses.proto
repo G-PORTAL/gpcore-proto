@@ -15,6 +15,7 @@ import "gpcloud/api/admin/v1/dashboard.proto";
 import "gpcloud/api/admin/v1/arp.proto";
 import "gpcloud/api/cloud/v1/network.proto";
 import "gpcloud/api/cloud/v1/user.proto";
+import "gpcloud/api/cloud/v1/notification.proto";
 import "gpcloud/type/v1/price.proto";
 import "gpcloud/type/v1/pagination.proto";
 import "gpcloud/type/v1/search.proto";
@@ -28,6 +29,11 @@ message ListServersResponse {
   // Total number of nodes available. May be differ from the number of results,
   // from this response because of the pagination.
   int64 total = 3;
+}
+
+message SubscribeServerLogsResponse {
+  // Notification
+  gpcloud.api.cloud.v1.Notification notification = 1;
 }
 
 message GetServerResponse {

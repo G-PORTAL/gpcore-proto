@@ -25,6 +25,8 @@ message ListServersRequest {
   optional gpcloud.type.v1.SearchRequest extended_search = 3;
 }
 
+message SubscribeServerLogsRequest {}
+
 message GetServerSearchOptionsRequest {}
 
 message GetServerRequest {

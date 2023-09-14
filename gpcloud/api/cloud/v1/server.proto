@@ -140,6 +140,14 @@ message Server {
   google.protobuf.Timestamp updated_at = 1001;
 }
 
+message BasicServer {
+  string id = 1;
+
+  string name = 2;
+
+  gpcloud.api.cloud.v1.Datacenter datacenter = 3;
+}
+
 enum ServerLogLevelType {
   SERVER_LOG_LEVEL_TYPE_UNSPECIFIED = 0;
   SERVER_LOG_LEVEL_TYPE_INFO = 1;
@@ -159,9 +167,11 @@ message ServerLog {
 
   string message = 2;
 
-  ServerLogLevelType level = 3;
+  gpcloud.api.cloud.v1.ServerLogLevelType level = 3;
 
-  ServerLogSourceType source = 4;
+  gpcloud.api.cloud.v1.ServerLogSourceType source = 4;
+
+  gpcloud.api.cloud.v1.BasicServer server = 5;
 
   google.protobuf.Timestamp created_at = 1000;
   google.protobuf.Timestamp updated_at = 1001;

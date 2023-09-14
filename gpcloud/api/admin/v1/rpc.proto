@@ -46,6 +46,13 @@ service AdminService {
     };
   }
 
+  // SubscribeServerLogs returns a stream of server logs (real time updates).
+  //
+  // The stream also provides heartbeats in a interval of 5 seconds. If you
+  // don't receive any notification for more then 5 seconds, the connection
+  // should be reopened.
+  rpc SubscribeServerLogs (gpcloud.api.admin.v1.SubscribeServerLogsRequest) returns (stream gpcloud.api.admin.v1.SubscribeServerLogsResponse) {}
+
   rpc GetServerSearchOptions(gpcloud.api.admin.v1.GetServerSearchOptionsRequest) returns (gpcloud.api.admin.v1.GetServerSearchOptionsResponse) {
     option (gpcloud.v1.api) = {
       required_roles: ["view-server"]
