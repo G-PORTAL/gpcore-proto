@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package gpcore.api.payment.v1;
+
+import "gpcore/v1/options.proto";
+import "gpcore/api/payment/v1/requests.proto";
+import "gpcore/api/payment/v1/responses.proto";
+
+service PaymentService {
+  rpc ListCreditCards (gpcore.api.payment.v1.ListCreditCardsRequest) returns (gpcore.api.payment.v1.ListCreditCardsResponse) {}
+  rpc AddCreditCard (gpcore.api.payment.v1.AddCreditCardRequest) returns (gpcore.api.payment.v1.AddCreditCardResponse) {}
+  rpc ChangeDefaultCreditCard (gpcore.api.payment.v1.ChangeDefaultCreditCardRequest) returns (gpcore.api.payment.v1.ChangeDefaultCreditCardResponse) {}
+  rpc RemoveCreditCard (gpcore.api.payment.v1.RemoveCreditCardRequest) returns (gpcore.api.payment.v1.RemoveCreditCardResponse) {}
+
+  rpc ListBillingProfiles (gpcore.api.payment.v1.ListBillingProfilesRequest) returns (gpcore.api.payment.v1.ListBillingProfilesResponse) {}
+  rpc CreateBillingProfile (gpcore.api.payment.v1.CreateBillingProfileRequest) returns (gpcore.api.payment.v1.CreateBillingProfileResponse) {}
+  rpc UpdateBillingProfile (gpcore.api.payment.v1.UpdateBillingProfileRequest) returns (gpcore.api.payment.v1.UpdateBillingProfileResponse) {}
+  rpc DeleteBillingProfile (gpcore.api.payment.v1.DeleteBillingProfileRequest) returns (gpcore.api.payment.v1.DeleteBillingProfileResponse) {}
+
+  // GetDefaultPlanCode requests the default plan code (lago identifier) for
+  // a given billing profile. The response is the lago default plan code, represented
+  // as a string. This identifier is used to set a payment plan for new projects.
+  rpc GetDefaultPlanCode (gpcore.api.payment.v1.GetDefaultPlanCodeRequest) returns (gpcore.api.payment.v1.GetDefaultPlanCodeResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-payment"]
+    };
+  }
+  // ChangeDefaultPlanCode changes the current default plan code on a given
+  // billing profile. The given default plan will be checked against Lago if it
+  // exists. This change only affects projects created in the future. Already
+  // created projects are not affected. To change the plan for existing projects,
+  // you need to do that directly in Lago.
+  rpc ChangeDefaultPlanCode (gpcore.api.payment.v1.ChangeDefaultPlanCodeRequest) returns (gpcore.api.payment.v1.ChangeDefaultPlanCodeResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-payment"]
+    };
+  }
+  // ListPlanCodes list all available plan codes in lago, including the default
+  // plan codes "free" and "gpcore".
+  rpc ListPlanCodes (gpcore.api.payment.v1.ListPlanCodesRequest) returns (gpcore.api.payment.v1.ListPlanCodesResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-payment"]
+    };
+  }
+}

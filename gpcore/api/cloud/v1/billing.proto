@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package gpcore.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+import "gpcore/type/v1/price.proto";
+
+enum BillingPeriod {
+  BILLING_PERIOD_UNSPECIFIED = 0;
+  BILLING_PERIOD_HOURLY = 1;
+  BILLING_PERIOD_MONTHLY = 2;
+  BILLING_PERIOD_DELETED = 3;
+}
+
+// BillStatus in which a bill can be. New bills/invoices will be in the pending
+// state. If there are payed, the status changed to succeeded. If the payment
+// failed, the status is set to failed. A bill status can be changed on external
+// triggers (a bill is being payed, a previously failed bill is retried and
+// succeeded on the second try, ...).
+enum BillStatus {
+  BILL_STATUS_UNSPECIFIED = 0;
+  BILL_STATUS_PENDING = 1;
+  BILL_STATUS_SUCCEEDED = 2;
+  BILL_STATUS_FAILED = 3;
+}
+
+message BillingProfileCompany {
+  string name = 1;
+
+  optional string vat_id = 2;
+}
+
+message BillingProfile {
+  string id = 1;
+
+  optional gpcore.api.cloud.v1.BillingProfileCompany company = 2;
+
+  string name = 3;
+
+  string country_code = 4;
+  optional string state = 5;
+  string street = 6;
+  string city = 7;
+  string postcode = 8;
+
+  string billing_email = 9;
+
+  float tax_rate = 10;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+// Bill represents an invoice, which the customer need to be payed (or already
+// has payed) in form of a URL to a PDF. The PDF itself contains the billable
+// resources and their amount (with separate taxes). The BillStatus will
+// indicate, if the bill is already payed, if there is any problem with that
+// bill or is still pending. Every Bill is associated with a BillingProfile,
+// which itself represents the user/company which need to pay the bill.
+message Bill {
+  // Bill uuid
+  string id = 1;
+
+  string number = 2;
+
+  // Associated Billing Profile
+  gpcore.api.cloud.v1.BillingProfile billing_profile = 3;
+  // Status
+  gpcore.api.cloud.v1.BillStatus status = 4;
+
+  gpcore.type.v1.Price net_price = 5;
+  gpcore.type.v1.Price tax_price = 6;
+  gpcore.type.v1.Price gross_price = 7;
+  gpcore.type.v1.Price credit_price = 8;
+  gpcore.type.v1.Price total_price = 9;
+
+  google.protobuf.Timestamp issued_at = 999;
+}

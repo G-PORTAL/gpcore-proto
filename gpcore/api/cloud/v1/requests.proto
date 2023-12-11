@@ -1,0 +1,380 @@
+syntax = "proto3";
+
+package gpcore.api.cloud.v1;
+
+import "gpcore/api/cloud/v1/project.proto";
+import "gpcore/api/cloud/v1/image.proto";
+import "gpcore/api/cloud/v1/node.proto";
+import "gpcore/api/cloud/v1/server.proto";
+import "gpcore/api/cloud/v1/billing.proto";
+import "gpcore/type/v1/pagination.proto";
+import "gpcore/type/v1/search.proto";
+
+message GetUserNodeLimitRequest {}
+
+message GetSplaPriceRequest {
+  string id = 1;
+}
+
+// SubscribeNotificationsRequest subscribe to notifications
+message SubscribeNotificationsRequest {}
+
+// Ticket Board
+message ListProjectSupportTicketsRequest {
+  string id = 1;
+}
+
+message ListProjectSupportPackagesRequest {
+  string id = 1;
+}
+
+// ChangeDefaultProjectRequest changes the default project.
+message ChangeDefaultProjectRequest {
+  // Project uuid
+  string id = 1;
+}
+
+// CreateProjectRequest create a new project. After creating a new project, you
+// can specify additional settings for a project like
+message CreateProjectRequest {
+  // Project name, will be shown as the title in the UI
+  string name = 1;
+  // Text, describing the project. Will be shown as a subtitle in the UI.
+  string description = 2;
+  // Project environment
+  gpcore.api.cloud.v1.ProjectEnvironment environment = 3;
+  // Billing profile id
+  // TODO: Rename to billing_profile_id
+  string billing_address_id = 4;
+}
+
+// ListProjectsRequest list the users projects.
+message ListProjectsRequest {}
+
+// GetProjectRequest return the project associated with the given uuid.
+message GetProjectRequest {
+  // Project uuid
+  string id = 1;
+}
+
+// UpdateProjectRequest updates a project by their given fields.
+message UpdateProjectRequest {
+  // Project uuid
+  string id = 1;
+  // Name
+  string name = 2;
+  // Description
+  string description = 3;
+  // Environment
+  gpcore.api.cloud.v1.ProjectEnvironment environment = 4;
+  // Credit Card ID
+  string credit_card_id = 5;
+  // Billing Address ID
+  // TODO: Rename to billing_profile_id
+  string billing_address_id = 6;
+
+  // If you wonder why there is no avatar_url here. This is because changing the
+  // avatar will be handled by the gateway over the /avatar/upload/:id endpoint.
+  // This endpoint is a little bit more sophisticated than the admin
+  // equivalent (the avatar_url is just an URL string), it will handle uploading
+  // the image to s3. This endpoint is used for all kinds of "avatar" like images
+  // (project images, user images, ...).
+
+  // TODO: unify credit_card and billing_address just like the payment_method
+}
+
+// DeleteProjectRequest delete the project associated with the given uuid.
+message DeleteProjectRequest {
+  // Project uuid
+  string id = 1;
+}
+
+// InviteMemberToProjectRequest invite new member to a project.
+message InviteMemberToProjectRequest {
+  // Project uuid
+  string id = 1;
+
+  // Email address or User ID which you want to invite. This could be
+  // also a Service Account User ID. If adding Service Account, the client
+  // will be directly added to the project.
+  string identifier = 2;
+}
+
+// JoinProjectRequest join or reject a project invite.
+message JoinProjectRequest {
+  // Project uuid to join
+  string id = 1;
+  // Accept (true) or reject (false) invite
+  bool accept = 2;
+}
+
+// LeaveProjectRequest leave a project membership.
+message LeaveProjectRequest {
+  // Project uuid
+  string id = 1;
+}
+
+// RemoveMemberFromProjectRequest removes the user from the project.
+message RemoveMemberFromProjectRequest {
+  // Project uuid
+  string id = 1;
+  // User uuid
+  string user_id = 2;
+}
+
+message GetProjectUsageRequest {
+  // Project uuid
+  string id = 1;
+
+  // When detailed is false only the total amount will be returned.
+  bool detailed = 2;
+}
+
+// GetProjectLocksRequest requests a list of locks based on the given project.
+message GetProjectLocksRequest {
+  // Project uuid
+  string id = 1;
+}
+
+// ListProjectBillsRequest requests a list of bills
+message ListBillingProfileBillsRequest {
+  // Billing Profile uuid
+  string id = 1;
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 2;
+  // Optional only for the given year
+  optional int32 year = 3;
+}
+
+message GetBillingProfileBillDetailsRequest {
+  // Billing Profile uuid
+  string id = 1;
+  // Bill uuid
+  string bill_id = 2;
+}
+
+message GetBillingProfileBillPdfRequest {
+  // Billing Profile uuid
+  string id = 1;
+  // Bill uuid
+  string bill_id = 2;
+}
+
+// ListBillingProfileProjectsRequest requests a list of projects associated
+// to a given billing profile.
+message ListBillingProfileProjectsRequest {
+  // Billing Profile uuid
+  string id = 1;
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 2;
+}
+
+// ListProjectLogsRequest requests an audit log for a given project.
+message ListProjectLogsRequest {
+  // Project uuid
+  string id = 1;
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 2;
+  // Optional search term
+  string search = 3;
+  // Optional user uuid filter
+  string user_id = 4;
+}
+
+// Request to get all countries.
+message ListCountriesRequest {}
+
+// Request to get all timezones.
+message ListTimezonesRequest {}
+
+// Request to get all timezones.
+message UpdateTimezoneRequest {
+  string timezone = 1;
+}
+
+// Request to get all datacenters.
+message ListDatacentersRequest {}
+
+// Request to get all project flavours.
+message ListProjectFlavoursRequest {
+  string id = 1;
+
+  string datacenter_id = 2;
+}
+
+// Request to get all public images, filter by its flavour ID.
+message ListPublicImagesRequest {
+  string flavour_id = 1;
+}
+
+message ListProjectSSHKeysRequest {
+  string id = 1;
+}
+
+// ListNodesRequest requests the list of all available images.
+message ListNodesRequest {
+  // Project uuid
+  string id = 1;
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 2;
+  // Optional search term
+  optional string search = 3;
+  // Optional extended search
+  optional gpcore.type.v1.SearchRequest extended_search = 4;
+}
+
+message GetNodeSearchOptionsRequest {
+  // Project uuid
+  string id = 1;
+}
+
+// GetNodeRequest requests a single node
+message GetNodeRequest {
+  // Node uuid
+  string id = 1;
+  // Project uuid
+  string project_id = 2;
+}
+
+// CreateNodeRequest creates a new node
+message CreateNodeRequest {
+  // Project uuid
+  string project_id = 1;
+  // Flavour uuid
+  string flavour_id = 2;
+  // Datacenter uuid
+  string datacenter_id = 3;
+
+  // Optional password
+  optional string password = 4;
+  // List of ssh public keys uuid. If empty, a password need to be set. If the
+  // password is also empty, a random password will be generated.
+  repeated string ssh_key_ids = 5;
+
+  // Image uuid
+  string image_id = 6;
+
+  // Custom user data
+  optional string user_data = 8;
+  // List of FQDNs used
+  repeated string fqdns = 9;
+
+  // Billing period used for that node
+  gpcore.api.cloud.v1.BillingPeriod billing_period = 20;
+}
+
+// ReinstallNodeRequest reinstall a previously created node.
+message ReinstallNodeRequest {
+  // Node uuid
+  string id = 1;
+  // Project uuid
+  string project_id = 2;
+  // Optional new FQDN of the hostname. Old FQDN will be used if empty.
+  string fqdn = 3;
+  // Optional root password which will set after provisioning. This is
+  // just a backup solution if no ssh keys are given. If no password is
+  // given, a random password is generated.
+  optional string password = 4;
+  // List of ssh public keys uuids used to log in to ssh. All keys need
+  // to belong to members of the project.
+  repeated string ssh_key_ids = 5;
+  // Image uuid
+  string image_id = 6;
+  // Custom user data
+  string user_data = 7;
+}
+
+// UpdateNodeRequest updates a nodes FQDN and tags.
+message UpdateNodeRequest {
+  // Node uuid
+  string id = 1;
+  // Project uuid
+  string project_id = 2;
+  // Optional new FQDN
+  optional string fqdn = 3;
+  // New key/value tags to set
+  map<string, string> tags = 4;
+}
+
+// DestroyNodeRequest deletes a node
+message DestroyNodeRequest {
+  // Node uuid
+  string id = 1;
+  // Project uuid
+  string project_id = 2;
+}
+
+message PowerActionNodeRequest {
+  string id = 1;
+
+  string project_id = 2;
+
+  gpcore.api.cloud.v1.ServerPowerState power_state = 3;
+}
+
+message ChangeNodeRescueModeRequest {
+  string id = 1;
+
+  string project_id = 2;
+
+  gpcore.api.cloud.v1.RescueMode rescue_mode = 3;
+}
+
+message ListProjectImagesRequest {
+  // Project uuid
+  string id = 1;
+}
+
+message CreateProjectImageRequest {
+  // Project uuid
+  string id = 1;
+  // Name of the image
+  string name = 2;
+  // List of supported authentication types
+  repeated gpcore.api.cloud.v1.AuthenticationType authentication_types = 3;
+  // If the image can be used for new nodes
+  bool available = 4;
+}
+
+message GetProjectImageRequest {
+  string id = 1;
+
+  string project_id = 2;
+}
+
+message DeleteProjectImageRequest {
+  string id = 1;
+
+  string project_id = 2;
+}
+
+message DeleteProjectImageVersionRequest {
+  string id = 1;
+
+  string project_id = 2;
+}
+
+message ListUserSSHKeysRequest {}
+
+
+message CreateUserSSHKeyRequest {
+  string name = 1;
+
+  string public_key = 2;
+}
+
+message DeleteUserSSHKeyRequest {
+  string id = 1;
+}
+
+message ChangeNodeBillingPeriodRequest {
+  string id = 1;
+
+  string project_id = 2;
+
+  gpcore.api.cloud.v1.BillingPeriod billing_period = 3;
+}
+
+message GetRemoteConsoleAccessRequest {
+  string id = 2;
+}

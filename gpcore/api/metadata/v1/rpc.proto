@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package gpcore.api.metadata.v1;
+
+import "gpcore/v1/options.proto";
+import "gpcore/api/metadata/v1/requests.proto";
+import "gpcore/api/metadata/v1/responses.proto";
+
+service MetadataService {
+  rpc GetMetadata (gpcore.api.metadata.v1.GetMetadataRequest) returns (gpcore.api.metadata.v1.GetMetadataResponse) {
+    option (gpcore.v1.api) = {
+      authorization_type: AUTHORIZATION_TYPE_CLIENT;
+    };
+  }
+
+  rpc Report (gpcore.api.metadata.v1.ReportRequest) returns (gpcore.api.metadata.v1.ReportResponse) {
+    option (gpcore.v1.api) = {
+      authorization_type: AUTHORIZATION_TYPE_CLIENT;
+    };
+  }
+}

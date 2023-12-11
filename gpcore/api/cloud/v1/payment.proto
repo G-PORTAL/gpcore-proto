@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package gpcore.api.cloud.v1;
+
+// Available currencies in the system. This will map to an ISO 4217 currency code
+// in the database.
+enum Currency {
+  CURRENCY_UNSPECIFIED = 0;
+  CURRENCY_EURO = 1;
+  CURRENCY_US_DOLLAR = 2;
+}

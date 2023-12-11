@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package gpcore.api.network.v1;
+
+import "gpcore/api/cloud/v1/monitoring.proto";
+
+message GetDHCPInformationResponse {
+  string ip_address = 1;
+
+  string gateway = 2;
+
+  repeated string dns_servers = 3;
+
+  repeated string ntp_servers = 4;
+
+  string lease_ttl = 5;
+}
+
+message ListMonitoringTargetsResponse {
+  repeated gpcore.api.cloud.v1.MonitoringTarget targets = 1;
+}
+
+message UpdateMonitoringStatusResponse {}

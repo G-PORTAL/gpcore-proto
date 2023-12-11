@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package gpcore.type.v1;
+
+message Timezone {
+  string code = 1;
+
+  string name = 2;
+}

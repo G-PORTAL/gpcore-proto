@@ -1,0 +1,408 @@
+syntax = "proto3";
+
+package gpcore.api.admin.v1;
+import "gpcore/api/cloud/v1/user.proto";
+import "gpcore/api/cloud/v1/flavour.proto";
+import "gpcore/api/cloud/v1/server.proto";
+import "gpcore/api/cloud/v1/image.proto";
+import "gpcore/api/cloud/v1/network.proto";
+import "gpcore/api/cloud/v1/payment.proto";
+import "gpcore/api/cloud/v1/billing.proto";
+import "gpcore/api/cloud/v1/region.proto";
+import "gpcore/api/cloud/v1/project.proto";
+import "gpcore/api/admin/v1/agent.proto";
+import "gpcore/type/v1/pagination.proto";
+import "gpcore/type/v1/file.proto";
+import "gpcore/type/v1/search.proto";
+
+// ListServersRequest
+message ListServersRequest {
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 1;
+  // Optional search term
+  optional string search = 2;
+
+  // Optional extended search
+  optional gpcore.type.v1.SearchRequest extended_search = 3;
+}
+
+message SubscribeServerLogsRequest {}
+
+message GetServerSearchOptionsRequest {}
+
+message GetServerRequest {
+  string id = 1;
+}
+
+// ListServerLogsRequest list all server logs for a given server. An optional
+// search field can be used to filter the result. If the resulting list is too
+// long, you will receive only a portion of the result. More results can be
+// fetched be increasing the page.
+message ListServerLogsRequest {
+  // Server UUID
+  string id = 1;
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 2;
+  // An optional search term, can be contain spaces for fuzzy search
+  optional string search = 3;
+}
+
+message UpdateServerRequest {
+  string id = 1;
+
+  string flavour_id = 2;
+
+  bool in_pool = 3;
+}
+
+message DeleteServerRequest {
+  string id = 1;
+}
+
+message GetServerPlatformManagementRequest {
+  string id = 1;
+}
+
+message ListAvailableServerRequest {}
+
+message ImportServerRequest {
+  repeated int64 netbox_ids = 1;
+}
+
+message CreateImageRequest {
+  string operating_system_id = 1;
+  string name = 2;
+  string username = 3;
+  bool available = 4;
+  repeated api.cloud.v1.AuthenticationType authentication_types = 5;
+  optional string vendor_data = 6;
+  optional string alias = 7;
+  api.cloud.v1.ImageRelease release = 8;
+}
+
+message ListImagesRequest {}
+
+message GetImageRequest{
+  string id = 1;
+}
+
+message UpdateImageRequest {
+  string id = 1;
+  string name = 2;
+  string username = 3;
+  bool available = 4;
+  repeated api.cloud.v1.AuthenticationType authentication_types = 5;
+  optional string vendor_data = 6;
+  optional string alias = 7;
+  api.cloud.v1.ImageRelease release = 8;
+}
+
+message DeleteImageRequest {
+  string id = 1;
+}
+
+message DeleteImageVersionRequest {
+  string id = 1;
+}
+
+message ListOperatingSystemsRequest {}
+
+message DeleteOperatingSystemRequest {
+  string id = 1;
+}
+
+message CreateOperatingSystemRequest {
+  string name = 1;
+  gpcore.api.cloud.v1.OperatingSystemFamily family = 2;
+}
+
+message GetOperatingSystemRequest {
+  string id = 1;
+}
+
+message UpdateOperatingSystemRequest {
+  string id = 1;
+  string name = 2;
+  gpcore.api.cloud.v1.OperatingSystemFamily family = 3;
+  optional gpcore.type.v1.File icon = 4;
+  optional string default_image_id = 5;
+}
+
+// Request to list all available flavours.
+message ListFlavoursRequest {}
+
+message GetFlavourRequest {
+  string id = 1;
+}
+
+message UpdateFlavourRequest {
+  string id = 1;
+  string name = 2;
+
+  string cpu = 5;
+  int32 cpu_amount = 6;
+  int32 cpu_cores = 7;
+  int32 cpu_threads = 8;
+
+  string memory = 9;
+  string disk = 10;
+  string network = 11;
+  int64 traffic = 12;
+
+  repeated gpcore.api.cloud.v1.FlavourMapping mappings = 13;
+}
+
+message CreateFlavourRequest {
+  string name = 1;
+
+  string cpu = 2;
+  int32 cpu_amount = 3;
+  int32 cpu_cores = 4;
+  int32 cpu_threads = 5;
+
+  string memory = 6;
+  string disk = 7;
+  string network = 8;
+  int64 traffic = 9;
+}
+
+message DeleteFlavourRequest {
+  string id = 1;
+}
+
+// ListSwitchesRequest
+message ListSwitchesRequest {
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 1;
+  // Optional search term
+  optional string search = 2;
+}
+
+message GetSwitchRequest {
+  string id = 1;
+}
+
+// ListUsersRequest
+message ListUsersRequest {
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 1;
+  // Optional search term
+  optional string search = 2;
+}
+
+message GetUserRequest {
+  string id = 1;
+}
+
+// XXX: Reintroduce in frontend
+message UpdateUserRequest {
+  string id = 1;
+
+  /* field 2 removed - optional string number = 2; */
+  /* field 3 removed - optional string full_name = 3; */
+  /* field 4 removed - optional string email = 4; */
+  /* field 5 removed - optional bool confirmed = 5; */
+  reserved 2 to 5;
+
+  // How many node the user can create
+  optional int32 node_limit = 6;
+
+  // Avatar URL
+  optional string avatar_url = 7;
+
+  // Tags
+  repeated gpcore.api.cloud.v1.UserTag tags = 8;
+}
+
+// XXX: Reintroduce in frontend
+message LockUserRequest {
+  string user_id = 1;
+  string reason = 2;
+}
+
+// XXX: Reintroduce in frontend
+message UnlockUserRequest {
+  string user_id = 1;
+  string reason = 2;
+}
+
+// ListUserBillsRequest
+message ListUserBillsRequest {
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 1;
+  // Optional user uuid for which we want bills
+  optional string user_id = 2;
+}
+
+// ListProjectsRequest list projects. Provide a user_id to filter the results
+// to only show projects which the user is a member of. Use the optional search
+// field to further reduce the resulting project list. The page field can be
+// used to implement pagination.
+message ListProjectsRequest {
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 1;
+  // Optional search term, use space for fuzzy search.
+  optional string search = 2;
+  // Optional user id to filter results which are the given user is part of.
+  optional string user_id = 3;
+}
+
+// GetProjectRequest get a specific project by it's uuid. If the uuid does not
+// match a project, an error is raised instead.
+message GetProjectRequest {
+  // Project uuid
+  string id = 1;
+}
+
+// UpdateProjectRequest
+message UpdateProjectRequest {
+  // Project uuid
+  string id = 1;
+  // Project name, will be shown as the title in the UI
+  string name = 2;
+  // Text, describing the project. Will be shown as a subtitle in the UI.
+  string description = 3;
+  // An optional URL to an image which is then uses as a small avatar picture
+  // near the project name. You can use an Image type, but nor vector images.
+  // Make sure it is not too big and is quadratic to avoid stretching the
+  // image.
+  string avatar_url = 4;
+
+  // Currency used for that project
+  gpcore.api.cloud.v1.Currency currency = 5;
+
+  // Project environment
+  gpcore.api.cloud.v1.ProjectEnvironment environment = 6;
+
+  // Linked billing address
+  gpcore.api.cloud.v1.BillingProfile billing_profile = 7;
+}
+
+message ListProjectNetworksRequest {
+  string id = 1;
+}
+
+message CreateProjectNetworkRequest {
+  string project_id = 1;
+
+  string name = 2;
+
+  gpcore.api.cloud.v1.NetworkType type = 3;
+
+  repeated gpcore.api.cloud.v1.Subnet subnets = 5;
+
+  optional int32 vlan_id = 6;
+
+  gpcore.api.cloud.v1.Datacenter datacenter = 7;
+}
+
+// ListAdminLogsRequest
+message ListAdminLogsRequest {
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 1;
+  // Optional search term
+  optional string search = 2;
+  // Optional admin user uuid
+  optional string admin_user_id = 3;
+  // Optional user uuid
+  optional string user_id = 4;
+}
+
+// ListIPHistoriesRequest
+message ListIPHistoriesRequest {
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 1;
+  // Optional search term
+  optional string search = 2;
+}
+
+message GetRegionRequest {
+  string id = 1;
+}
+
+message ListRegionsRequest {}
+
+message ListNetworksRequest {}
+
+message CreateNetworkRequest {
+  string datacenter_id = 1;
+  gpcore.api.cloud.v1.NetworkType type = 2;
+  string name = 3;
+  int32 vlan_id = 4;
+}
+
+message DeleteNetworkRequest {
+  string id = 1;
+}
+
+message GetNetworkRequest {
+  string id = 1;
+}
+message UpdateNetworkRequest {
+  string id = 1;
+  string name = 2;
+  int32 vlan_id = 3;
+}
+
+message UpdateDatacenterRequest {
+  string id = 1;
+
+  gpcore.api.cloud.v1.DatacenterStatus status = 2;
+}
+
+message DeleteSubnetRequest {
+  string id = 1;
+}
+message CreateSubnetRequest {
+  string network_id = 1;
+
+  string cidr = 2;
+  string pool_start = 3;
+  string pool_end = 4;
+
+  string gateway = 5;
+
+  bool dhcp = 6;
+}
+message UpdateSubnetRequest {
+  string id = 1;
+
+  string cidr = 2;
+  string pool_start = 3;
+  string pool_end = 4;
+
+  string gateway = 5;
+
+  bool dhcp = 6;
+}
+
+message GetSplaReportingRequest {
+  int32 year = 1;
+  int32 month = 2;
+}
+
+message ListAgentsRequest {}
+
+message CreateAgentRequest {
+  gpcore.api.admin.v1.AgentType type = 1;
+
+  string datacenter_id = 2;
+
+  string fqdn = 3;
+}
+
+message DeleteAgentRequest {
+  string id = 1;
+}
+
+message GetDashboardRequest {}
+
+message TriggerServerActionRequest {
+  string server_id = 1;
+
+  gpcore.api.cloud.v1.ServerAction action = 2;
+}
+
+message LookupARPRequest {
+  string mac_address = 1;
+}

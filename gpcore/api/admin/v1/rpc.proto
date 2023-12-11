@@ -1,0 +1,392 @@
+syntax = "proto3";
+
+package gpcore.api.admin.v1;
+
+import "gpcore/v1/options.proto";
+import "gpcore/api/admin/v1/requests.proto";
+import "gpcore/api/admin/v1/responses.proto";
+
+service AdminService {
+  rpc ListRegions (gpcore.api.admin.v1.ListRegionsRequest) returns (gpcore.api.admin.v1.ListRegionsResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-region"]
+    };
+  }
+  rpc GetRegion (gpcore.api.admin.v1.GetRegionRequest) returns (gpcore.api.admin.v1.GetRegionResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-region"]
+    };
+  }
+
+  rpc UpdateDatacenter (gpcore.api.admin.v1.UpdateDatacenterRequest) returns (gpcore.api.admin.v1.UpdateDatacenterResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-datacenter"]
+    };
+  }
+
+  rpc ListAgents (gpcore.api.admin.v1.ListAgentsRequest) returns (gpcore.api.admin.v1.ListAgentsResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-agent"]
+    };
+  }
+  rpc CreateAgent (gpcore.api.admin.v1.CreateAgentRequest) returns (gpcore.api.admin.v1.CreateAgentResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-agent"]
+    };
+  }
+  rpc DeleteAgent (gpcore.api.admin.v1.DeleteAgentRequest) returns (gpcore.api.admin.v1.DeleteAgentResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["delete-agent"]
+    };
+  }
+
+  rpc ListServers (gpcore.api.admin.v1.ListServersRequest) returns (gpcore.api.admin.v1.ListServersResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-server"]
+    };
+  }
+
+  // SubscribeServerLogs returns a stream of server logs (real time updates).
+  //
+  // The stream also provides heartbeats in a interval of 5 seconds. If you
+  // don't receive any notification for more then 5 seconds, the connection
+  // should be reopened.
+  rpc SubscribeServerLogs (gpcore.api.admin.v1.SubscribeServerLogsRequest) returns (stream gpcore.api.admin.v1.SubscribeServerLogsResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-server"]
+    };
+  }
+
+  rpc GetServerSearchOptions(gpcore.api.admin.v1.GetServerSearchOptionsRequest) returns (gpcore.api.admin.v1.GetServerSearchOptionsResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-server"]
+    };
+  }
+
+  rpc ImportServer (gpcore.api.admin.v1.ImportServerRequest) returns (gpcore.api.admin.v1.ImportServerResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["import-server"]
+    };
+  }
+
+  rpc GetServer (gpcore.api.admin.v1.GetServerRequest) returns (gpcore.api.admin.v1.GetServerResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-server"]
+    };
+  }
+  rpc UpdateServer (gpcore.api.admin.v1.UpdateServerRequest) returns (gpcore.api.admin.v1.UpdateServerResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-server"]
+    };
+  }
+  rpc DeleteServer (gpcore.api.admin.v1.DeleteServerRequest) returns (gpcore.api.admin.v1.DeleteServerResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["delete-server"]
+    };
+  }
+
+  rpc ListServerLogs (gpcore.api.admin.v1.ListServerLogsRequest) returns (gpcore.api.admin.v1.ListServerLogsResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-server"]
+    };
+  }
+
+  rpc ListUsers (gpcore.api.admin.v1.ListUsersRequest) returns (gpcore.api.admin.v1.ListUsersResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-user"]
+    };
+  }
+  rpc GetUser (gpcore.api.admin.v1.GetUserRequest) returns (gpcore.api.admin.v1.GetUserResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-user"]
+    };
+  }
+  rpc UpdateUser (gpcore.api.admin.v1.UpdateUserRequest) returns (gpcore.api.admin.v1.UpdateUserResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-user"]
+    };
+  }
+  rpc LockUser (gpcore.api.admin.v1.LockUserRequest) returns (gpcore.api.admin.v1.LockUserResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-user"]
+    };
+  }
+  rpc UnlockUser (gpcore.api.admin.v1.UnlockUserRequest) returns (gpcore.api.admin.v1.UnlockUserResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-user"]
+    };
+  }
+
+  // GetServerPlatformManagement Returns Platform Management data for server
+  rpc GetServerPlatformManagement (gpcore.api.admin.v1.GetServerPlatformManagementRequest) returns (gpcore.api.admin.v1.GetServerPlatformManagementResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-server"]
+    };
+  }
+
+  // List all available server from our Netbox Inventory
+  rpc ListAvailableServer (gpcore.api.admin.v1.ListAvailableServerRequest) returns (gpcore.api.admin.v1.ListAvailableServerResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-server"]
+    };
+  }
+
+  // Triggers a server action, see ServerAction enum for available actions
+  rpc TriggerServerAction (gpcore.api.admin.v1.TriggerServerActionRequest) returns (gpcore.api.admin.v1.TriggerServerActionResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-server"]
+    };
+  }
+
+  // Create a new public image
+  rpc CreateImage (gpcore.api.admin.v1.CreateImageRequest) returns (gpcore.api.admin.v1.CreateImageResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-image"]
+    };
+  }
+
+  // List all public images
+  rpc ListImages (gpcore.api.admin.v1.ListImagesRequest) returns (gpcore.api.admin.v1.ListImagesResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-image"]
+    };
+  }
+
+  // Return a single public image by ID
+  rpc GetImage (gpcore.api.admin.v1.GetImageRequest) returns (gpcore.api.admin.v1.GetImageResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-image"]
+    };
+  }
+
+  // Updates a public image
+  rpc UpdateImage (gpcore.api.admin.v1.UpdateImageRequest) returns (gpcore.api.admin.v1.UpdateImageResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-image"]
+    };
+  }
+
+  // Deletes a public image
+  rpc DeleteImage (gpcore.api.admin.v1.DeleteImageRequest) returns (gpcore.api.admin.v1.DeleteImageResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["delete-image"]
+    };
+  }
+
+  // DeleteImageVersion Delete a project image version
+  rpc DeleteImageVersion (gpcore.api.admin.v1.DeleteImageVersionRequest) returns (gpcore.api.admin.v1.DeleteImageVersionResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["delete-image"]
+    };
+  }
+
+  // Lists all operating systems
+  rpc ListOperatingSystems (gpcore.api.admin.v1.ListOperatingSystemsRequest) returns (gpcore.api.admin.v1.ListOperatingSystemsResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-operating-system"]
+    };
+  }
+
+  // Delete a operating system
+  rpc DeleteOperatingSystem (gpcore.api.admin.v1.DeleteOperatingSystemRequest) returns (gpcore.api.admin.v1.DeleteOperatingSystemResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["delete-operating-system"]
+    };
+  }
+
+  // Creates a new operating system
+  rpc CreateOperatingSystem (gpcore.api.admin.v1.CreateOperatingSystemRequest) returns (gpcore.api.admin.v1.CreateOperatingSystemResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-operating-system"]
+    };
+  }
+
+  // Get a single operating system
+  rpc GetOperatingSystem (gpcore.api.admin.v1.GetOperatingSystemRequest) returns (gpcore.api.admin.v1.GetOperatingSystemResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-operating-system"]
+    };
+  }
+
+  // Update a single operating system
+  rpc UpdateOperatingSystem (gpcore.api.admin.v1.UpdateOperatingSystemRequest) returns (gpcore.api.admin.v1.UpdateOperatingSystemResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-operating-system"]
+    };
+  }
+
+  // List all existing flavours
+  rpc ListFlavours (gpcore.api.admin.v1.ListFlavoursRequest) returns (gpcore.api.admin.v1.ListFlavoursResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-flavour"]
+    };
+  }
+
+  // Return a single flavour
+  rpc GetFlavour (gpcore.api.admin.v1.GetFlavourRequest) returns (gpcore.api.admin.v1.GetFlavourResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-flavour"]
+    };
+  }
+
+  // Delete a flavour
+  rpc DeleteFlavour (gpcore.api.admin.v1.DeleteFlavourRequest) returns (gpcore.api.admin.v1.DeleteFlavourResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["delete-flavour"]
+    };
+  }
+
+  // Create a new flavour
+  rpc CreateFlavour (gpcore.api.admin.v1.CreateFlavourRequest) returns (gpcore.api.admin.v1.CreateFlavourResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-flavour"]
+    };
+  }
+
+  // Update a existing flavour
+  rpc UpdateFlavour (gpcore.api.admin.v1.UpdateFlavourRequest) returns (gpcore.api.admin.v1.UpdateFlavourResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-flavour"]
+    };
+  }
+
+  // List all switches
+  rpc ListSwitches (gpcore.api.admin.v1.ListSwitchesRequest) returns (gpcore.api.admin.v1.ListSwitchesResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-switch"]
+    };
+  }
+
+  // Get a single switch
+  rpc GetSwitch (gpcore.api.admin.v1.GetSwitchRequest) returns (gpcore.api.admin.v1.GetSwitchResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-switch"]
+    };
+  }
+
+  // ListProjects list all available projects.
+  rpc ListProjects (gpcore.api.admin.v1.ListProjectsRequest) returns (gpcore.api.admin.v1.ListProjectsResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-project"]
+    };
+  }
+
+  // GetProject get a single project for a given project id.
+  rpc GetProject (gpcore.api.admin.v1.GetProjectRequest) returns (gpcore.api.admin.v1.GetProjectResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-project"]
+    };
+  }
+
+  // UpdateProject updates a project by its given fields.
+  rpc UpdateProject (gpcore.api.admin.v1.UpdateProjectRequest) returns (gpcore.api.admin.v1.UpdateProjectResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-project"]
+    };
+  }
+
+  // List project specific networks
+  rpc ListProjectNetworks (gpcore.api.admin.v1.ListProjectNetworksRequest) returns (gpcore.api.admin.v1.ListProjectNetworksResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-project"]
+    };
+  }
+
+  // Create a new project network
+  rpc CreateProjectNetwork (gpcore.api.admin.v1.CreateProjectNetworkRequest) returns (gpcore.api.admin.v1.CreateProjectNetworkResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-project"]
+    };
+  }
+
+  // List admin logs
+  rpc ListAdminLogs (gpcore.api.admin.v1.ListAdminLogsRequest) returns (gpcore.api.admin.v1.ListAdminLogsResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-admin-log"]
+    };
+  }
+
+  // Get SPLA reporting
+  rpc GetSplaReporting (gpcore.api.admin.v1.GetSplaReportingRequest) returns (gpcore.api.admin.v1.GetSplaReportingResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-spla-reporting"]
+    };
+  }
+
+  // List IP histories
+  rpc ListIPHistories (gpcore.api.admin.v1.ListIPHistoriesRequest) returns (gpcore.api.admin.v1.ListIPHistoriesResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-ip-history"]
+    };
+  }
+
+  // Lists all networks
+  rpc ListNetworks (gpcore.api.admin.v1.ListNetworksRequest) returns (gpcore.api.admin.v1.ListNetworksResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-network"]
+    };
+  }
+
+  // Create new network
+  rpc CreateNetwork (gpcore.api.admin.v1.CreateNetworkRequest) returns (gpcore.api.admin.v1.CreateNetworkResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-network"]
+    };
+  }
+
+  // Delete a network
+  rpc DeleteNetwork (gpcore.api.admin.v1.DeleteNetworkRequest) returns (gpcore.api.admin.v1.DeleteNetworkResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["delete-network"]
+    };
+  }
+
+  // Get a single network
+  rpc GetNetwork (gpcore.api.admin.v1.GetNetworkRequest) returns (gpcore.api.admin.v1.GetNetworkResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-network"]
+    };
+  }
+
+  // Updates a network
+  rpc UpdateNetwork (gpcore.api.admin.v1.UpdateNetworkRequest) returns (gpcore.api.admin.v1.UpdateNetworkResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-network"]
+    };
+  }
+
+  // Delete a subnet
+  rpc DeleteSubnet (gpcore.api.admin.v1.DeleteSubnetRequest) returns (gpcore.api.admin.v1.DeleteSubnetResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["delete-network"]
+    };
+  }
+
+  // Create new subnet
+  rpc CreateSubnet (gpcore.api.admin.v1.CreateSubnetRequest) returns (gpcore.api.admin.v1.CreateSubnetResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-network"]
+    };
+  }
+
+  // Updates a subnet
+  rpc UpdateSubnet (gpcore.api.admin.v1.UpdateSubnetRequest) returns (gpcore.api.admin.v1.UpdateSubnetResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-network"]
+    };
+  }
+
+  // Get Dashboard information
+  rpc GetDashboard (gpcore.api.admin.v1.GetDashboardRequest) returns (gpcore.api.admin.v1.GetDashboardResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-dashboard"]
+    };
+  }
+
+  // Lookup ARP history for a given mac address
+  rpc LookupARP (gpcore.api.admin.v1.LookupARPRequest) returns (gpcore.api.admin.v1.LookupARPResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-arp"]
+    };
+  }
+}

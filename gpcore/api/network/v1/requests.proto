@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package gpcore.api.network.v1;
+
+import "gpcore/api/cloud/v1/monitoring.proto";
+
+message GetDHCPInformationRequest {
+  string mac_address = 1;
+}
+
+message ListMonitoringTargetsRequest {
+}
+
+message UpdateMonitoringStatusRequest {
+  repeated gpcore.api.cloud.v1.MonitoringStatus status = 1;
+}
+

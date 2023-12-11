@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package gpcore.api.metadata.v1;
+
+import "gpcore/api/cloud/v1/metadata.proto";
+
+message GetMetadataRequest {
+  string ip_address = 1;
+}
+
+message ReportRequest {
+  api.cloud.v1.MetadataReport report = 1;
+}

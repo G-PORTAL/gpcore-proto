@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package gpcore.api.admin.v1;
+
+import "gpcore/api/cloud/v1/server.proto";
+import "gpcore/type/v1/price.proto";
+
+message SplaReporting {
+  string id = 1;
+
+  gpcore.api.cloud.v1.Server server = 2;
+
+  gpcore.type.v1.Price price = 3;
+
+  int32 cpu_amount = 4;
+  int32 cpu_cores = 5;
+  int32 package_amount = 6;
+}

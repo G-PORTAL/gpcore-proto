@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package gpcore.api.gateway.v1;
+
+import "gpcore/api/cloud/v1/image.proto";
+
+
+message ImageUploadValidateResponse {
+  gpcore.api.cloud.v1.ImageVersion image_version = 1;
+}
+
+message ImageUploadConfirmResponse {}
+
+message LagoWebhookResponse {}

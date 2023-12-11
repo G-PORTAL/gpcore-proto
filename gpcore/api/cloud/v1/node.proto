@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package gpcore.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+import "gpcore/api/cloud/v1/billing.proto";
+import "gpcore/api/cloud/v1/server.proto";
+import "gpcore/api/cloud/v1/region.proto";
+import "gpcore/api/cloud/v1/image.proto";
+import "gpcore/api/cloud/v1/flavour.proto";
+import "gpcore/api/cloud/v1/network.proto";
+import "gpcore/type/v1/ssh_key.proto";
+
+message UserNodeLimit {
+  int32 limit = 1;
+  int32 current = 2;
+}
+
+message NodeNetworkInterface {
+  string mac = 1;
+
+  repeated string ip_addresses = 2;
+
+  gpcore.api.cloud.v1.NetworkType type = 3;
+}
+
+message RescueMode {
+  bool enabled = 1;
+  string password = 2;
+}
+
+// Node represents a "server" unit
+message Node {
+  // Node uuid
+  string id = 1;
+  // Project uuid
+  string project_id = 2;
+  // FQDN
+  string fqdn = 3;
+  // Provisioning state
+  gpcore.api.cloud.v1.ServerProvisioningState status = 4;
+  // List of network interface associated with the node
+  repeated gpcore.api.cloud.v1.NodeNetworkInterface network_interfaces = 5;
+  // List of key/value tags
+  map<string, string> tags = 7;
+  // Datacenter in which the node is located
+  gpcore.api.cloud.v1.Datacenter datacenter = 8;
+  // The flavour used on the node
+  gpcore.api.cloud.v1.Flavour flavour = 9;
+  // The image used on the node
+  gpcore.api.cloud.v1.Image image = 10;
+  // True if the server has console access
+  bool has_console_access = 11;
+  // Billing period
+  gpcore.api.cloud.v1.BillingPeriod billing_period = 12;
+  // Calculated price
+  //gpcore.type.v1.Price price = 13;
+  // State of the node when it will renewed
+  //gpcore.api.cloud.v1.NodeRenewState renew_state = 14;
+  // In what power state the server is currently
+  gpcore.api.cloud.v1.ServerPowerState power_state = 15;
+  // True if the node has a SPLA license
+  bool has_spla_license = 16;
+  // If there is a change of the billing period pending, it will be shown here
+  optional gpcore.api.cloud.v1.BillingPeriod target_billing_period = 17;
+
+  // Timestamp to which the node is paid
+  google.protobuf.Timestamp paid_until_at = 999;
+  // Timestamp when the node is created
+  google.protobuf.Timestamp created_at = 1000;
+  // Timestamp when the node is updates the last rime
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message NodeProvisioning {
+    string fqdn = 1;
+
+    string user_data = 2;
+
+    repeated gpcore.type.v1.SSHKey ssh_keys = 3;
+
+    optional string password = 4;
+}

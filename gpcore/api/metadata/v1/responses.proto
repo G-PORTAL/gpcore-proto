@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package gpcore.api.metadata.v1;
+
+import "gpcore/api/cloud/v1/metadata.proto";
+
+message GetMetadataResponse {
+  gpcore.api.cloud.v1.Metadata metadata = 1;
+}
+
+message ReportResponse {}

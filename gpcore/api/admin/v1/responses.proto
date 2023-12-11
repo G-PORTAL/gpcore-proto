@@ -1,0 +1,304 @@
+syntax = "proto3";
+
+package gpcore.api.admin.v1;
+import "gpcore/api/admin/v1/flavour.proto";
+import "gpcore/api/admin/v1/agent.proto";
+import "gpcore/api/cloud/v1/image.proto";
+import "gpcore/api/cloud/v1/switch.proto";
+import "gpcore/api/cloud/v1/server.proto";
+import "gpcore/api/cloud/v1/node.proto";
+import "gpcore/api/cloud/v1/region.proto";
+import "gpcore/api/cloud/v1/project.proto";
+import "gpcore/api/admin/v1/admin_log.proto";
+import "gpcore/api/admin/v1/spla_reporting.proto";
+import "gpcore/api/admin/v1/dashboard.proto";
+import "gpcore/api/admin/v1/arp.proto";
+import "gpcore/api/cloud/v1/network.proto";
+import "gpcore/api/cloud/v1/user.proto";
+import "gpcore/api/cloud/v1/notification.proto";
+import "gpcore/type/v1/price.proto";
+import "gpcore/type/v1/pagination.proto";
+import "gpcore/type/v1/search.proto";
+
+// ListServersResponse
+message ListServersResponse {
+  // List of servers
+  repeated gpcore.api.cloud.v1.Server servers = 1;
+  // Pagination
+  gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
+}
+
+message SubscribeServerLogsResponse {
+  // Notification
+  gpcore.api.cloud.v1.Notification notification = 1;
+}
+
+message GetServerResponse {
+  gpcore.api.cloud.v1.Server server = 1;
+  optional gpcore.api.cloud.v1.Project project = 2;
+}
+
+// ListServerLogsResponse
+message ListServerLogsResponse {
+  // List of logs
+  repeated gpcore.api.cloud.v1.ServerLog logs = 1;
+  // Pagination
+  gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
+}
+
+message UpdateServerResponse {
+  gpcore.api.cloud.v1.Server server = 1;
+}
+
+message DeleteServerResponse{}
+
+message GetServerPlatformManagementResponse {
+  gpcore.api.cloud.v1.PlatformManagement platform_management = 1;
+}
+
+message ListAvailableServerResponse {
+  message AvailableServer {
+    int64 id = 1;
+    string name = 2;
+    string datacenter = 3;
+    string netbox_link = 4;
+    string flavour = 5;
+    repeated string inventory_items = 6;
+  }
+
+  repeated AvailableServer server = 1;
+}
+
+message ImportServerResponse {
+  repeated gpcore.api.cloud.v1.Server server = 1;
+
+  repeated string errors = 2;
+}
+
+message CreateImageResponse {
+  gpcore.api.cloud.v1.Image image = 1;
+}
+
+message ListImagesResponse {
+  repeated gpcore.api.cloud.v1.Image images = 1;
+}
+
+message GetImageResponse {
+  gpcore.api.cloud.v1.Image image = 1;
+}
+
+message UpdateImageResponse {
+  gpcore.api.cloud.v1.Image image = 1;
+}
+
+message DeleteImageResponse {}
+
+message DeleteImageVersionResponse {}
+
+message ListOperatingSystemsResponse {
+  repeated gpcore.api.cloud.v1.OperatingSystem operating_systems = 1;
+}
+
+message DeleteOperatingSystemResponse {}
+
+message CreateOperatingSystemResponse {
+  gpcore.api.cloud.v1.OperatingSystem operating_system = 1;
+}
+
+message GetOperatingSystemResponse {
+  gpcore.api.cloud.v1.OperatingSystem operating_system = 1;
+}
+
+message UpdateOperatingSystemResponse {
+  gpcore.api.cloud.v1.OperatingSystem operating_system = 1;
+}
+
+message ListFlavoursResponse {
+  repeated gpcore.api.admin.v1.AdminFlavour flavours = 1;
+}
+
+message GetFlavourResponse {
+  gpcore.api.admin.v1.AdminFlavour flavour = 1;
+}
+
+message DeleteFlavourResponse {}
+
+message CreateFlavourResponse {
+  gpcore.api.admin.v1.AdminFlavour flavour = 1;
+}
+
+message UpdateFlavourResponse {
+  gpcore.api.admin.v1.AdminFlavour flavour = 1;
+}
+
+// ListSwitchesResponse
+message ListSwitchesResponse {
+  // List of switches
+  repeated gpcore.api.cloud.v1.Switch switches = 1;
+  // Pagination
+  gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
+}
+
+message GetSwitchResponse {
+  gpcore.api.cloud.v1.Switch switch = 1;
+}
+
+// ListUsersResponse
+message ListUsersResponse {
+  // List of users
+  repeated gpcore.api.cloud.v1.User users = 1;
+  // Pagination
+  gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
+}
+
+message GetUserResponse {
+  gpcore.api.cloud.v1.User user = 1;
+}
+
+message UpdateUserResponse {
+  gpcore.api.cloud.v1.User user = 1;
+}
+
+message LockUserResponse {}
+message UnlockUserResponse {}
+
+// ListProjectsResponse return a list of projects.
+message ListProjectsResponse {
+  // List of projects
+  repeated gpcore.api.cloud.v1.Project projects = 1;
+  // Pagination
+  gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
+}
+
+// GetProjectResponse hold the requested project, the associated nodes for that
+// project and all compute discounts.
+message GetProjectResponse {
+  // Project
+  gpcore.api.cloud.v1.Project project = 1;
+  // All associated nodes for that project
+  repeated gpcore.api.cloud.v1.Node nodes = 2;
+}
+
+// UpdateProjectResponse return the updated project with their new fields.
+message UpdateProjectResponse {
+  // Updated project
+  gpcore.api.cloud.v1.Project project = 1;
+}
+
+message ListProjectNetworksResponse {
+  repeated gpcore.api.cloud.v1.Network networks = 1;
+}
+
+message CreateProjectNetworkResponse {
+  repeated gpcore.api.cloud.v1.Network networks = 1;
+}
+
+// ListAdminLogsResponse
+message ListAdminLogsResponse {
+  // List of admin logs
+  repeated gpcore.api.admin.v1.AdminLog logs = 1;
+  // Pagination
+  gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
+}
+
+// ListIPHistoriesResponse
+message ListIPHistoriesResponse {
+  // List of IP histories
+  repeated gpcore.api.cloud.v1.IPHistory ip_histories = 1;
+  // Pagination
+  gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of nodes available. May be differ from the number of results,
+  // from this response because of the pagination.
+  int64 total = 3;
+}
+
+message ListRegionsResponse {
+  repeated gpcore.api.cloud.v1.Region regions = 1;
+}
+
+message GetRegionResponse {
+  gpcore.api.cloud.v1.Region region = 1;
+}
+
+message ListNetworksResponse {
+  repeated gpcore.api.cloud.v1.Network networks = 1;
+}
+message CreateNetworkResponse {
+  gpcore.api.cloud.v1.Network network = 1;
+}
+
+message DeleteNetworkResponse {}
+
+message GetNetworkResponse {
+  gpcore.api.cloud.v1.Network network = 1;
+}
+message UpdateNetworkResponse {
+  gpcore.api.cloud.v1.Network network = 1;
+}
+
+message UpdateDatacenterResponse {
+  gpcore.api.cloud.v1.Datacenter datacenter = 1;
+}
+
+message DeleteSubnetResponse {}
+
+message CreateSubnetResponse {
+  gpcore.api.cloud.v1.Subnet subnet = 1;
+}
+
+message UpdateSubnetResponse {
+  gpcore.api.cloud.v1.Subnet subnet = 1;
+}
+
+message GetSplaReportingResponse {
+  repeated gpcore.api.admin.v1.SplaReporting reports = 1;
+
+  gpcore.type.v1.Price total_price = 2;
+  int32 total_cpu_packages = 3;
+
+  repeated string dates = 4;
+}
+
+
+message ListAgentsResponse {
+  repeated gpcore.api.admin.v1.Agent agents = 1;
+}
+
+message CreateAgentResponse {
+  gpcore.api.admin.v1.Agent agent = 1;
+}
+
+message DeleteAgentResponse {}
+
+message GetDashboardResponse {
+  gpcore.api.admin.v1.Dashboard dashboard = 1;
+}
+
+message GetServerSearchOptionsResponse {
+  gpcore.type.v1.SearchOptions options = 1;
+}
+
+message TriggerServerActionResponse {
+}
+
+message LookupARPResponse {
+  repeated gpcore.api.admin.v1.ARPEntry arp_entries = 1;
+}

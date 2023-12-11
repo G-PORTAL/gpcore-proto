@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package gpcore.api.auth.v1;
+
+import "google/protobuf/timestamp.proto";
+import "gpcore/api/cloud/v1/user.proto";
+
+message Client {
+  string id = 1;
+
+  string name = 2;
+
+  string description = 3;
+
+  gpcore.api.cloud.v1.BasicUser service_account = 4;
+
+  optional string secret = 5;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}

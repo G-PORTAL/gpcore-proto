@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package gpcore.api.payment.v1;
+
+message ListCreditCardsRequest {
+  string billing_profile_id = 1;
+}
+
+message AddCreditCardRequest {
+  string billing_profile_id = 1;
+}
+
+message RemoveCreditCardRequest {
+  string billing_profile_id = 1;
+
+  string id = 2;
+}
+
+message ChangeDefaultCreditCardRequest {
+  string billing_profile_id = 1;
+
+  string id = 2;
+}
+
+message CreateBillingProfileRequest {
+  string name = 1;
+  optional string company = 2;
+  optional string vat_id = 3;
+
+  string country_code = 4;
+  optional string state = 5;
+  string street = 6;
+  string city = 7;
+  string postcode = 8;
+
+  string billing_email = 9;
+}
+
+message UpdateBillingProfileRequest {
+  string id = 1;
+  string name = 2;
+  optional string company = 3;
+  optional string vat_id = 4;
+
+  string country_code = 5;
+  optional string  state = 6;
+
+  string street = 7;
+  string city = 8;
+  string postcode = 9;
+
+  string billing_email = 10;
+}
+
+message ListBillingProfilesRequest {}
+
+message DeleteBillingProfileRequest {
+  string id = 1;
+}
+
+// ListPlanCodesRequest requests a list of all plan codes available in Lago,
+// including the default plan codes "free" and "gpcore".
+message ListPlanCodesRequest {
+}
+
+// GetDefaultPlanCodeRequest requests the default plan code for a given billing
+// profile.
+message GetDefaultPlanCodeRequest {
+  // Billing Profile UUID
+  string billing_profile_id = 1;
+}
+
+// ChangeDefaultPlanCodeRequest requests to change the default plan code for
+// a given billing address.
+message ChangeDefaultPlanCodeRequest {
+  // Billing Profile UUID
+  string billing_profile_id = 1;
+
+  // New lago plan code
+  string plan_code = 2;
+}

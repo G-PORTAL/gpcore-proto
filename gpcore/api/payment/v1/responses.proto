@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package gpcore.api.payment.v1;
+
+import "gpcore/type/v1/credit_card.proto";
+import "gpcore/api/cloud/v1/billing.proto";
+
+message ListCreditCardsResponse {
+  repeated gpcore.type.v1.CreditCard credit_cards = 1;
+}
+
+message AddCreditCardResponse {
+  string stripe_setup_ident = 1;
+}
+
+message RemoveCreditCardResponse {}
+
+message CreateBillingProfileResponse {
+  gpcore.api.cloud.v1.BillingProfile billing_profile = 1;
+}
+
+message ChangeDefaultCreditCardResponse {
+  gpcore.type.v1.CreditCard credit_card = 1;
+}
+
+message UpdateBillingProfileResponse {
+  gpcore.api.cloud.v1.BillingProfile billing_profile = 1;
+}
+
+message ListBillingProfilesResponse {
+  repeated gpcore.api.cloud.v1.BillingProfile billing_profiles = 1;
+}
+
+message DeleteBillingProfileResponse {}
+
+// ListPlanCodesResponse contains the list of plans available in lago. The plans
+// are "plan codes" in lago terms and represented as string. The list includes
+// the default plans "free" and "gpcore".
+message ListPlanCodesResponse {
+  // List of plan codes available in lago
+  repeated string plan_codes = 1;
+}
+
+// GetDefaultPlanCodeResponse contains the default plan, set for a payment
+// profile. This identifier is used for newly created projects ad the plan code.
+message GetDefaultPlanCodeResponse {
+  // Current default plan code (lago identifier)
+  string plan_code = 1;
+}
+
+// ChangeDefaultPlanCodesResponse contains the new plan code set on a payment
+// profile.
+message ChangeDefaultPlanCodeResponse {
+  // New default plan code (lago identifier)
+  string plan_code = 1;
+}

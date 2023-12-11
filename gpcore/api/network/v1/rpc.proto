@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package gpcore.api.network.v1;
+
+import "gpcore/v1/options.proto";
+import "gpcore/api/network/v1/requests.proto";
+import "gpcore/api/network/v1/responses.proto";
+
+service NetworkService {
+  rpc GetDHCPInformation (gpcore.api.network.v1.GetDHCPInformationRequest) returns (gpcore.api.network.v1.GetDHCPInformationResponse) {
+    option (gpcore.v1.api) = {
+      authorization_type: AUTHORIZATION_TYPE_CLIENT;
+    };
+  }
+
+  rpc ListMonitoringTargets (gpcore.api.network.v1.ListMonitoringTargetsRequest) returns (gpcore.api.network.v1.ListMonitoringTargetsResponse){
+    option (gpcore.v1.api) = {
+      authorization_type: AUTHORIZATION_TYPE_CLIENT;
+    };
+  }
+
+  rpc UpdateMonitoringStatus (gpcore.api.network.v1.UpdateMonitoringStatusRequest) returns (gpcore.api.network.v1.UpdateMonitoringStatusResponse){
+    option (gpcore.v1.api) = {
+      authorization_type: AUTHORIZATION_TYPE_CLIENT;
+    };
+  }
+
+}
