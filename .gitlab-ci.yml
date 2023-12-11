@@ -21,7 +21,7 @@ build:protobuf:
     - git clone git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git --branch main protobuf/
     - cd protobuf/
     - rm -rfv google/ gpcloud/
-    - buf export buf.build/gportal/gportal-cloud --output ./
+    - buf export buf.build/gportal/gpcore --output ./
     - git config --global user.email "ci@g-portal.cloud"
     - git config --global user.name "Gitlab CI"
     - git add .
