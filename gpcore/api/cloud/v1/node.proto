@@ -10,6 +10,7 @@ import "gpcore/api/cloud/v1/image.proto";
 import "gpcore/api/cloud/v1/flavour.proto";
 import "gpcore/api/cloud/v1/network.proto";
 import "gpcore/type/v1/ssh_key.proto";
+import "gpcore/type/v1/monitoring.proto";
 
 message UserNodeLimit {
   int32 limit = 1;
@@ -22,6 +23,11 @@ message NodeNetworkInterface {
   repeated string ip_addresses = 2;
 
   gpcore.api.cloud.v1.NetworkType type = 3;
+}
+
+message NodeLoginHint {
+  string username = 1;
+  bool has_password = 2;
 }
 
 message RescueMode {
@@ -63,7 +69,12 @@ message Node {
   bool has_spla_license = 16;
   // If there is a change of the billing period pending, it will be shown here
   optional gpcore.api.cloud.v1.BillingPeriod target_billing_period = 17;
-
+  // Login hint for the node if available
+  optional gpcore.api.cloud.v1.NodeLoginHint login_hint = 18;
+  // True if node is managed
+  bool is_managed = 19;
+  // Monitoring state of the node
+  optional gpcore.type.v1.MonitoringState monitoring_state = 20;
   // Timestamp to which the node is paid
   google.protobuf.Timestamp paid_until_at = 999;
   // Timestamp when the node is created

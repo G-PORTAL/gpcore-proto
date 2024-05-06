@@ -3,6 +3,7 @@ syntax = "proto3";
 package gpcore.api.network.v1;
 
 import "gpcore/api/cloud/v1/monitoring.proto";
+import "gpcore/type/v1/pagination.proto";
 
 message GetDHCPInformationResponse {
   string ip_address = 1;
@@ -18,6 +19,11 @@ message GetDHCPInformationResponse {
 
 message ListMonitoringTargetsResponse {
   repeated gpcore.api.cloud.v1.MonitoringTarget targets = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message UpdateMonitoringStatusResponse {}

@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package gpcore.api.cloud.v2;
+
+import "gpcore/api/cloud/v1/project.proto";
+import "gpcore/api/cloud/v1/billing.proto";
+import "gpcore/api/cloud/v1/node.proto";
+import "gpcore/api/cloud/v1/user.proto";
+import "gpcore/type/v1/pagination.proto";
+
+// ListProjectBillsResponse contains a list of bills.
+message ListBillingProfileBillsResponse {
+  // List of bills
+  repeated gpcore.api.cloud.v1.Bill bills = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // List of available years for other requests.
+  repeated int32 years = 3;
+  // Total number of bills available.
+  int64 total = 4;
+}
+
+// ListBillingProfileProjectsResponse contains a list of projects.
+message ListBillingProfileProjectsResponse {
+  // List of projects
+  repeated gpcore.api.cloud.v1.BasicProject projects = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of bills available.
+  int64 total = 3;
+}
+
+// ListProjectLogsResponse contains a list of logs.
+message ListProjectLogsResponse {
+  // All log items for page
+  repeated gpcore.api.cloud.v1.ProjectLog logs = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of project logs available. May be differ from the number of
+  // results, from this response because of the pagination.
+  int64 total = 3;
+  // A list with all users
+  repeated gpcore.api.cloud.v1.BasicUser users = 4;
+}
+
+// ListNodesResponse
+message ListNodesResponse {
+  // Node list
+  repeated gpcore.api.cloud.v1.Node nodes = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
+}

@@ -3,6 +3,7 @@ syntax = "proto3";
 package gpcore.api.admin.v1;
 import "gpcore/api/admin/v1/flavour.proto";
 import "gpcore/api/admin/v1/agent.proto";
+import "gpcore/api/admin/v1/user.proto";
 import "gpcore/api/cloud/v1/image.proto";
 import "gpcore/api/cloud/v1/switch.proto";
 import "gpcore/api/cloud/v1/server.proto";
@@ -25,8 +26,8 @@ message ListServersResponse {
   // List of servers
   repeated gpcore.api.cloud.v1.Server servers = 1;
   // Pagination
-  gpcore.type.v1.PaginationResponse pagination = 2;
-  // Total number of nodes available. May be differ from the number of results,
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
   // from this response because of the pagination.
   int64 total = 3;
 }
@@ -39,6 +40,7 @@ message SubscribeServerLogsResponse {
 message GetServerResponse {
   gpcore.api.cloud.v1.Server server = 1;
   optional gpcore.api.cloud.v1.Project project = 2;
+  optional gpcore.api.cloud.v1.Node node = 3;
 }
 
 // ListServerLogsResponse
@@ -46,8 +48,8 @@ message ListServerLogsResponse {
   // List of logs
   repeated gpcore.api.cloud.v1.ServerLog logs = 1;
   // Pagination
-  gpcore.type.v1.PaginationResponse pagination = 2;
-  // Total number of nodes available. May be differ from the number of results,
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
   // from this response because of the pagination.
   int64 total = 3;
 }
@@ -56,7 +58,15 @@ message UpdateServerResponse {
   gpcore.api.cloud.v1.Server server = 1;
 }
 
+message UpdateNodeResponse {
+  gpcore.api.cloud.v1.Node node = 1;
+}
+
+message DestroyNodeResponse {}
+
 message DeleteServerResponse{}
+
+message ReplaceServerResponse{}
 
 message GetServerPlatformManagementResponse {
   gpcore.api.cloud.v1.PlatformManagement platform_management = 1;
@@ -73,6 +83,11 @@ message ListAvailableServerResponse {
   }
 
   repeated AvailableServer server = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message ImportServerResponse {
@@ -87,6 +102,11 @@ message CreateImageResponse {
 
 message ListImagesResponse {
   repeated gpcore.api.cloud.v1.Image images = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message GetImageResponse {
@@ -103,6 +123,11 @@ message DeleteImageVersionResponse {}
 
 message ListOperatingSystemsResponse {
   repeated gpcore.api.cloud.v1.OperatingSystem operating_systems = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message DeleteOperatingSystemResponse {}
@@ -121,6 +146,11 @@ message UpdateOperatingSystemResponse {
 
 message ListFlavoursResponse {
   repeated gpcore.api.admin.v1.AdminFlavour flavours = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message GetFlavourResponse {
@@ -142,8 +172,8 @@ message ListSwitchesResponse {
   // List of switches
   repeated gpcore.api.cloud.v1.Switch switches = 1;
   // Pagination
-  gpcore.type.v1.PaginationResponse pagination = 2;
-  // Total number of nodes available. May be differ from the number of results,
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
   // from this response because of the pagination.
   int64 total = 3;
 }
@@ -157,8 +187,8 @@ message ListUsersResponse {
   // List of users
   repeated gpcore.api.cloud.v1.User users = 1;
   // Pagination
-  gpcore.type.v1.PaginationResponse pagination = 2;
-  // Total number of nodes available. May be differ from the number of results,
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
   // from this response because of the pagination.
   int64 total = 3;
 }
@@ -179,8 +209,8 @@ message ListProjectsResponse {
   // List of projects
   repeated gpcore.api.cloud.v1.Project projects = 1;
   // Pagination
-  gpcore.type.v1.PaginationResponse pagination = 2;
-  // Total number of nodes available. May be differ from the number of results,
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
   // from this response because of the pagination.
   int64 total = 3;
 }
@@ -202,6 +232,11 @@ message UpdateProjectResponse {
 
 message ListProjectNetworksResponse {
   repeated gpcore.api.cloud.v1.Network networks = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message CreateProjectNetworkResponse {
@@ -213,8 +248,8 @@ message ListAdminLogsResponse {
   // List of admin logs
   repeated gpcore.api.admin.v1.AdminLog logs = 1;
   // Pagination
-  gpcore.type.v1.PaginationResponse pagination = 2;
-  // Total number of nodes available. May be differ from the number of results,
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
   // from this response because of the pagination.
   int64 total = 3;
 }
@@ -224,14 +259,19 @@ message ListIPHistoriesResponse {
   // List of IP histories
   repeated gpcore.api.cloud.v1.IPHistory ip_histories = 1;
   // Pagination
-  gpcore.type.v1.PaginationResponse pagination = 2;
-  // Total number of nodes available. May be differ from the number of results,
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
   // from this response because of the pagination.
   int64 total = 3;
 }
 
 message ListRegionsResponse {
   repeated gpcore.api.cloud.v1.Region regions = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message GetRegionResponse {
@@ -240,6 +280,11 @@ message GetRegionResponse {
 
 message ListNetworksResponse {
   repeated gpcore.api.cloud.v1.Network networks = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 message CreateNetworkResponse {
   gpcore.api.cloud.v1.Network network = 1;
@@ -280,6 +325,11 @@ message GetSplaReportingResponse {
 
 message ListAgentsResponse {
   repeated gpcore.api.admin.v1.Agent agents = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message CreateAgentResponse {
@@ -301,4 +351,8 @@ message TriggerServerActionResponse {
 
 message LookupARPResponse {
   repeated gpcore.api.admin.v1.ARPEntry arp_entries = 1;
+}
+
+message ImpersonateUserResponse {
+   gpcore.api.admin.v1.UserToken token = 1;
 }

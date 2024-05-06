@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package gpcore.api.admin.v1;
+
+import "google/protobuf/timestamp.proto";
+
+message UserToken {
+  string access_token = 1;
+
+  string token_type = 2;
+
+  repeated string scope = 3;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+  google.protobuf.Timestamp expires_at = 1002;
+}

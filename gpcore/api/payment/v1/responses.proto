@@ -4,9 +4,15 @@ package gpcore.api.payment.v1;
 
 import "gpcore/type/v1/credit_card.proto";
 import "gpcore/api/cloud/v1/billing.proto";
+import "gpcore/type/v1/pagination.proto";
 
 message ListCreditCardsResponse {
   repeated gpcore.type.v1.CreditCard credit_cards = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message AddCreditCardResponse {
@@ -29,6 +35,11 @@ message UpdateBillingProfileResponse {
 
 message ListBillingProfilesResponse {
   repeated gpcore.api.cloud.v1.BillingProfile billing_profiles = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message DeleteBillingProfileResponse {}
@@ -39,6 +50,11 @@ message DeleteBillingProfileResponse {}
 message ListPlanCodesResponse {
   // List of plan codes available in lago
   repeated string plan_codes = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 // GetDefaultPlanCodeResponse contains the default plan, set for a payment

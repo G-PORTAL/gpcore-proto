@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package gpcore.api.cloud.v2;
+
+import "gpcore/api/cloud/v2/requests.proto";
+import "gpcore/api/cloud/v2/responses.proto";
+
+// CloudService provide the basic needs to work with projects and their nodes.
+// This is your daily driver to maintain and grow your fleet of nodes. Projects
+// group a list of nodes. Every project can have it's own bill. Users can be part
+// of one or more projects.
+service CloudService {
+  // ListBillingProfileBills returns a list of bills associated to a given
+  // billing profile.
+  rpc ListBillingProfileBills(gpcore.api.cloud.v2.ListBillingProfileBillsRequest) returns (gpcore.api.cloud.v2.ListBillingProfileBillsResponse) {}
+  // ListBillingProfileProjects returns a list of projects associated to a
+  // given billing profile.
+  rpc ListBillingProfileProjects(gpcore.api.cloud.v2.ListBillingProfileProjectsRequest) returns (gpcore.api.cloud.v2.ListBillingProfileProjectsResponse) {}
+  // ListProjectLogs list the audit log entries for a given project. This log
+  // contain events happen on that project like membership changes, changes on
+  // settings or nodes. The executing user and the time is logged to all
+  // entries, so it can be used as an audit log. To narrow down the results,
+  // you can specify a user uuid to only show log entries for a given user. An
+  // optional search term can filter the result. If the result set is too large,
+  // only a portion will be returned. The pages_total field will indicated this.
+  rpc ListProjectLogs (gpcore.api.cloud.v2.ListProjectLogsRequest) returns (gpcore.api.cloud.v2.ListProjectLogsResponse) {}
+  // ListNodes list all available nodes for a given project. If the list is too
+  // long, only a portion of the result will be returned. The pages_total field
+  // will give an indication what portion is left from the result. Use the page
+  // field to specify an offset. Use the search field to filter the results.
+  rpc ListNodes (gpcore.api.cloud.v2.ListNodesRequest) returns (gpcore.api.cloud.v2.ListNodesResponse) {}
+}

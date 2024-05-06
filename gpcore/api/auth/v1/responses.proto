@@ -5,6 +5,7 @@ package gpcore.api.auth.v1;
 import "gpcore/api/auth/v1/client.proto";
 import "gpcore/api/cloud/v1/user.proto";
 import "gpcore/api/cloud/v1/token.proto";
+import "gpcore/type/v1/pagination.proto";
 
 message RegisterResponse {
   gpcore.api.cloud.v1.User user = 1;
@@ -20,6 +21,11 @@ message ResendConfirmEMailResponse {}
 
 message ListClientsResponse {
   repeated gpcore.api.auth.v1.Client clients = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 

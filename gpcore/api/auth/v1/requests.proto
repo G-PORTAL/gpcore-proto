@@ -2,19 +2,29 @@ syntax = "proto3";
 
 package gpcore.api.auth.v1;
 
+import "buf/validate/validate.proto";
+import "gpcore/type/v1/pagination.proto";
+
 message RegisterRequest {
-  string email = 1;
+  string email = 1 [(buf.validate.field).string.email = true];
 
-  string password = 2;
+  string password = 2 [(buf.validate.field).string.min_len = 8];
 
-  string recaptcha_token = 3;
+  string recaptcha_token = 3 [(buf.validate.field).string.min_len = 1];
+
+  string first_name = 4 [(buf.validate.field).string.min_len = 2];
+
+  string last_name = 5 [(buf.validate.field).string.min_len = 2];
 }
 
 message GetUserRequest {}
 
 message ResendConfirmEMailRequest {}
 
-message ListClientsRequest {}
+message ListClientsRequest {
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
 message CreateClientRequest {
   string name = 1;

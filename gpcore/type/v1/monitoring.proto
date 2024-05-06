@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package gpcore.type.v1;
+
+enum HealthState {
+  HEALTH_STATE_UNSPECIFIED = 0;
+  HEALTH_STATE_OK = 1;
+  HEALTH_STATE_WARNING = 2;
+  HEALTH_STATE_CRITICAL = 3;
+}
+
+enum MonitoringTarget {
+  MONITORING_TARGET_UNSPECIFIED = 0;
+  MONITORING_TARGET_REDFISH = 1;
+  MONITORING_TARGET_SYSTEM = 2;
+  MONITORING_TARGET_MEMORY = 3;
+  MONITORING_TARGET_DISK = 4;
+}
+
+message MonitoringState {
+  message Component {
+    MonitoringTarget target = 1;
+    HealthState heath_state = 2;
+  }
+
+  repeated Component components = 1;
+
+  google.protobuf.Timestamp updated_at = 1001;
+}

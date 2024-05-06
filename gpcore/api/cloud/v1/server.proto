@@ -8,6 +8,7 @@ import "gpcore/api/cloud/v1/region.proto";
 import "gpcore/api/cloud/v1/flavour.proto";
 import "gpcore/api/cloud/v1/network.proto";
 import "gpcore/api/cloud/v1/switch.proto";
+import "gpcore/type/v1/monitoring.proto";
 
 enum ServerStatus {
   SERVER_STATUS_UNSPECIFIED = 0;
@@ -141,6 +142,12 @@ message Server {
   bool in_use = 14;
 
   optional string last_error = 15;
+
+  // Monitoring state of the server
+  optional gpcore.type.v1.MonitoringState monitoring_state = 20;
+
+  // Monitoring detected server as broken
+  bool is_broken = 21;
 
   google.protobuf.Timestamp last_inspection_at = 996;
   google.protobuf.Timestamp status_updated_at = 997;

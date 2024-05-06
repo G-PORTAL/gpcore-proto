@@ -23,6 +23,11 @@ message GetUserNodeLimitResponse {
 
 message ListProjectFlavoursResponse {
   repeated gpcore.api.cloud.v1.Flavour flavours = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 // CreateProjectResponse
@@ -36,6 +41,11 @@ message ListProjectsResponse {
   repeated Project projects = 1;
   // Number of invites left
   repeated gpcore.api.cloud.v1.ProjectInvite invites = 2;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 3;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 4;
 }
 
 // GetProjectResponse
@@ -98,6 +108,8 @@ message ListBillingProfileBillsResponse {
   gpcore.type.v1.PaginationResponse pagination = 2;
   // List of available years for other requests.
   repeated int32 years = 3;
+  // Total number of bills available.
+  int64 total = 4;
 }
 
 message GetBillingProfileBillDetailsResponse {
@@ -121,10 +133,20 @@ message ListBillingProfileProjectsResponse {
 
 message ListCountriesResponse {
   repeated gpcore.type.v1.Country countries = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message ListTimezonesResponse {
   repeated gpcore.type.v1.Timezone timezones = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message UpdateTimezoneResponse {}
@@ -132,14 +154,29 @@ message UpdateTimezoneResponse {}
 
 message ListDatacentersResponse {
   repeated gpcore.api.cloud.v1.Datacenter datacenters = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message ListPublicImagesResponse {
   repeated gpcore.api.cloud.v1.OperatingSystem operating_systems = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message ListProjectSSHKeysResponse {
   repeated ProjectSSHKey keys = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 // ListNodesResponse
@@ -148,7 +185,7 @@ message ListNodesResponse {
   repeated gpcore.api.cloud.v1.Node nodes = 1;
   // Pagination
   gpcore.type.v1.PaginationResponse pagination = 2;
-  // Total number of nodes available. May be differ from the number of results,
+  // Total number of items available. May be differ from the number of results
   // from this response because of the pagination.
   int64 total = 3;
 }
@@ -191,6 +228,11 @@ message ChangeNodeRescueModeResponse {}
 
 message ListProjectImagesResponse {
   repeated gpcore.api.cloud.v1.BasicImage images = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message CreateProjectImageResponse {
@@ -206,6 +248,11 @@ message DeleteProjectImageVersionResponse {}
 
 message ListUserSSHKeysResponse {
   repeated gpcore.type.v1.SSHKey ssh_keys = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message CreateUserSSHKeyResponse {

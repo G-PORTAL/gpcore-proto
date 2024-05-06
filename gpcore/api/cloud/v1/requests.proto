@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package gpcore.api.cloud.v1;
 
+import "buf/validate/validate.proto";
 import "gpcore/api/cloud/v1/project.proto";
 import "gpcore/api/cloud/v1/image.proto";
 import "gpcore/api/cloud/v1/node.proto";
@@ -20,12 +21,16 @@ message GetSplaPriceRequest {
 message SubscribeNotificationsRequest {}
 
 // Ticket Board
+// @deprecated
 message ListProjectSupportTicketsRequest {
-  string id = 1;
+  option deprecated = true;
+  string id = 1 [deprecated = true];
 }
 
+// @deprecated
 message ListProjectSupportPackagesRequest {
-  string id = 1;
+  option deprecated = true;
+  string id = 1 [deprecated = true];
 }
 
 // ChangeDefaultProjectRequest changes the default project.
@@ -49,7 +54,10 @@ message CreateProjectRequest {
 }
 
 // ListProjectsRequest list the users projects.
-message ListProjectsRequest {}
+message ListProjectsRequest {
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
 // GetProjectRequest return the project associated with the given uuid.
 message GetProjectRequest {
@@ -182,10 +190,16 @@ message ListProjectLogsRequest {
 }
 
 // Request to get all countries.
-message ListCountriesRequest {}
+message ListCountriesRequest {
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
 // Request to get all timezones.
-message ListTimezonesRequest {}
+message ListTimezonesRequest {
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
 // Request to get all timezones.
 message UpdateTimezoneRequest {
@@ -193,22 +207,33 @@ message UpdateTimezoneRequest {
 }
 
 // Request to get all datacenters.
-message ListDatacentersRequest {}
+message ListDatacentersRequest {
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
 // Request to get all project flavours.
 message ListProjectFlavoursRequest {
   string id = 1;
 
   string datacenter_id = 2;
+  // Determines if sold out flavours should be included in the response.
+  optional bool include_sold_out = 3;
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 4;
 }
 
 // Request to get all public images, filter by its flavour ID.
 message ListPublicImagesRequest {
   string flavour_id = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 2;
 }
 
 message ListProjectSSHKeysRequest {
   string id = 1;
+  // Pagination (ignored for now)
+  optional gpcore.type.v1.PaginationRequest pagination = 2;
 }
 
 // ListNodesRequest requests the list of all available images.
@@ -299,9 +324,9 @@ message UpdateNodeRequest {
 // DestroyNodeRequest deletes a node
 message DestroyNodeRequest {
   // Node uuid
-  string id = 1;
+  string id = 1 [(buf.validate.field).string.uuid = true];
   // Project uuid
-  string project_id = 2;
+  string project_id = 2 [(buf.validate.field).string.uuid = true];
 }
 
 message PowerActionNodeRequest {
@@ -323,6 +348,8 @@ message ChangeNodeRescueModeRequest {
 message ListProjectImagesRequest {
   // Project uuid
   string id = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 2;
 }
 
 message CreateProjectImageRequest {
@@ -354,8 +381,10 @@ message DeleteProjectImageVersionRequest {
   string project_id = 2;
 }
 
-message ListUserSSHKeysRequest {}
-
+message ListUserSSHKeysRequest {
+  // Pagination (ignored for now)
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
 message CreateUserSSHKeyRequest {
   string name = 1;

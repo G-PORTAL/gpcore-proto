@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package gpcore.api.admin.v1;
+import "buf/validate/validate.proto";
 import "gpcore/api/cloud/v1/user.proto";
 import "gpcore/api/cloud/v1/flavour.proto";
 import "gpcore/api/cloud/v1/server.proto";
@@ -18,7 +19,7 @@ import "gpcore/type/v1/search.proto";
 // ListServersRequest
 message ListServersRequest {
   // Pagination
-  gpcore.type.v1.PaginationRequest pagination = 1;
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
   // Optional search term
   optional string search = 2;
 
@@ -42,7 +43,7 @@ message ListServerLogsRequest {
   // Server UUID
   string id = 1;
   // Pagination
-  gpcore.type.v1.PaginationRequest pagination = 2;
+  optional gpcore.type.v1.PaginationRequest pagination = 2;
   // An optional search term, can be contain spaces for fuzzy search
   optional string search = 3;
 }
@@ -53,17 +54,48 @@ message UpdateServerRequest {
   string flavour_id = 2;
 
   bool in_pool = 3;
+
+  bool is_broken = 4;
+}
+
+message UpdateNodeRequest {
+  string id = 1;
+
+  bool managed = 3;
+}
+
+message DestroyNodeRequest {
+  string id = 1;
 }
 
 message DeleteServerRequest {
-  string id = 1;
+  string id = 1 [(buf.validate.field).string.uuid = true];
+
+  // Force delete the server, even when it is in use or unresponsive
+  bool force = 2;
+}
+
+message ReplaceServerRequest {
+  enum ReplaceServerReason {
+    REPLACE_SERVER_REASON_UNSPECIFIED = 0;
+    REPLACE_SERVER_REASON_BROKEN = 1;
+  }
+
+  string id = 1 [(buf.validate.field).string.uuid = true];
+
+  ReplaceServerReason reason = 2;
+
+  optional string replacement_server_id = 3 [(buf.validate.field).string.uuid = true];
 }
 
 message GetServerPlatformManagementRequest {
   string id = 1;
 }
 
-message ListAvailableServerRequest {}
+message ListAvailableServerRequest {
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
 message ImportServerRequest {
   repeated int64 netbox_ids = 1;
@@ -80,7 +112,10 @@ message CreateImageRequest {
   api.cloud.v1.ImageRelease release = 8;
 }
 
-message ListImagesRequest {}
+message ListImagesRequest {
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
 message GetImageRequest{
   string id = 1;
@@ -105,7 +140,10 @@ message DeleteImageVersionRequest {
   string id = 1;
 }
 
-message ListOperatingSystemsRequest {}
+message ListOperatingSystemsRequest {
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
 message DeleteOperatingSystemRequest {
   string id = 1;
@@ -129,7 +167,10 @@ message UpdateOperatingSystemRequest {
 }
 
 // Request to list all available flavours.
-message ListFlavoursRequest {}
+message ListFlavoursRequest {
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
 message GetFlavourRequest {
   string id = 1;
@@ -173,7 +214,7 @@ message DeleteFlavourRequest {
 // ListSwitchesRequest
 message ListSwitchesRequest {
   // Pagination
-  gpcore.type.v1.PaginationRequest pagination = 1;
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
   // Optional search term
   optional string search = 2;
 }
@@ -185,7 +226,7 @@ message GetSwitchRequest {
 // ListUsersRequest
 message ListUsersRequest {
   // Pagination
-  gpcore.type.v1.PaginationRequest pagination = 1;
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
   // Optional search term
   optional string search = 2;
 }
@@ -229,7 +270,7 @@ message UnlockUserRequest {
 // ListUserBillsRequest
 message ListUserBillsRequest {
   // Pagination
-  gpcore.type.v1.PaginationRequest pagination = 1;
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
   // Optional user uuid for which we want bills
   optional string user_id = 2;
 }
@@ -240,7 +281,7 @@ message ListUserBillsRequest {
 // used to implement pagination.
 message ListProjectsRequest {
   // Pagination
-  gpcore.type.v1.PaginationRequest pagination = 1;
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
   // Optional search term, use space for fuzzy search.
   optional string search = 2;
   // Optional user id to filter results which are the given user is part of.
@@ -280,6 +321,8 @@ message UpdateProjectRequest {
 
 message ListProjectNetworksRequest {
   string id = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 2;
 }
 
 message CreateProjectNetworkRequest {
@@ -299,7 +342,7 @@ message CreateProjectNetworkRequest {
 // ListAdminLogsRequest
 message ListAdminLogsRequest {
   // Pagination
-  gpcore.type.v1.PaginationRequest pagination = 1;
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
   // Optional search term
   optional string search = 2;
   // Optional admin user uuid
@@ -311,7 +354,7 @@ message ListAdminLogsRequest {
 // ListIPHistoriesRequest
 message ListIPHistoriesRequest {
   // Pagination
-  gpcore.type.v1.PaginationRequest pagination = 1;
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
   // Optional search term
   optional string search = 2;
 }
@@ -320,9 +363,15 @@ message GetRegionRequest {
   string id = 1;
 }
 
-message ListRegionsRequest {}
+message ListRegionsRequest {
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
-message ListNetworksRequest {}
+message ListNetworksRequest {
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
 message CreateNetworkRequest {
   string datacenter_id = 1;
@@ -381,7 +430,10 @@ message GetSplaReportingRequest {
   int32 month = 2;
 }
 
-message ListAgentsRequest {}
+message ListAgentsRequest {
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
 message CreateAgentRequest {
   gpcore.api.admin.v1.AgentType type = 1;
@@ -405,4 +457,8 @@ message TriggerServerActionRequest {
 
 message LookupARPRequest {
   string mac_address = 1;
+}
+
+message ImpersonateUserRequest {
+  string user_id = 1;
 }

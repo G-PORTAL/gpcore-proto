@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package gpcore.api.cloud.v2;
+
+import "gpcore/type/v1/pagination.proto";
+import "gpcore/type/v1/search.proto";
+
+// ListProjectBillsRequest requests a list of bills
+message ListBillingProfileBillsRequest {
+  // Billing Profile uuid
+  string id = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 2;
+  // Optional only for the given year
+  optional int32 year = 3;
+}
+
+// ListBillingProfileProjectsRequest requests a list of projects associated
+// to a given billing profile.
+message ListBillingProfileProjectsRequest {
+  // Billing Profile uuid
+  string id = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 2;
+}
+
+// ListProjectLogsRequest requests an audit log for a given project.
+message ListProjectLogsRequest {
+  // Project uuid
+  string id = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 2;
+  // Optional search term
+  string search = 3;
+  // Optional user uuid filter
+  string user_id = 4;
+}
+
+// ListNodesRequest requests the list of all available images.
+message ListNodesRequest {
+  // Project uuid
+  string id = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 2;
+  // Optional search term
+  optional string search = 3;
+  // Optional extended search
+  optional gpcore.type.v1.SearchRequest extended_search = 4;
+}

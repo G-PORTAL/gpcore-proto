@@ -2,8 +2,12 @@ syntax = "proto3";
 
 package gpcore.api.payment.v1;
 
+import "gpcore/type/v1/pagination.proto";
+
 message ListCreditCardsRequest {
   string billing_profile_id = 1;
+  // Pagination (ignored for now)
+  optional gpcore.type.v1.PaginationRequest pagination = 2;
 }
 
 message AddCreditCardRequest {
@@ -52,7 +56,10 @@ message UpdateBillingProfileRequest {
   string billing_email = 10;
 }
 
-message ListBillingProfilesRequest {}
+message ListBillingProfilesRequest {
+  // Pagination
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+}
 
 message DeleteBillingProfileRequest {
   string id = 1;
@@ -61,6 +68,8 @@ message DeleteBillingProfileRequest {
 // ListPlanCodesRequest requests a list of all plan codes available in Lago,
 // including the default plan codes "free" and "gpcore".
 message ListPlanCodesRequest {
+  // Pagination (ignored for now)
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
 }
 
 // GetDefaultPlanCodeRequest requests the default plan code for a given billing

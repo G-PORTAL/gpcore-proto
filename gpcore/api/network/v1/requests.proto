@@ -3,12 +3,15 @@ syntax = "proto3";
 package gpcore.api.network.v1;
 
 import "gpcore/api/cloud/v1/monitoring.proto";
+import "gpcore/type/v1/pagination.proto";
 
 message GetDHCPInformationRequest {
   string mac_address = 1;
 }
 
 message ListMonitoringTargetsRequest {
+  // Pagination (ignored for now)
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
 }
 
 message UpdateMonitoringStatusRequest {

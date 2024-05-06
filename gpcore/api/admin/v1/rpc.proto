@@ -79,9 +79,31 @@ service AdminService {
       required_roles: ["manage-server"]
     };
   }
+  rpc UpdateNode (gpcore.api.admin.v1.UpdateNodeRequest) returns (gpcore.api.admin.v1.UpdateNodeResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-server"]
+    };
+  }
+  // Destroys a selected node immediately regardless of the current billing interval. This will remove the node from
+  // the server and the server will be available for new installations.
+  rpc DestroyNode (gpcore.api.admin.v1.DestroyNodeRequest) returns (gpcore.api.admin.v1.DestroyNodeResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-server"]
+    };
+  }
   rpc DeleteServer (gpcore.api.admin.v1.DeleteServerRequest) returns (gpcore.api.admin.v1.DeleteServerResponse) {
     option (gpcore.v1.api) = {
       required_roles: ["delete-server"]
+    };
+  }
+
+  // To replace a server due several reasons like hardware failure, etc. the existing customer node can be replaced
+  // with a new server. This will replace the active node server with the new server.
+  // Note: This will also trigger a new installation of on the new server. If the existing data should be kept, a
+  // manual move of the disk needs to be performed after the installation has been processed by hands-on service.
+  rpc ReplaceServer (gpcore.api.admin.v1.ReplaceServerRequest) returns (gpcore.api.admin.v1.ReplaceServerResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-server"]
     };
   }
 
@@ -114,6 +136,13 @@ service AdminService {
   rpc UnlockUser (gpcore.api.admin.v1.UnlockUserRequest) returns (gpcore.api.admin.v1.UnlockUserResponse) {
     option (gpcore.v1.api) = {
       required_roles: ["manage-user"]
+    };
+  }
+
+  // Impersonates a given user account
+  rpc ImpersonateUser (gpcore.api.admin.v1.ImpersonateUserRequest) returns (gpcore.api.admin.v1.ImpersonateUserResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["impersonate-user"]
     };
   }
 
