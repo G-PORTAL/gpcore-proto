@@ -4,6 +4,7 @@ package gpcore.api.cloud.v1;
 
 import "google/protobuf/timestamp.proto";
 import "gpcore/api/cloud/v1/user.proto";
+import "gpcore/api/cloud/v1/server_pool.proto";
 import "gpcore/api/cloud/v1/payment.proto";
 import "gpcore/api/cloud/v1/flavour.proto";
 import "gpcore/api/cloud/v1/billing.proto";
@@ -81,6 +82,9 @@ message Project {
   /* field 11 removed - repeated gpcore.api.cloud.v1.PaymentMethod allowed_payment_methods = 11; */
   /* field 12 removed - repeated gpcore.api.cloud.v1.ProjectLockReason lock_reasons = 12; */
   reserved 10 to 12;
+
+  // Project assigned server pools
+  repeated gpcore.api.cloud.v1.ServerPool server_pools = 13;
 
   // Project timestamps
   google.protobuf.Timestamp created_at = 1000;

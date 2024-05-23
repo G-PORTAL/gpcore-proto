@@ -10,6 +10,7 @@ import "gpcore/api/cloud/v1/server.proto";
 import "gpcore/api/cloud/v1/node.proto";
 import "gpcore/api/cloud/v1/region.proto";
 import "gpcore/api/cloud/v1/project.proto";
+import "gpcore/api/cloud/v1/server_pool.proto";
 import "gpcore/api/admin/v1/admin_log.proto";
 import "gpcore/api/admin/v1/spla_reporting.proto";
 import "gpcore/api/admin/v1/dashboard.proto";
@@ -66,7 +67,9 @@ message DestroyNodeResponse {}
 
 message DeleteServerResponse{}
 
-message ReplaceServerResponse{}
+message ReplaceServerResponse{
+  string id = 1;
+}
 
 message GetServerPlatformManagementResponse {
   gpcore.api.cloud.v1.PlatformManagement platform_management = 1;
@@ -351,6 +354,10 @@ message TriggerServerActionResponse {
 
 message LookupARPResponse {
   repeated gpcore.api.admin.v1.ARPEntry arp_entries = 1;
+}
+
+message ListServerPoolsResponse {
+  repeated gpcore.api.cloud.v1.ServerPool server_pools = 1;
 }
 
 message ImpersonateUserResponse {

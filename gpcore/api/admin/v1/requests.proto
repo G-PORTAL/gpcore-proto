@@ -53,7 +53,7 @@ message UpdateServerRequest {
 
   string flavour_id = 2;
 
-  bool in_pool = 3;
+  optional string server_pool_id = 3;
 
   bool is_broken = 4;
 }
@@ -462,3 +462,5 @@ message LookupARPRequest {
 message ImpersonateUserRequest {
   string user_id = 1;
 }
+
+message ListServerPoolsRequest {}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package gpcore.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+
+message ServerPool {
+  string id = 1;
+
+  string name = 2;
+
+  bool one_time = 3;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}

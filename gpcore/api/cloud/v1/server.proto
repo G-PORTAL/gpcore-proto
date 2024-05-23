@@ -7,6 +7,7 @@ import "gpcore/api/cloud/v1/user.proto";
 import "gpcore/api/cloud/v1/region.proto";
 import "gpcore/api/cloud/v1/flavour.proto";
 import "gpcore/api/cloud/v1/network.proto";
+import "gpcore/api/cloud/v1/server_pool.proto";
 import "gpcore/api/cloud/v1/switch.proto";
 import "gpcore/type/v1/monitoring.proto";
 
@@ -70,6 +71,7 @@ enum ServerAction {
   SERVER_ACTION_SYNC_IRONIC = 3;
   SERVER_ACTION_RECREATE_PM_CUSTOMER = 4;
 }
+
 
 message PlatformManagement {
   PlatformManagementType type = 1;
@@ -148,6 +150,9 @@ message Server {
 
   // Monitoring detected server as broken
   bool is_broken = 21;
+
+  // Server pool information
+  optional gpcore.api.cloud.v1.ServerPool server_pool = 22;
 
   google.protobuf.Timestamp last_inspection_at = 996;
   google.protobuf.Timestamp status_updated_at = 997;

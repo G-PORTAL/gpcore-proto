@@ -418,4 +418,11 @@ service AdminService {
       required_roles: ["view-arp"]
     };
   }
+
+  // List all available server pools
+  rpc ListServerPools (gpcore.api.admin.v1.ListServerPoolsRequest) returns (gpcore.api.admin.v1.ListServerPoolsResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-server"]
+    };
+  }
 }
