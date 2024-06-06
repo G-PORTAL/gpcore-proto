@@ -363,3 +363,9 @@ message ListServerPoolsResponse {
 message ImpersonateUserResponse {
    gpcore.api.admin.v1.UserToken token = 1;
 }
+
+message CreateServerPoolResponse {
+  gpcore.api.cloud.v1.ServerPool server_pool = 1;
+}
+
+message DeleteServerPoolResponse {}

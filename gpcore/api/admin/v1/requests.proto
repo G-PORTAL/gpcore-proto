@@ -317,6 +317,9 @@ message UpdateProjectRequest {
 
   // Linked billing address
   gpcore.api.cloud.v1.BillingProfile billing_profile = 7;
+
+  // List of server pool ids
+  repeated string server_pool_ids = 8;
 }
 
 message ListProjectNetworksRequest {
@@ -464,3 +467,13 @@ message ImpersonateUserRequest {
 }
 
 message ListServerPoolsRequest {}
+
+message CreateServerPoolRequest {
+  string name = 1 [(buf.validate.field).string.min_len = 3];
+
+  bool one_time = 2;
+}
+
+message DeleteServerPoolRequest {
+  string id = 1;
+}

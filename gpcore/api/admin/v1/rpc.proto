@@ -419,10 +419,24 @@ service AdminService {
     };
   }
 
+  // Create a new server pool
+  rpc CreateServerPool (gpcore.api.admin.v1.CreateServerPoolRequest) returns (gpcore.api.admin.v1.CreateServerPoolResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-server-pool"]
+    };
+  }
+
   // List all available server pools
   rpc ListServerPools (gpcore.api.admin.v1.ListServerPoolsRequest) returns (gpcore.api.admin.v1.ListServerPoolsResponse) {
     option (gpcore.v1.api) = {
       required_roles: ["view-server"]
+    };
+  }
+
+  // Delete a server pool
+  rpc DeleteServerPool (gpcore.api.admin.v1.DeleteServerPoolRequest) returns (gpcore.api.admin.v1.DeleteServerPoolResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["delete-server-pool"]
     };
   }
 }
