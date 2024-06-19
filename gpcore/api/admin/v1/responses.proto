@@ -356,8 +356,14 @@ message LookupARPResponse {
   repeated gpcore.api.admin.v1.ARPEntry arp_entries = 1;
 }
 
+// ListServerPoolsResponse contain a list of server pools.
 message ListServerPoolsResponse {
   repeated gpcore.api.cloud.v1.ServerPool server_pools = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message ImpersonateUserResponse {
