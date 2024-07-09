@@ -27,5 +27,7 @@ message AuditLog {
 
   string request_id = 5;
 
+  bytes payload = 6;
+
   google.protobuf.Timestamp created_at = 1000;
 }
