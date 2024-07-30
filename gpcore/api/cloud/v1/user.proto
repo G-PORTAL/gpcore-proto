@@ -29,6 +29,7 @@ message BasicUser {
     UserType type = 6;
     string timezone = 7;
     repeated UserTag tags = 8;
+    int32 node_limit = 9;
 }
 
 message User {
