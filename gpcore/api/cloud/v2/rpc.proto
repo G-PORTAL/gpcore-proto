@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package gpcore.api.cloud.v2;
 
+import "gpcore/v1/options.proto";
 import "gpcore/api/cloud/v2/requests.proto";
 import "gpcore/api/cloud/v2/responses.proto";
 
@@ -29,4 +30,11 @@ service CloudService {
   // will give an indication what portion is left from the result. Use the page
   // field to specify an offset. Use the search field to filter the results.
   rpc ListNodes (gpcore.api.cloud.v2.ListNodesRequest) returns (gpcore.api.cloud.v2.ListNodesResponse) {}
+  // ReadinessCheck is a simple health check to see if the service is up and
+  // running. It returns the version of the service.
+  rpc ReadinessCheck (gpcore.api.cloud.v2.ReadinessCheckRequest) returns (gpcore.api.cloud.v2.ReadinessCheckResponse) {
+    option (gpcore.v1.api) = {
+      authorization_type: AUTHORIZATION_TYPE_PUBLIC;
+    };
+  }
 }

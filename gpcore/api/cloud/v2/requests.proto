@@ -47,3 +47,5 @@ message ListNodesRequest {
   // Optional extended search
   optional gpcore.type.v1.SearchRequest extended_search = 4;
 }
+
+message ReadinessCheckRequest {}
