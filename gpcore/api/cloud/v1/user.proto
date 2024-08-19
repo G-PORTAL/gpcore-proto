@@ -71,6 +71,8 @@ message User {
 
   repeated UserTag tags = 14;
 
+  string default_plan_code = 15;
+
   google.protobuf.Timestamp last_login_at = 999;
   google.protobuf.Timestamp created_at = 1000;
   google.protobuf.Timestamp updated_at = 1001;
