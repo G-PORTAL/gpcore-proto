@@ -439,4 +439,16 @@ service AdminService {
       required_roles: ["delete-server-pool"]
     };
   }
+
+  rpc ListArpEntries (gpcore.api.admin.v1.ListArpEntriesRequest) returns (gpcore.api.admin.v1.ListArpEntriesResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-arp"]
+    };
+  }
+
+  rpc GetArpEntriesSearchOptions (gpcore.api.admin.v1.GetArpEntriesSearchOptionsRequest) returns (gpcore.api.admin.v1.GetArpEntriesSearchOptionsResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-arp"]
+    };
+  }
 }

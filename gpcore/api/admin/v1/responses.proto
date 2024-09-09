@@ -12,6 +12,7 @@ import "gpcore/api/cloud/v1/region.proto";
 import "gpcore/api/cloud/v1/project.proto";
 import "gpcore/api/cloud/v1/server_pool.proto";
 import "gpcore/api/admin/v1/admin_log.proto";
+import "gpcore/api/admin/v1/arp_ip_history.proto";
 import "gpcore/api/admin/v1/spla_reporting.proto";
 import "gpcore/api/admin/v1/dashboard.proto";
 import "gpcore/api/admin/v1/arp.proto";
@@ -375,3 +376,15 @@ message CreateServerPoolResponse {
 }
 
 message DeleteServerPoolResponse {}
+
+message ListArpEntriesResponse {
+  repeated gpcore.api.admin.v1.ArpIpHistory arp_entries = 1;
+
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+
+  int64 total = 3;
+}
+
+message GetArpEntriesSearchOptionsResponse {
+  gpcore.type.v1.SearchOptions options = 1;
+}

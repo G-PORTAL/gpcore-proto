@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package gpcore.api.admin.v1;
+
+import "google/protobuf/timestamp.proto";
+import "gpcore/api/cloud/v1/server.proto";
+
+enum ArpIpHistoryStatus {
+  // Unspecified status.
+  ARP_IP_HISTORY_STATUS_UNSPECIFIED = 0;
+  // The ARP IP history is valid.
+  ARP_IP_HISTORY_STATUS_VALID = 1;
+  // The ARP IP history is invalid because that IP does not belong to the server.
+  ARP_IP_HISTORY_STATUS_INVALID_SERVER = 2;
+  // The ARP IP history is invalid because that IP is stolen from another server.
+  ARP_IP_HISTORY_STATUS_STOLEN = 3;
+}
+
+message ArpIpHistory {
+  string id = 1;
+
+  string ip_address = 2;
+
+  string mac_address = 3;
+
+  optional gpcore.api.cloud.v1.BasicServer server = 4;
+
+  gpcore.api.admin.v1.ArpIpHistoryStatus status = 5;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+  google.protobuf.Timestamp deleted_at = 1002;
+}

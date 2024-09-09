@@ -13,13 +13,25 @@ service NetworkService {
     };
   }
 
-  rpc ListMonitoringTargets (gpcore.api.network.v1.ListMonitoringTargetsRequest) returns (gpcore.api.network.v1.ListMonitoringTargetsResponse){
+  rpc ListMonitoringTargets (gpcore.api.network.v1.ListMonitoringTargetsRequest) returns (gpcore.api.network.v1.ListMonitoringTargetsResponse) {
     option (gpcore.v1.api) = {
       authorization_type: AUTHORIZATION_TYPE_CLIENT;
     };
   }
 
-  rpc UpdateMonitoringStatus (gpcore.api.network.v1.UpdateMonitoringStatusRequest) returns (gpcore.api.network.v1.UpdateMonitoringStatusResponse){
+  rpc UpdateMonitoringStatus (gpcore.api.network.v1.UpdateMonitoringStatusRequest) returns (gpcore.api.network.v1.UpdateMonitoringStatusResponse) {
+    option (gpcore.v1.api) = {
+      authorization_type: AUTHORIZATION_TYPE_CLIENT;
+    };
+  }
+
+  rpc GetArpInformation (gpcore.api.network.v1.GetArpInformationRequest) returns (gpcore.api.network.v1.GetArpInformationResponse) {
+    option (gpcore.v1.api) = {
+      authorization_type: AUTHORIZATION_TYPE_CLIENT;
+    };
+  }
+
+  rpc NotifyArpChange (gpcore.api.network.v1.NotifyArpChangeRequest) returns (gpcore.api.network.v1.NotifyArpChangeResponse) {
     option (gpcore.v1.api) = {
       authorization_type: AUTHORIZATION_TYPE_CLIENT;
     };

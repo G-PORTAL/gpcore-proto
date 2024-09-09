@@ -3,6 +3,7 @@ syntax = "proto3";
 package gpcore.api.network.v1;
 
 import "gpcore/api/cloud/v1/monitoring.proto";
+import "gpcore/api/admin/v1/arp_ip_history.proto";
 import "gpcore/type/v1/pagination.proto";
 
 message GetDHCPInformationResponse {
@@ -27,3 +28,13 @@ message ListMonitoringTargetsResponse {
 }
 
 message UpdateMonitoringStatusResponse {}
+
+message GetArpInformationResponse {
+  repeated string networks = 1;
+
+  map<string, string> arp_table = 2;
+}
+
+message NotifyArpChangeResponse {
+  gpcore.api.admin.v1.ArpIpHistory arp_ip_history = 1;
+}

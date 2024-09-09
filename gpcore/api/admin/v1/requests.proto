@@ -486,3 +486,11 @@ message CreateServerPoolRequest {
 message DeleteServerPoolRequest {
   string id = 1;
 }
+
+message ListArpEntriesRequest {
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+
+  optional gpcore.type.v1.SearchRequest extended_search = 2;
+}
+
+message GetArpEntriesSearchOptionsRequest {}
