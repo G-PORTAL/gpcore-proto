@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package gpcore.api.cloud.v1;
+
+import "google/protobuf/timestamp.proto";
+import "gpcore/type/v1/cloud_provider.proto";
+
+message CloudProviderInterface {
+  // The MAC address of the interface
+  string mac_address = 1;
+
+  // The IP addresses of the interface
+  repeated string ip_addresses = 2;
+}
+
+message CloudProviderResource {
+  // The ID that the cloud provider uses to identify the resource
+  string id = 1;
+
+  // The name of the resource on the cloud provider
+  string name = 2;
+
+  // The flavour of the resource on the cloud provider
+  string type = 3;
+
+  // The cloud provider instance interfaces
+  repeated gpcore.api.cloud.v1.CloudProviderInterface interfaces = 4;
+
+  // If the resource is already imported into GPCORE, the node_id is set
+  optional string node_id = 5;
+
+  // Permalink to the resource on the cloud provider web panel
+  optional string permalink = 6;
+
+  // Creation date of the resource on the cloud provider
+  google.protobuf.Timestamp created_at = 1000;
+}
+
+message CloudProviderImage {
+  // The internal ID of the mapped cloud provider image
+  string id = 1;
+
+  // The type of the cloud provider
+  gpcore.type.v1.CloudProviderType type = 2;
+
+  // The ID of the image in the cloud provider
+  string cloud_provider_image_id = 3;
+
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}

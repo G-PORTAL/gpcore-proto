@@ -3,13 +3,14 @@ syntax = "proto3";
 package gpcore.api.cloud.v1;
 
 import "buf/validate/validate.proto";
-import "gpcore/api/cloud/v1/project.proto";
 import "gpcore/api/cloud/v1/image.proto";
 import "gpcore/api/cloud/v1/node.proto";
+import "gpcore/api/cloud/v1/project.proto";
 import "gpcore/api/cloud/v1/server.proto";
 import "gpcore/api/cloud/v1/billing.proto";
 import "gpcore/type/v1/pagination.proto";
 import "gpcore/type/v1/search.proto";
+import "gpcore/type/v1/cloud_provider.proto";
 
 message GetUserNodeLimitRequest {}
 
@@ -44,10 +45,12 @@ message ChangeDefaultProjectRequest {
 message CreateProjectRequest {
   // Project name, will be shown as the title in the UI
   string name = 1;
-  // Text, describing the project. Will be shown as a subtitle in the UI.
-  string description = 2;
-  // Project environment
-  gpcore.api.cloud.v1.ProjectEnvironment environment = 3;
+
+  // Deprecated. This will be removed on 2025/03/01.
+  string description = 2 [deprecated = true];
+  // Deprecated. This will be removed on 2025/03/01.
+  gpcore.api.cloud.v1.ProjectEnvironment environment = 3 [deprecated = true];
+
   // Billing profile id
   // TODO: Rename to billing_profile_id
   string billing_address_id = 4;
@@ -71,10 +74,12 @@ message UpdateProjectRequest {
   string id = 1;
   // Name
   string name = 2;
-  // Description
-  string description = 3;
-  // Environment
-  gpcore.api.cloud.v1.ProjectEnvironment environment = 4;
+
+  // Deprecated. This will be removed on 2025/03/01.
+  string description = 3 [deprecated = true];
+  // Deprecated. This will be removed on 2025/03/01.
+  gpcore.api.cloud.v1.ProjectEnvironment environment = 4 [deprecated = true];
+
   // Credit Card ID
   string credit_card_id = 5;
   // Billing Address ID
@@ -128,6 +133,88 @@ message RemoveMemberFromProjectRequest {
   string id = 1;
   // User uuid
   string user_id = 2;
+}
+
+// CreateProjectCloudProviderRequest creates a new cloud provider reference for
+// a project. After creating a new cloud provider reference, it is invalid
+// (valid flag set to false) until the API token is validated. This will be
+// checked in the background and the valid flag will be set to true if the
+// validation was successful.
+message CreateProjectCloudProviderRequest {
+  // Project uuid
+  string project_id = 1 [(buf.validate.field).string.uuid = true];
+  // Identifier for the cloud provider
+  string name = 2 [(buf.validate.field).string.min_len = 5];
+  // Type of the cloud provider
+  gpcore.type.v1.CloudProviderType type = 3;
+  // API token ID to access the cloud provider (access token ID or something else)
+  string api_key_id = 4;
+  // API token secret to access the cloud provider (access token secret or something else)
+  string api_key_secret = 5;
+  // Region identifier of the cloud provider
+  string region = 6;
+}
+
+// GetProjectCloudProviderRequest get a specific cloud provider for a project.
+message GetProjectCloudProviderRequest {
+  // Project uuid
+  string project_id = 1 [(buf.validate.field).string.uuid = true];
+  // Cloud provider uuid
+  string cloud_provider_id = 2 [(buf.validate.field).string.uuid = true];
+}
+
+// ListProjectMembersRequest list all assigned cloud providers for a project.
+message ListProjectCloudProvidersRequest {
+  // Project uuid
+  string project_id = 1 [(buf.validate.field).string.uuid = true];
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 2;
+}
+
+// UpdateProjectCloudProviderRequest updates the cloud provider for a project.
+message UpdateProjectCloudProviderRequest {
+  // Project uuid
+  string project_id = 1 [(buf.validate.field).string.uuid = true];
+  // Cloud provider uuid
+  string cloud_provider_id = 2 [(buf.validate.field).string.uuid = true];
+  // API token ID to access the cloud provider (access token ID or something else)
+  string api_key_id = 3;
+  // API token secret to access the cloud provider (access token secret or something else)
+  string api_key_secret = 4;
+  // Region identifier of the cloud provider (optional)
+  string region = 5 [(buf.validate.field).string.min_len = 3];
+  // An optional name for the cloud provider reference. This is just for
+  // the user to distinguish between multiple cloud providers or to store
+  // some information. This field will not used as a reference.
+  optional string name = 6 [(buf.validate.field).string.min_len = 5];
+}
+
+// DeleteProjectCloudProviderRequest deletes the cloud provider reference for
+// a project. The actual cloud provider account will not be touched, only the
+// reference in the project.
+message DeleteProjectCloudProviderRequest {
+  // Project uuid
+  string project_id = 1 [(buf.validate.field).string.uuid = true];
+  // Cloud provider uuid
+  string cloud_provider_id = 2;
+}
+
+message ListProjectCloudProviderResourcesRequest {
+  // Project uuid
+  string project_id = 1 [(buf.validate.field).string.uuid = true];
+  // Cloud provider uuid
+  string cloud_provider_id = 2 [(buf.validate.field).string.uuid = true];
+  // Pagination
+  gpcore.type.v1.PaginationRequest pagination = 3;
+}
+
+message ImportProjectCloudProviderResourceRequest {
+  // Project uuid
+  string project_id = 1 [(buf.validate.field).string.uuid = true];
+  // Cloud provider uuid
+  string cloud_provider_id = 2 [(buf.validate.field).string.uuid = true];
+  // Resource ID
+  string resource_id = 3;
 }
 
 message GetProjectUsageRequest {
@@ -223,11 +310,16 @@ message ListProjectFlavoursRequest {
   optional gpcore.type.v1.PaginationRequest pagination = 4;
 }
 
-// Request to get all public images, filter by its flavour ID.
+// Request to get all public images
 message ListPublicImagesRequest {
-  string flavour_id = 1;
+  // deprecated no longer in use
+  string flavour_id = 1 [deprecated = true];
+
   // Pagination
   optional gpcore.type.v1.PaginationRequest pagination = 2;
+
+  // Filter by cloud provider type (optional)
+  optional gpcore.type.v1.CloudProviderType cloud_provider_type = 3;
 }
 
 message ListProjectSSHKeysRequest {
@@ -297,7 +389,7 @@ message ReinstallNodeRequest {
   // Optional new FQDN of the hostname. Old FQDN will be used if empty.
   string fqdn = 3;
   // Optional root password which will set after provisioning. This is
-  // just a backup solution if no ssh keys are given. If no password is
+  // just a backup solution if no ssh public keys are given. If no password is
   // given, a random password is generated.
   optional string password = 4;
   // List of ssh public keys uuids used to log in to ssh. All keys need

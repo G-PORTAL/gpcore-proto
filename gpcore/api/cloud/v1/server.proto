@@ -84,6 +84,8 @@ message PlatformManagement {
   /* field 5 removed - string vnc_password = 5; */
   /* field 6 removed - int32 vnc_port = 6; */
   reserved 5 to 6;
+  reserved "vnc_password";
+  reserved "vnc_port";
 
   bool online = 7;
 
@@ -138,6 +140,7 @@ message Server {
 
   /* field 11 removed - bool has_vnc_console = 11; */
   reserved 11;
+  reserved "has_vnc_console";
 
   gpcore.api.cloud.v1.ServerPowerState power_state = 12;
   gpcore.api.cloud.v1.ServerProvisioningState provision_state = 13;

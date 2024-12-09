@@ -81,6 +81,33 @@ service CloudService {
   // project. The removed user is no longer part of that project and need to
   // be invited again.
   rpc RemoveMemberFromProject (gpcore.api.cloud.v1.RemoveMemberFromProjectRequest) returns (gpcore.api.cloud.v1.RemoveMemberFromProjectResponse) {}
+
+  // CreateProjectCloudProvider creates a new cloud provider reference for a given project.
+  rpc CreateProjectCloudProvider (gpcore.api.cloud.v1.CreateProjectCloudProviderRequest) returns (gpcore.api.cloud.v1.CreateProjectCloudProviderResponse) {}
+  // GetProjectCloudProvider returns a single cloud provider for a given project.
+  // This is a reference to a external cloud provider like AWS. The returned
+  // object contain all necessary information to work with that cloud provider.
+  rpc GetProjectCloudProvider (gpcore.api.cloud.v1.GetProjectCloudProviderRequest) returns (gpcore.api.cloud.v1.GetProjectCloudProviderResponse) {}
+  // ListProjectCloudProviders returns a list of all cloud providers associated
+  // to a given project.
+  rpc ListProjectCloudProviders (gpcore.api.cloud.v1.ListProjectCloudProvidersRequest) returns (gpcore.api.cloud.v1.ListProjectCloudProvidersResponse) {}
+  // UpdateProjectCloudProvider updates a cloud provider reference for a given project.
+  // After the call, the information (access token, region) will be checked
+  // for validity. If the cloud provider is not valid, the call will succeed,
+  // but the valid flag will be set to false. In this case, the cloud provider
+  // can not be used for further actions.
+  rpc UpdateProjectCloudProvider (gpcore.api.cloud.v1.UpdateProjectCloudProviderRequest) returns (gpcore.api.cloud.v1.UpdateProjectCloudProviderResponse) {}
+  // DeleteProjectCloudProvider deletes a cloud provider reference for a given project.
+  // The actual account on the cloud provider will not be touched, just the
+  // reference to GPCORE will be removed.
+  rpc DeleteProjectCloudProvider (gpcore.api.cloud.v1.DeleteProjectCloudProviderRequest) returns (gpcore.api.cloud.v1.DeleteProjectCloudProviderResponse) {}
+  // ListProjectCloudProviderResources Lists all available cloud resources on
+  // that specific cloud provider account.
+  rpc ListProjectCloudProviderResources (gpcore.api.cloud.v1.ListProjectCloudProviderResourcesRequest) returns (gpcore.api.cloud.v1.ListProjectCloudProviderResourcesResponse) {}
+  // ImportProjectCloudProviderResource imports a cloud provider resource to the project.
+  // It is used to link external cloud provider resources to a node in the project.
+  rpc ImportProjectCloudProviderResource (gpcore.api.cloud.v1.ImportProjectCloudProviderResourceRequest) returns (gpcore.api.cloud.v1.ImportProjectCloudProviderResourceResponse) {}
+
   // GetProjectUsage returns the current usage of a project. This includes the
   // current billing period total amount and the information how much of the
   rpc GetProjectUsage (gpcore.api.cloud.v1.GetProjectUsageRequest) returns (gpcore.api.cloud.v1.GetProjectUsageResponse) {}
@@ -127,8 +154,6 @@ service CloudService {
   // should be reopened.
   rpc SubscribeNotifications (gpcore.api.cloud.v1.SubscribeNotificationsRequest) returns (stream gpcore.api.cloud.v1.SubscribeNotificationsResponse) {}
   rpc ChangeNodeBillingPeriod (gpcore.api.cloud.v1.ChangeNodeBillingPeriodRequest) returns (gpcore.api.cloud.v1.ChangeNodeBillingPeriodResponse) {}
-
-
 
   // ListNodes list all available nodes for a given project. If the list is too
   // long, only a portion of the result will be returned. The pages_total field
@@ -197,14 +222,13 @@ service CloudService {
   // DeleteProjectImageVersion deletes a specific version of a project image.
   rpc DeleteProjectImageVersion (gpcore.api.cloud.v1.DeleteProjectImageVersionRequest) returns (gpcore.api.cloud.v1.DeleteProjectImageVersionResponse) {}
 
-  // ListProjectSSHKeys list all available SSH keys for a project.
+  // ListProjectSSHKeys list all available SSH public keys for a project.
   rpc ListProjectSSHKeys (gpcore.api.cloud.v1.ListProjectSSHKeysRequest) returns (gpcore.api.cloud.v1.ListProjectSSHKeysResponse) {}
 
-  // ListUserSHSKeys list all available SSH keys for a user.
+  // ListUserSHSKeys list all available SSH public keys for a user.
   rpc ListUserSSHKeys (gpcore.api.cloud.v1.ListUserSSHKeysRequest) returns (gpcore.api.cloud.v1.ListUserSSHKeysResponse) {}
-  // CreateUserSSHKey adds a new SSH key to the user.
+  // CreateUserSSHKey adds a new SSH public key to the user.
   rpc CreateUserSSHKey (gpcore.api.cloud.v1.CreateUserSSHKeyRequest) returns (gpcore.api.cloud.v1.CreateUserSSHKeyResponse) {}
-  // DeleteUserSSHKey removes a SSH key from the user.
+  // DeleteUserSSHKey removes a SSH public key from the user.
   rpc DeleteUserSSHKey (gpcore.api.cloud.v1.DeleteUserSSHKeyRequest) returns (gpcore.api.cloud.v1.DeleteUserSSHKeyResponse) {}
-
 }

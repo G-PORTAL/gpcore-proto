@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package gpcore.type.v1;
+
+// CloudProviderType is an enum for the type of cloud provider vendor identifier.
+enum CloudProviderType {
+    CLOUD_PROVIDER_TYPE_UNSPECIFIED = 0;
+    CLOUD_PROVIDER_TYPE_AWS = 1;
+    CLOUD_PROVIDER_TYPE_TENCENT = 2;
+}

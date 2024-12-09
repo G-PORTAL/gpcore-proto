@@ -17,13 +17,20 @@ message Switch {
   gpcore.api.cloud.v1.SwitchType type = 2;
   // IP Address for the uplink port
   string ip_address = 3;
+
   /* field 4 removed - string username = 4; */
   /* field 5 removed - string password = 5; */
   reserved 4 to 5;
+  reserved "username";
+  reserved "password";
+
   // Switch name
   string name = 6;
+
   /* field 7 removed - repeated string uplink_ports = 7; */
   reserved 7;
+  reserved "uplink_ports";
+
   // Netbox ID
   optional int64 netbox_id = 8;
 }

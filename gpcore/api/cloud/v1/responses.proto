@@ -2,9 +2,10 @@ syntax = "proto3";
 
 package gpcore.api.cloud.v1;
 
+import "gpcore/api/cloud/v1/notification.proto";
+import "gpcore/api/cloud/v1/cloud_provider.proto";
 import "gpcore/api/cloud/v1/flavour.proto";
 import "gpcore/api/cloud/v1/project.proto";
-import "gpcore/api/cloud/v1/notification.proto";
 import "gpcore/api/cloud/v1/region.proto";
 import "gpcore/api/cloud/v1/billing.proto";
 import "gpcore/api/cloud/v1/node.proto";
@@ -87,6 +88,59 @@ message InviteMemberToProjectResponse {
 }
 
 message RemoveMemberFromProjectResponse {
+}
+
+// CreateProjectCloudProviderResponse returns the created cloud provider
+// reference for the project. The valid flag will be initially set to false,
+// but after checking the credentials and the region, it will be set to true
+// if the check was successful.
+message CreateProjectCloudProviderResponse {
+  // Cloud provider for the project
+  gpcore.api.cloud.v1.ProjectCloudProvider cloud_provider = 1;
+}
+
+// GetProjectCloudProviderResponse returns the cloud provider for the project.
+message GetProjectCloudProviderResponse {
+  // Cloud provider for the project
+  gpcore.api.cloud.v1.ProjectCloudProvider cloud_provider = 1;
+  // If the cloud provider is valid and can be accessed.
+  bool valid = 2;
+}
+
+// ListProjectCloudProvidersResponse returns a list of cloud providers for the
+// project.
+message ListProjectCloudProvidersResponse {
+  // List of cloud providers
+  repeated gpcore.api.cloud.v1.ProjectCloudProvider cloud_providers = 1;
+  // Pagination
+  gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of cloud providers available. May be differ from the number of
+  // results, from this response because of the pagination.
+  int64 total = 3;
+}
+
+// UpdateProjectCloudProviderResponse returns the updated cloud provider for the
+// project.
+message UpdateProjectCloudProviderResponse {
+  // Updated cloud provider for the project
+  gpcore.api.cloud.v1.ProjectCloudProvider cloud_provider = 1;
+}
+
+// DeleteProjectCloudProviderResponse is the empty response for deleting a cloud
+// provider reference.
+message DeleteProjectCloudProviderResponse {}
+
+message ListProjectCloudProviderResourcesResponse {
+  repeated gpcore.api.cloud.v1.CloudProviderResource resources = 1;
+  // Pagination
+  gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of resources available. May be differ from the number of
+  // results, from this response because of the pagination.
+  int64 total = 3;
+}
+
+message ImportProjectCloudProviderResourceResponse {
+  gpcore.api.cloud.v1.Node node = 1;
 }
 
 // GetProjectLocksResponse holds possible locking reasons for the project, this

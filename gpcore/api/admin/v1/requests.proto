@@ -10,8 +10,8 @@ import "gpcore/api/cloud/v1/network.proto";
 import "gpcore/api/cloud/v1/payment.proto";
 import "gpcore/api/cloud/v1/billing.proto";
 import "gpcore/api/cloud/v1/region.proto";
-import "gpcore/api/cloud/v1/project.proto";
 import "gpcore/api/admin/v1/agent.proto";
+import "gpcore/type/v1/cloud_provider.proto";
 import "gpcore/type/v1/pagination.proto";
 import "gpcore/type/v1/file.proto";
 import "gpcore/type/v1/search.proto";
@@ -110,6 +110,7 @@ message CreateImageRequest {
   optional string vendor_data = 6;
   optional string alias = 7;
   api.cloud.v1.ImageRelease release = 8;
+  bool contains_spla_license = 9;
 }
 
 message ListImagesRequest {
@@ -130,6 +131,7 @@ message UpdateImageRequest {
   optional string vendor_data = 6;
   optional string alias = 7;
   api.cloud.v1.ImageRelease release = 8;
+  bool contains_spla_license = 9;
 }
 
 message DeleteImageRequest {
@@ -138,6 +140,24 @@ message DeleteImageRequest {
 
 message DeleteImageVersionRequest {
   string id = 1;
+}
+
+message ListCloudProviderImagesRequest {
+  string image_id = 1 [(buf.validate.field).string.uuid = true];
+}
+
+message AddCloudProviderImageRequest {
+  string image_id = 1 [(buf.validate.field).string.uuid = true];
+
+  gpcore.type.v1.CloudProviderType cloud_provider_type = 2;
+
+  string cloud_provider_image_id = 3;
+}
+
+message DeleteCloudProviderImageRequest {
+  string image_id = 1 [(buf.validate.field).string.uuid = true];
+
+  string cloud_provider_image_id = 2;
 }
 
 message ListOperatingSystemsRequest {
@@ -244,6 +264,10 @@ message UpdateUserRequest {
   /* field 4 removed - optional string email = 4; */
   /* field 5 removed - optional bool confirmed = 5; */
   reserved 2 to 5;
+  reserved "number";
+  reserved "full_name";
+  reserved "email";
+  reserved "confirmed";
 
   // How many node the user can create
   optional int32 node_limit = 6;
@@ -304,8 +328,11 @@ message UpdateProjectRequest {
   string id = 1;
   // Project name, will be shown as the title in the UI
   string name = 2;
-  // Text, describing the project. Will be shown as a subtitle in the UI.
-  string description = 3;
+
+  /* field 3 removed - string description = 3; */
+  reserved 3;
+  reserved "description";
+
   // An optional URL to an image which is then uses as a small avatar picture
   // near the project name. You can use an Image type, but nor vector images.
   // Make sure it is not too big and is quadratic to avoid stretching the
@@ -316,7 +343,9 @@ message UpdateProjectRequest {
   gpcore.api.cloud.v1.Currency currency = 5;
 
   // Project environment
-  gpcore.api.cloud.v1.ProjectEnvironment environment = 6;
+  /* field 6 removed - gpcore.api.cloud.v1.ProjectEnvironment environment = 6; */
+  reserved 6;
+  reserved "environment";
 
   // Linked billing address
   gpcore.api.cloud.v1.BillingProfile billing_profile = 7;

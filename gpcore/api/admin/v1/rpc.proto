@@ -209,6 +209,24 @@ service AdminService {
     };
   }
 
+  rpc ListCloudProviderImages (gpcore.api.admin.v1.ListCloudProviderImagesRequest) returns (gpcore.api.admin.v1.ListCloudProviderImagesResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-image"]
+    };
+  }
+
+  rpc AddCloudProviderImage (gpcore.api.admin.v1.AddCloudProviderImageRequest) returns (gpcore.api.admin.v1.AddCloudProviderImageResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-image"]
+    };
+  }
+
+  rpc DeleteCloudProviderImage (gpcore.api.admin.v1.DeleteCloudProviderImageRequest) returns (gpcore.api.admin.v1.DeleteCloudProviderImageResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-image"]
+    };
+  }
+
   // Lists all operating systems
   rpc ListOperatingSystems (gpcore.api.admin.v1.ListOperatingSystemsRequest) returns (gpcore.api.admin.v1.ListOperatingSystemsResponse) {
     option (gpcore.v1.api) = {

@@ -11,6 +11,7 @@ import "gpcore/api/cloud/v1/node.proto";
 import "gpcore/api/cloud/v1/region.proto";
 import "gpcore/api/cloud/v1/project.proto";
 import "gpcore/api/cloud/v1/server_pool.proto";
+import "gpcore/api/cloud/v1/cloud_provider.proto";
 import "gpcore/api/admin/v1/admin_log.proto";
 import "gpcore/api/admin/v1/arp_ip_history.proto";
 import "gpcore/api/admin/v1/spla_reporting.proto";
@@ -124,6 +125,17 @@ message UpdateImageResponse {
 message DeleteImageResponse {}
 
 message DeleteImageVersionResponse {}
+
+message ListCloudProviderImagesResponse {
+  repeated gpcore.api.cloud.v1.CloudProviderImage cloud_provider_images = 1;
+}
+
+message AddCloudProviderImageResponse {
+  gpcore.api.cloud.v1.CloudProviderImage cloud_provider_image = 1;
+}
+
+message DeleteCloudProviderImageResponse {}
+
 
 message ListOperatingSystemsResponse {
   repeated gpcore.api.cloud.v1.OperatingSystem operating_systems = 1;

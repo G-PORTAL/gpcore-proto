@@ -10,6 +10,7 @@ import "gpcore/api/cloud/v1/flavour.proto";
 import "gpcore/api/cloud/v1/billing.proto";
 import "gpcore/type/v1/price.proto";
 import "gpcore/type/v1/ssh_key.proto";
+import "gpcore/type/v1/cloud_provider.proto";
 
 enum ProjectLockReason {
   PROJECT_LOCK_REASON_UNSPECIFIED = 0;
@@ -19,11 +20,12 @@ enum ProjectLockReason {
   PROJECT_LOCK_REASON_SUBSCRIPTION_NOT_ACTIVE = 4;
 }
 
+/* Deprecated. This will be removed on 2025/03/01. */
 enum ProjectEnvironment {
-  PROJECT_ENVIRONMENT_UNSPECIFIED = 0;
-  PROJECT_ENVIRONMENT_DEVELOPMENT = 1;
-  PROJECT_ENVIRONMENT_STAGING = 2;
-  PROJECT_ENVIRONMENT_PRODUCTION = 3;
+  PROJECT_ENVIRONMENT_UNSPECIFIED = 0 [deprecated = true];
+  PROJECT_ENVIRONMENT_DEVELOPMENT = 1 [deprecated = true];
+  PROJECT_ENVIRONMENT_STAGING = 2 [deprecated = true];
+  PROJECT_ENVIRONMENT_PRODUCTION = 3 [deprecated = true];
 }
 
 enum ProjectMemberRole {
@@ -57,8 +59,8 @@ message Project {
   // Project name
   string name = 2;
 
-  // Project description
-  string description = 3;
+  // Deprecated. This will be removed on 2025/03/01.
+  string description = 3 [deprecated = true];
 
   // Avatar URL
   string avatar_url = 4;
@@ -66,14 +68,15 @@ message Project {
   // Currency used for that specific project
   gpcore.api.cloud.v1.Currency currency = 5;
 
-  // Project environment (test, staging, production, ...)
-  gpcore.api.cloud.v1.ProjectEnvironment environment = 6;
+  // Deprecated. This will be removed on 2025/03/01.
+  gpcore.api.cloud.v1.ProjectEnvironment environment = 6 [deprecated = true];
 
   // Members
   repeated gpcore.api.cloud.v1.ProjectMember members = 7;
 
   /* field 8 removed - gpcore.api.cloud.v1.CreditCard credit_card = 8; */
   reserved 8;
+  reserved "credit_card";
 
   // Linked billing address
   gpcore.api.cloud.v1.BillingProfile billing_profile = 9;
@@ -82,6 +85,9 @@ message Project {
   /* field 11 removed - repeated gpcore.api.cloud.v1.PaymentMethod allowed_payment_methods = 11; */
   /* field 12 removed - repeated gpcore.api.cloud.v1.ProjectLockReason lock_reasons = 12; */
   reserved 10 to 12;
+  reserved "payment_method";
+  reserved "allowed_payment_methods";
+  reserved "lock_reasons";
 
   // Project assigned server pools
   repeated gpcore.api.cloud.v1.ServerPool server_pools = 13;
@@ -150,5 +156,32 @@ message ProjectUsage {
   gpcore.type.v1.Price total = 1;
 
   repeated gpcore.api.cloud.v1.ProjectFlavourUsage flavour_usages = 2;
+}
+
+// ProjectCloudProvider is a message for the cloud provider information of a
+// project. A project can have multiple cloud providers assigned to it to provide
+// additional external computing power to the project.
+message ProjectCloudProvider {
+  // UUID of the cloud provider
+  string id = 1;
+
+  // Type of the cloud provider
+  gpcore.type.v1.CloudProviderType type = 2;
+
+  // Region identifier of the cloud provider
+  string region = 3;
+
+  // An optional name for the cloud provider reference
+  string name = 4;
+
+  // If the cloud provider is enabled and can be accessed by the project (e.g.
+  // API token is valid, the region is correct and available, ...)
+  bool valid = 5;
+
+  // Timestamp when the cloud provider was added to the project
+  google.protobuf.Timestamp created_at = 1000;
+  // Timestamp when the cloud provider was last updated (by the user or and internal
+  // mechanism like setting valid to false due to an invalid API token)
+  google.protobuf.Timestamp updated_at = 1001;
 }
 

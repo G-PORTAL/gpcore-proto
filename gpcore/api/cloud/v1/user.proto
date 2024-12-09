@@ -13,11 +13,14 @@ enum UserType {
 enum UserTag {
   USER_TAG_UNSPECIFIED = 0;
 
-  // User does not required to have a valid company and VAT number
+  // User does not require to have a valid company and VAT number
   USER_TAG_NO_COMPANY = 1;
 
-  // User does not required to have a valid credit card
+  // User does not require to have a valid credit card
   USER_TAG_NO_CREDIT_CARD = 2;
+
+  // User can access the cloud providers BETA features
+  USER_TAG_ACCESS_TO_CLOUD_PROVIDERS = 3;
 }
 
 message BasicUser {
@@ -62,6 +65,7 @@ message User {
 
   /* field 10 removed - repeated gpcore.api.cloud.v1.PaymentMethod payment_methods = 10; */
   reserved 10;
+  reserved "payment_methods";
 
   string keycloak_id = 11;
 

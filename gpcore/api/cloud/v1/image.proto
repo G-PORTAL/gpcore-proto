@@ -3,9 +3,9 @@ syntax = "proto3";
 package gpcore.api.cloud.v1;
 
 import "google/protobuf/timestamp.proto";
+import "gpcore/api/cloud/v1/cloud_provider.proto";
 import "gpcore/api/cloud/v1/project.proto";
 import "gpcore/type/v1/file.proto";
-
 
 enum AuthenticationType {
   AUTHENTICATION_TYPE_UNSPECIFIED = 0;
@@ -40,7 +40,6 @@ enum ImageChecksumType {
   IMAGE_CHECKSUM_TYPE_SHA256 = 3;
   IMAGE_CHECKSUM_TYPE_SHA512 = 4;
 }
-
 
 enum ImageFormatType {
   IMAGE_FORMAT_TYPE_UNSPECIFIED = 0;
@@ -100,6 +99,13 @@ message BasicImage {
 
   api.cloud.v1.ImageRelease release = 8;
 
+  // If the image contains a SPLA license, you wil be charged for the usage, The price
+  // depends on your selected hardware configuration, use GetProjectFlavours to get the
+  // SPLA license price for the selected hardware configuration.
+  //
+  // If you like to use your own Windows license, you need to upload a custom image.
+  bool contains_spla_license = 9;
+
   google.protobuf.Timestamp created_at = 1000;
   google.protobuf.Timestamp updated_at = 1001;
 }
@@ -131,6 +137,15 @@ message Image {
   optional string alias = 12;
 
   api.cloud.v1.ImageRelease release = 13;
+
+  repeated api.cloud.v1.CloudProviderImage cloud_provider_images = 14;
+
+  // If the image contains a SPLA license, you wil be charged for the usage, The price
+  // depends on your selected hardware configuration, use GetProjectFlavours to get the
+  // SPLA license price for the selected hardware configuration.
+  //
+  // If you like to use your own Windows license, you need to upload a custom image.
+  bool contains_spla_license = 15;
 
   google.protobuf.Timestamp created_at = 1000;
   google.protobuf.Timestamp updated_at = 1001;

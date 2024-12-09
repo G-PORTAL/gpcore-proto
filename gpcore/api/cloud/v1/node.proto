@@ -9,6 +9,7 @@ import "gpcore/api/cloud/v1/region.proto";
 import "gpcore/api/cloud/v1/image.proto";
 import "gpcore/api/cloud/v1/flavour.proto";
 import "gpcore/api/cloud/v1/network.proto";
+import "gpcore/api/cloud/v1/project.proto";
 import "gpcore/type/v1/ssh_key.proto";
 import "gpcore/type/v1/monitoring.proto";
 
@@ -75,8 +76,33 @@ message Node {
   bool is_managed = 19;
   // Monitoring state of the node
   optional gpcore.type.v1.MonitoringState monitoring_state = 20;
+
+  // Cloud provider account information
+  optional gpcore.api.cloud.v1.ProjectCloudProvider cloud_provider = 21;
+  // Cloud provider resource id
+  optional string cloud_provider_resource_id = 22;
+  // Permalink to the resource. If it is a GPCORE own bare metal server, this
+  // will link to the specific node in the web panel. If it is a external
+  // cloud provider resource, it will link to the resource in the cloud provider
+  // web panel.
+  optional string permalink = 23;
+
   // Timestamp to which the node is paid
   google.protobuf.Timestamp paid_until_at = 999;
+  // Timestamp when the node is created
+  google.protobuf.Timestamp created_at = 1000;
+  // Timestamp when the node is updates the last rime
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message BasicNode {
+  string id = 1;
+
+  // Project uuid
+  string project_id = 2;
+
+  string fqdn = 3;
+
   // Timestamp when the node is created
   google.protobuf.Timestamp created_at = 1000;
   // Timestamp when the node is updates the last rime
