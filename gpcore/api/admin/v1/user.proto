@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package gpcore.api.admin.v1;
 
+import "gpcore/api/cloud/v1/user.proto";
 import "google/protobuf/timestamp.proto";
 
 message UserToken {
@@ -14,4 +15,14 @@ message UserToken {
   google.protobuf.Timestamp created_at = 1000;
   google.protobuf.Timestamp updated_at = 1001;
   google.protobuf.Timestamp expires_at = 1002;
+}
+
+message UserStats {
+  gpcore.api.cloud.v1.BasicUser user = 1;
+
+  int32 total_nodes = 2;
+
+  int32 total_nodes_30_days_ago = 3;
+
+  google.protobuf.Timestamp last_node_created_at = 4;
 }

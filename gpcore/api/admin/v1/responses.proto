@@ -220,6 +220,10 @@ message UpdateUserResponse {
 message LockUserResponse {}
 message UnlockUserResponse {}
 
+message GetUserStatsResponse {
+  repeated gpcore.api.admin.v1.UserStats user_stats = 1;
+}
+
 // ListProjectsResponse return a list of projects.
 message ListProjectsResponse {
   // List of projects

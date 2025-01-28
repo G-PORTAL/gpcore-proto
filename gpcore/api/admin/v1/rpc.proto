@@ -138,7 +138,11 @@ service AdminService {
       required_roles: ["manage-user"]
     };
   }
-
+  rpc GetUserStats (gpcore.api.admin.v1.GetUserStatsRequest) returns (gpcore.api.admin.v1.GetUserStatsResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-user"]
+    };
+  }
   // Impersonates a given user account
   rpc ImpersonateUser (gpcore.api.admin.v1.ImpersonateUserRequest) returns (gpcore.api.admin.v1.ImpersonateUserResponse) {
     option (gpcore.v1.api) = {

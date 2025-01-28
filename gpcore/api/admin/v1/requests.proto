@@ -294,6 +294,8 @@ message UnlockUserRequest {
   string reason = 2;
 }
 
+message GetUserStatsRequest {}
+
 // ListUserBillsRequest
 message ListUserBillsRequest {
   // Pagination
