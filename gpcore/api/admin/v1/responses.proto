@@ -235,19 +235,27 @@ message ListProjectsResponse {
   int64 total = 3;
 }
 
-// GetProjectResponse hold the requested project, the associated nodes for that
-// project and all compute discounts.
+// GetProjectResponse contain the project.
 message GetProjectResponse {
   // Project
   gpcore.api.cloud.v1.Project project = 1;
-  // All associated nodes for that project
-  repeated gpcore.api.cloud.v1.Node nodes = 2;
 }
 
 // UpdateProjectResponse return the updated project with their new fields.
 message UpdateProjectResponse {
   // Updated project
   gpcore.api.cloud.v1.Project project = 1;
+}
+
+// ListProjectNodesResponse
+message ListProjectNodesResponse {
+  // List of nodes
+  repeated gpcore.api.cloud.v1.Node nodes = 1;
+  // Pagination
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of items available. May be differ from the number of results
+  // from this response because of the pagination.
+  int64 total = 3;
 }
 
 message ListProjectNetworksResponse {

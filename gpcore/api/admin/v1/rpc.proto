@@ -336,6 +336,13 @@ service AdminService {
     };
   }
 
+  // List project nodes
+  rpc ListProjectNodes (gpcore.api.admin.v1.ListProjectNodesRequest) returns (gpcore.api.admin.v1.ListProjectNodesResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-project"]
+    };
+  }
+
   // List project specific networks
   rpc ListProjectNetworks (gpcore.api.admin.v1.ListProjectNetworksRequest) returns (gpcore.api.admin.v1.ListProjectNetworksResponse) {
     option (gpcore.v1.api) = {

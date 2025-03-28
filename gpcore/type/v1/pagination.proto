@@ -14,7 +14,8 @@ package gpcore.type.v1;
 message PaginationRequest {
   // The current portion of the result set we are interested in. A page is the
   // position in the result set multiplied by the limit. Its the analogy to a
-  // page in a book. A page can contain "limit" amount of items.
+  // page in a book. A page can contain "limit" amount of items. Pages start to
+  // count at 1. If the page is not set, the default value is 1.
   int32 page = 1;
   // Specify the number of items to get as a result set. The limit is also used
   // to calculate the starting offset. If the limit is not set, a reasonable
