@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package gpcore.api.admin.v1;
+
+import "google/protobuf/timestamp.proto";
+
+message UsageReportingEntry {
+  string node_id = 1;
+  string project_name = 2;
+  string project_id = 3;
+  string datacenter_short = 4;
+  string flavour_name = 5;
+  string billing_period = 6;
+  string user_id = 7;
+  string user_email = 80;
+  optional string fqdn = 9;
+  string status = 10;
+  double duration_hours = 11;
+  bool spla_license = 12;
+
+  google.protobuf.Timestamp created_at = 1000;
+  optional google.protobuf.Timestamp deleted_at = 1002;
+}

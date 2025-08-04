@@ -11,4 +11,3 @@ message ImageUploadValidateResponse {
 
 message ImageUploadConfirmResponse {}
 
-message LagoWebhookResponse {}

@@ -18,10 +18,4 @@ service GatewayService {
       authorization_type: AUTHORIZATION_TYPE_CLIENT;
     };
   }
-
-  rpc LagoWebhook (gpcore.api.gateway.v1.LagoWebhookRequest) returns (gpcore.api.gateway.v1.LagoWebhookResponse) {
-    option (gpcore.v1.api) = {
-      authorization_type: AUTHORIZATION_TYPE_CLIENT;
-    };
-  }
 }

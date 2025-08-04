@@ -277,9 +277,6 @@ message UpdateUserRequest {
 
   // Tags
   repeated gpcore.api.cloud.v1.UserTag tags = 8;
-
-  // Plan code
-  string default_plan_code = 9;
 }
 
 // XXX: Reintroduce in frontend
@@ -534,3 +531,9 @@ message ListArpEntriesRequest {
 }
 
 message GetArpEntriesSearchOptionsRequest {}
+
+message GetUsageReportingRequest {
+  int32 year = 1;
+
+  int32 month = 2;
+}

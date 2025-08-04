@@ -480,4 +480,10 @@ service AdminService {
       required_roles: ["view-arp"]
     };
   }
+
+  rpc GetUsageReporting (gpcore.api.admin.v1.GetUsageReportingRequest) returns (gpcore.api.admin.v1.GetUsageReportingResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-reporting"]
+    };
+  }
 }

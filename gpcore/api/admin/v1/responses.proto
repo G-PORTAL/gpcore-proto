@@ -15,6 +15,7 @@ import "gpcore/api/cloud/v1/cloud_provider.proto";
 import "gpcore/api/admin/v1/admin_log.proto";
 import "gpcore/api/admin/v1/arp_ip_history.proto";
 import "gpcore/api/admin/v1/spla_reporting.proto";
+import "gpcore/api/admin/v1/reporting.proto";
 import "gpcore/api/admin/v1/dashboard.proto";
 import "gpcore/api/admin/v1/arp.proto";
 import "gpcore/api/cloud/v1/network.proto";
@@ -411,4 +412,8 @@ message ListArpEntriesResponse {
 
 message GetArpEntriesSearchOptionsResponse {
   gpcore.type.v1.SearchOptions options = 1;
+}
+
+message GetUsageReportingResponse {
+  repeated gpcore.api.admin.v1.UsageReportingEntry usage_reporting = 1;
 }
