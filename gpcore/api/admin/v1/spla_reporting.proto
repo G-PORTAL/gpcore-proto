@@ -4,15 +4,28 @@ package gpcore.api.admin.v1;
 
 import "gpcore/api/cloud/v1/server.proto";
 import "gpcore/type/v1/price.proto";
+import "google/protobuf/timestamp.proto";
 
+// SplaReporting represents a report entry for SPLA (Service Provider License
+// Agreement) usage and costs. It includes details about the associated server,
+// pricing, CPU usage, package usage, and installation date. The installation date
+// is used to determine the start of the billing period for SPLA reporting. If
+// Linux was installed in between the time period, the timestamp will be set to
+// the installation date of Windows. Reinstalling Windows will not update the
+// timestamp.
 message SplaReporting {
+  // Unique ID of the report entry
   string id = 1;
-
+  // Associated server
   gpcore.api.cloud.v1.Server server = 2;
-
+  // Price for the reporting period
   gpcore.type.v1.Price price = 3;
-
+  // Amount of CPUs used
   int32 cpu_amount = 4;
+  // Number of CPU cores used
   int32 cpu_cores = 5;
+  // Amount of packages used
   int32 package_amount = 6;
+  // First installation date
+  google.protobuf.Timestamp installed_at = 7;
 }
