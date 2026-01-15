@@ -203,7 +203,15 @@ message ServerLog {
 
   gpcore.api.cloud.v1.BasicServer server = 5;
 
+  // count is the number of (consecutive) identical log messages. When identical
+  // log messages are added, only this counter is incremented and the updated_at
+  // timestamp is updated. The created_at timestamp remains the same.
+  int64 count = 6;
+
+  // created_at timestamp of the first log message (with that message) created.
   google.protobuf.Timestamp created_at = 1000;
+  // updated_at timestamp of the last log message (with that message) created
+  // or updated.
   google.protobuf.Timestamp updated_at = 1001;
 }
 
