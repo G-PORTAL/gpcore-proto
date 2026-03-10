@@ -56,6 +56,9 @@ message UpdateServerRequest {
   optional string server_pool_id = 3;
 
   bool is_broken = 4;
+
+  // Whether the automated monitoring fix job is enabled for this server.
+  bool autofix = 5;
 }
 
 message UpdateNodeRequest {

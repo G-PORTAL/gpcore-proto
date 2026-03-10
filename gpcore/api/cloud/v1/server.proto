@@ -161,6 +161,14 @@ message Server {
   // Server pool information
   optional gpcore.api.cloud.v1.ServerPool server_pool = 22;
 
+  // Whether the automated monitoring fix job is enabled for this server.
+  // When true, the hourly repair job will attempt to fix broken monitoring on this server.
+  bool autofix = 23;
+
+  // Number of times the monitoring fix job has attempted to repair this server.
+  // Resets to 0 when monitoring recovers. Capped at 3 before giving up.
+  int32 monitoring_fix_retry_count = 24;
+
   google.protobuf.Timestamp last_inspection_at = 996;
   google.protobuf.Timestamp status_updated_at = 997;
   google.protobuf.Timestamp provision_state_changed_at = 998;
