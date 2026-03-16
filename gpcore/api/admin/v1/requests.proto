@@ -354,6 +354,10 @@ message UpdateProjectRequest {
 
   // List of server pool ids
   repeated string server_pool_ids = 8;
+
+  // Allow force deletion of nodes for this project. When enabled, the project
+  // can destroy nodes immediately regardless of the current billing period.
+  bool can_force_delete_nodes = 9;
 }
 
 // ListProjectNodesRequest

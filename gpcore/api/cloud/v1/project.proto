@@ -92,6 +92,10 @@ message Project {
   // Project assigned server pools
   repeated gpcore.api.cloud.v1.ServerPool server_pools = 13;
 
+  // Allow force deletion of nodes for this project. When enabled, the project
+  // can destroy nodes immediately regardless of the current billing period.
+  bool can_force_delete_nodes = 14;
+
   // Project timestamps
   google.protobuf.Timestamp created_at = 1000;
   google.protobuf.Timestamp updated_at = 1001;
