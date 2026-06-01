@@ -417,3 +417,38 @@ message GetArpEntriesSearchOptionsResponse {
 message GetUsageReportingResponse {
   repeated gpcore.api.admin.v1.UsageReportingEntry usage_reporting = 1;
 }
+
+// ListServerIssuesResponse returns a paginated list of server issues for the
+// Server Issues dashboard. Issues are grouped by server on the client side.
+message ListServerIssuesResponse {
+  // Unresolved issues matching the request filters, ordered by creation date
+  // descending. Each issue includes the embedded BasicServer for display.
+  repeated gpcore.api.cloud.v1.ServerIssue issues = 1;
+  // Pagination metadata (current page, total pages).
+  optional gpcore.type.v1.PaginationResponse pagination = 2;
+  // Total number of unresolved issues across all servers (independent of
+  // filters and pagination). Displayed as a summary count in the dashboard.
+  int64 total_unresolved = 3;
+}
+
+// GetServerIssuesResponse returns all issues for a single server, used by
+// the Telemetry tab on the server detail page.
+message GetServerIssuesResponse {
+  // All issues for the requested server, both resolved and unresolved,
+  // ordered by resolved status (unresolved first) then updated_at descending.
+  repeated gpcore.api.cloud.v1.ServerIssue issues = 1;
+}
+
+// ValidateServerResponse is returned after running on-demand validation for a
+// server. The response includes the validation result and the current state of
+// all issues after persisting the validation outcome.
+message ValidateServerResponse {
+  // True if the server passed all validation checks with no issues found.
+  bool valid = 1;
+  // Current issues for the server after validation. Includes both newly
+  // created issues and previously existing ones (resolved or unresolved).
+  repeated gpcore.api.cloud.v1.ServerIssue issues = 2;
+  // Whether a Netbox sync was triggered as a result of passing validation.
+  // Only true when valid is true and the sync completed successfully.
+  bool sync_triggered = 3;
+}

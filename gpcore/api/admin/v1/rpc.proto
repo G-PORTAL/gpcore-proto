@@ -486,4 +486,29 @@ service AdminService {
       required_roles: ["view-reporting"]
     };
   }
+
+  // List all server issues (paginated, filterable).
+  // Used by the Server Issues dashboard page.
+  rpc ListServerIssues (gpcore.api.admin.v1.ListServerIssuesRequest) returns (gpcore.api.admin.v1.ListServerIssuesResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-server"]
+    };
+  }
+
+  // Get issues for a specific server.
+  // Used by the Telemetry tab on the server detail page.
+  rpc GetServerIssues (gpcore.api.admin.v1.GetServerIssuesRequest) returns (gpcore.api.admin.v1.GetServerIssuesResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["view-server"]
+    };
+  }
+
+  // Validate a server against its external sources (Netbox, PM).
+  // Creates/resolves issues and triggers a sync if validation passes.
+  // Used by the "Check Now" button.
+  rpc ValidateServer (gpcore.api.admin.v1.ValidateServerRequest) returns (gpcore.api.admin.v1.ValidateServerResponse) {
+    option (gpcore.v1.api) = {
+      required_roles: ["manage-server"]
+    };
+  }
 }

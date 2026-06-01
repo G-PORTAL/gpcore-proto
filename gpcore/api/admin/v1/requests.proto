@@ -55,10 +55,22 @@ message UpdateServerRequest {
 
   optional string server_pool_id = 3;
 
-  bool is_broken = 4;
+  // Deprecated: Use maintenance instead. Remove after 2026-07-24.
+  bool is_broken = 4 [deprecated = true];
 
   // Whether the automated monitoring fix job is enabled for this server.
   bool autofix = 5;
+
+  // Set or clear maintenance mode. Optional so that other settings can
+  // be saved without inadvertently toggling maintenance.
+  // When true, adds ADMIN source to maintenance_sources.
+  // When false, clears ALL maintenance sources and tells Ironic to
+  // unset maintenance. Automated sources will re-assert if the
+  // underlying problem persists.
+  optional bool maintenance = 6;
+
+  // Reason for maintenance (used when maintenance=true)
+  optional string maintenance_reason = 7;
 }
 
 message UpdateNodeRequest {
@@ -76,6 +88,9 @@ message DeleteServerRequest {
 
   // Force delete the server, even when it is in use or unresponsive
   bool force = 2;
+  // Allows deletion without cleaning the device
+  bool skip_clean = 3;
+
 }
 
 message ReplaceServerRequest {
@@ -543,4 +558,35 @@ message GetUsageReportingRequest {
   int32 year = 1;
 
   int32 month = 2;
+}
+
+// ListServerIssuesRequest returns a paginated, filterable list of server
+// issues for the Server Issues dashboard (/servers/issues). By default only
+// unresolved issues are returned.
+message ListServerIssuesRequest {
+  optional gpcore.type.v1.PaginationRequest pagination = 1;
+  // Filter by issue source. Omit or set to UNSPECIFIED to include all sources.
+  optional gpcore.api.cloud.v1.ServerIssueSource source = 2;
+  // Filter by the server's datacenter ID.
+  optional string datacenter_id = 3;
+  // When true, include resolved issues in the results. Default: false.
+  optional bool include_resolved = 4;
+  // Filter by check name (e.g. "device_exists", "primary_interface",
+  // "pm_offline"). See ServerIssueCheckName constants for valid values.
+  optional string check_name = 5;
+}
+
+// GetServerIssuesRequest returns all issues (resolved and unresolved) for a
+// single server. Used by the Telemetry tab on the server detail page.
+message GetServerIssuesRequest {
+  string server_id = 1;
+}
+
+// ValidateServerRequest triggers on-demand validation for a server against
+// Netbox. Persists any new issues found, resolves issues for checks that now
+// pass, and returns the current issue state. Does NOT trigger a Netbox sync
+// -- the sync only runs automatically during the hourly cron job when
+// validation passes.
+message ValidateServerRequest {
+  string server_id = 1;
 }

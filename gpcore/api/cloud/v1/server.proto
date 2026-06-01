@@ -76,6 +76,14 @@ enum ServerAction {
   SERVER_ACTION_RECONFIGURE_SWITCH_PORT = 5;
 }
 
+enum ServerMaintenanceSource {
+  SERVER_MAINTENANCE_SOURCE_UNSPECIFIED = 0;
+  SERVER_MAINTENANCE_SOURCE_MONITORING = 1;
+  SERVER_MAINTENANCE_SOURCE_HEALTH_CHECK = 2;
+  SERVER_MAINTENANCE_SOURCE_IRONIC = 3;
+  SERVER_MAINTENANCE_SOURCE_ADMIN = 4;
+}
+
 
 message PlatformManagement {
   PlatformManagementType type = 1;
@@ -155,8 +163,18 @@ message Server {
   // Monitoring state of the server
   optional gpcore.type.v1.MonitoringState monitoring_state = 20;
 
-  // Monitoring detected server as broken
-  bool is_broken = 21;
+  // Deprecated: Use maintenance instead. Remove after 2026-07-24.
+  bool is_broken = 21 [deprecated = true];
+
+  // Server is in maintenance mode and cannot be used.
+  // True when maintenance_sources has at least one entry.
+  bool maintenance = 25;
+
+  // Map of maintenance sources to their reasons.
+  // Keys are ServerMaintenanceSource enum string values (e.g., "MONITORING", "IRONIC").
+  // Values are human-readable reason strings.
+  // Multiple sources can be active simultaneously.
+  map<string, string> maintenance_sources = 26;
 
   // Server pool information
   optional gpcore.api.cloud.v1.ServerPool server_pool = 22;
@@ -220,6 +238,46 @@ message ServerLog {
   google.protobuf.Timestamp created_at = 1000;
   // updated_at timestamp of the last log message (with that message) created
   // or updated.
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+// ServerIssueSource identifies the external system or subsystem that detected
+// the issue. Used to group and filter issues in the dashboard.
+enum ServerIssueSource {
+  SERVER_ISSUE_SOURCE_UNSPECIFIED = 0;
+  // Issue detected during Netbox synchronization (e.g. missing interfaces,
+  // unmapped datacenter, invalid PM configuration in Netbox).
+  SERVER_ISSUE_SOURCE_NETBOX = 1;
+  // Issue detected by platform management monitoring (e.g. BMC unreachable
+  // via ICMP, Redfish reporting critical health state).
+  SERVER_ISSUE_SOURCE_PLATFORM_MANAGEMENT = 2;
+}
+
+// ServerIssue represents a validation problem detected for a server during
+// periodic sync or monitoring. Issues are upserted on each check run and
+// resolved automatically when the underlying problem is fixed. Servers with
+// unresolved issues are excluded from sync and cannot be provisioned.
+message ServerIssue {
+  string id = 1;
+  // The server this issue belongs to.
+  string server_id = 2;
+  // Embedded basic server info (name, datacenter) for list display without
+  // requiring a separate server lookup.
+  gpcore.api.cloud.v1.BasicServer server = 3;
+  // Which subsystem detected the issue.
+  ServerIssueSource source = 4;
+  // Machine-readable identifier for the specific validation check that failed
+  // (e.g. "device_exists", "primary_interface", "pm_offline").
+  string check_name = 5;
+  // Human-readable description of what is wrong.
+  string message = 6;
+  // Whether this issue has been resolved. Resolved issues are kept for
+  // historical tracking but excluded from the active issues dashboard.
+  bool resolved = 7;
+  // When the issue was resolved. Null if still unresolved.
+  google.protobuf.Timestamp resolved_at = 8;
+
+  google.protobuf.Timestamp created_at = 1000;
   google.protobuf.Timestamp updated_at = 1001;
 }
 
