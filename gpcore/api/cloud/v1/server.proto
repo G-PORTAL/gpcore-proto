@@ -74,6 +74,8 @@ enum ServerAction {
   SERVER_ACTION_SYNC_IRONIC = 3;
   SERVER_ACTION_RECREATE_PM_CUSTOMER = 4;
   SERVER_ACTION_RECONFIGURE_SWITCH_PORT = 5;
+  SERVER_ACTION_RUN_HEALTH_CHECK = 6;
+  SERVER_ACTION_CANCEL_HEALTH_CHECK = 7;
 }
 
 enum ServerMaintenanceSource {
@@ -127,6 +129,26 @@ message ServerInterface {
   // ServerInterface timestamps
   google.protobuf.Timestamp created_at = 1000;
   google.protobuf.Timestamp updated_at = 1001;
+}
+
+// ServerHealthCheck contains the current health check state for a bare-metal server.
+// Present only when a health check record exists for the server (i.e. at least one
+// check has been attempted). Null if the server has never been health-checked.
+message ServerHealthCheck {
+  // Timestamp when the current health check started. Null if no check is running.
+  optional google.protobuf.Timestamp since = 1;
+
+  // Timestamp of the last successful health check. Null if never succeeded.
+  optional google.protobuf.Timestamp succeeded_at = 2;
+
+  // Timestamp of the last failed health check. Null if never failed.
+  optional google.protobuf.Timestamp failed_at = 3;
+
+  // Number of consecutive failed attempts. Reset to 0 on success.
+  int32 attempt_count = 4;
+
+  // Human-readable reason for the last failure. Null if no failure or last check succeeded.
+  optional string failure_reason = 5;
 }
 
 message Server {
@@ -186,6 +208,9 @@ message Server {
   // Number of times the monitoring fix job has attempted to repair this server.
   // Resets to 0 when monitoring recovers. Capped at 3 before giving up.
   int32 monitoring_fix_retry_count = 24;
+
+  // Health check state for this server. Null if no health check has ever been run.
+  optional ServerHealthCheck health_check = 27;
 
   google.protobuf.Timestamp last_inspection_at = 996;
   google.protobuf.Timestamp status_updated_at = 997;
@@ -251,6 +276,9 @@ enum ServerIssueSource {
   // Issue detected by platform management monitoring (e.g. BMC unreachable
   // via ICMP, Redfish reporting critical health state).
   SERVER_ISSUE_SOURCE_PLATFORM_MANAGEMENT = 2;
+  // Issue detected by the automated server health check (e.g. cloud-init
+  // diagnostics reported a hardware failure, or the check timed out).
+  SERVER_ISSUE_SOURCE_HEALTH_CHECK = 3;
 }
 
 // ServerIssue represents a validation problem detected for a server during

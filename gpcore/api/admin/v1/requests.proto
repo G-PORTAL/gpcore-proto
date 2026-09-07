@@ -46,6 +46,8 @@ message ListServerLogsRequest {
   optional gpcore.type.v1.PaginationRequest pagination = 2;
   // An optional search term, can be contain spaces for fuzzy search
   optional string search = 3;
+  // Optional list of log sources to filter by. Empty means all sources.
+  repeated gpcore.api.cloud.v1.ServerLogSourceType sources = 4;
 }
 
 message UpdateServerRequest {
@@ -63,14 +65,22 @@ message UpdateServerRequest {
 
   // Set or clear maintenance mode. Optional so that other settings can
   // be saved without inadvertently toggling maintenance.
-  // When true, adds ADMIN source to maintenance_sources.
-  // When false, clears ALL maintenance sources and tells Ironic to
-  // unset maintenance. Automated sources will re-assert if the
-  // underlying problem persists.
+  // When true, adds the ADMIN source to maintenance_sources.
+  // When false, removes the ADMIN source. If other sources (e.g.
+  // HEALTH_CHECK, MONITORING, IRONIC) are still active, the request
+  // fails with FAILED_PRECONDITION unless clear_all_maintenance_sources
+  // is set — clearing a HEALTH_CHECK source puts a hardware-flagged
+  // server back into the orderable pool, so it must be explicit.
   optional bool maintenance = 6;
 
   // Reason for maintenance (used when maintenance=true)
   optional string maintenance_reason = 7;
+
+  // Explicit acknowledgment to clear ALL maintenance sources (including
+  // HEALTH_CHECK/MONITORING/IRONIC) when maintenance=false. Ironic
+  // maintenance is unset as well. Automated sources will re-assert only
+  // if their check runs again and the underlying problem persists.
+  bool clear_all_maintenance_sources = 8;
 }
 
 message UpdateNodeRequest {
